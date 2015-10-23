@@ -5,6 +5,50 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+               BuildableName = "FallWatch WatchKit App.app"
+               BlueprintName = "FallWatch WatchKit App"
+               ReferencedContainer = "container:FallWatch.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7ACE879E1BD7F96A00A6CE7F"
+               BuildableName = "FallWatch WatchKit Extension.appex"
+               BlueprintName = "FallWatch WatchKit Extension"
+               ReferencedContainer = "container:FallWatch.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7ACE877D1BD7F96900A6CE7F"
+               BuildableName = "FallWatch.app"
+               BlueprintName = "FallWatch"
+               ReferencedContainer = "container:FallWatch.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -13,6 +57,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+            BuildableName = "FallWatch WatchKit App.app"
+            BlueprintName = "FallWatch WatchKit App"
+            ReferencedContainer = "container:FallWatch.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +79,27 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.carousel"
+         RemotePath = "/FallWatch WatchKit App">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+            BuildableName = "FallWatch WatchKit App.app"
+            BlueprintName = "FallWatch WatchKit App"
+            ReferencedContainer = "container:FallWatch.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+            BuildableName = "FallWatch WatchKit App.app"
+            BlueprintName = "FallWatch WatchKit App"
+            ReferencedContainer = "container:FallWatch.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +109,27 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.carousel"
+         RemotePath = "/FallWatch WatchKit App">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+            BuildableName = "FallWatch WatchKit App.app"
+            BlueprintName = "FallWatch WatchKit App"
+            ReferencedContainer = "container:FallWatch.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7ACE878F1BD7F96A00A6CE7F"
+            BuildableName = "FallWatch WatchKit App.app"
+            BlueprintName = "FallWatch WatchKit App"
+            ReferencedContainer = "container:FallWatch.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
