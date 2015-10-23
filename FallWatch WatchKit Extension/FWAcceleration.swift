@@ -9,12 +9,12 @@
 import Foundation
 import CoreMotion
 
-class FallWatchAcceleration : NSObject {
-    //Private Variables
+class FWAcceleration : NSObject {
+    
+    // private Variables
     private var accelerationArray = [Double](count: 8, repeatedValue: 0.0)
     private var flagArray = [Bool](count: 8, repeatedValue: false)
     private let motionManager = CMMotionManager()
-    private let recorder = CMSensorRecorder()
     private var timer = NSTimer()
     private let lowNormalRange = -0.2
     private let highNormalRange = 0.2
@@ -23,16 +23,22 @@ class FallWatchAcceleration : NSObject {
     private var foundAFall = false
     private var stillMonitoring = true
     
-    //Private Methods
+    // private Methods
     private func checkNormalRange(idx : Int) -> Bool {
-        return (accelerationArray[idx] < highNormalRange && accelerationArray[idx] > lowNormalRange) ? true : false
+        return (accelerationArray[idx] <= highNormalRange && accelerationArray[idx] >= lowNormalRange) ? true : false
     }
+    
     private func checkFallingRange(idx : Int) -> Bool {
         return (accelerationArray[idx] < highFallingRange && accelerationArray[idx] > lowFallingRange) ? true : false
     }
-    private func checkFlags() -> Bool { //only called once a value is pushed, so checks the flag values...
+    
+    // only called once a value is pushed, so checks the flag values...
+    private func checkFlags() -> Bool {
+        
         for(var i = 0; i < 4; ++i) {
+            
             foundAFall = true
+            
             if(i < 4) {
                 flagArray[i] = checkNormalRange(i) ? true : false
             }
@@ -48,40 +54,49 @@ class FallWatchAcceleration : NSObject {
     }
     
     func startMonitoring() {
+        
         print("Accelerometer active: \(motionManager.accelerometerActive)")
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
+        
         if(!motionManager.accelerometerActive) {
             motionManager.startAccelerometerUpdates()
-            //motionManager.accelerometerUpdateInterval = 1/10
         }
+        
         stillMonitoring = true
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
     
     func stopMonitoring() {
+        
         if(motionManager.accelerometerActive) {
             motionManager.stopAccelerometerUpdates()
-            stillMonitoring = false;
         }
+        
+        timer.invalidate()
+        stillMonitoring = false;
     }
-    
-    //Public Funtions
-    func pushValue(timer:NSTimer) {
+
+    func pushValue(timer: NSTimer) {
         print("Accelerometer active: \(motionManager.accelerometerActive)")
+        
         let a = motionManager.accelerometerData?.acceleration
-        //        print(motionManager.accelerometerData?.acceleration.x)
-        //        print(motionManager.accelerometerData?.acceleration.y)
-        //        print(motionManager.accelerometerData?.acceleration.z)
+        print(motionManager.accelerometerData?.acceleration.x)
+        print(motionManager.accelerometerData?.acceleration.y)
+        print(motionManager.accelerometerData?.acceleration.z)
         accelerationArray.rotate(1)
         flagArray.rotate(1)
+        
         // magnitude of acceleration formula
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
+        
+        // fall detected
         if(checkFlags()) {
             print("fall detected")
-            return; //This would be to send a message to another part of the program
+            return;
         }
     }
 }
+
 extension Array {
     func rotate(shift:Int) -> Array {
         var array = Array()

@@ -36,6 +36,7 @@
     {
       "size" : "44x44",
       "idiom" : "watch",
+      "filename" : "fallwatch_logo_88x88.png",
       "scale" : "2x",
       "role" : "longLook",
       "subtype" : "42mm"

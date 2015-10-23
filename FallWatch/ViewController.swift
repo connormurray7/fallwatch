@@ -12,6 +12,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+        defaults.setInteger(30, forKey: "countdown")
+        defaults.synchronize()
         // Do any additional setup after loading the view, typically from a nib.
     }
 

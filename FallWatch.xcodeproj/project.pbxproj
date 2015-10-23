@@ -68,6 +68,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
+		7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit App.entitlements"; sourceTree = "<group>"; };
 		7ACE877E1BD7F96A00A6CE7F /* FallWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FallWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ACE87831BD7F96A00A6CE7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +135,7 @@
 		7ACE87801BD7F96A00A6CE7F /* FallWatch */ = {
 			isa = PBXGroup;
 			children = (
+				7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */,
 				7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */,
 				7ACE87831BD7F96A00A6CE7F /* ViewController.swift */,
 				7ACE87851BD7F96A00A6CE7F /* Main.storyboard */,
@@ -147,6 +151,7 @@
 		7ACE87941BD7F96A00A6CE7F /* FallWatch WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */,
 				7ACE87951BD7F96A00A6CE7F /* Interface.storyboard */,
 				7ACE87981BD7F96A00A6CE7F /* Assets.xcassets */,
 				7ACE879A1BD7F96A00A6CE7F /* Info.plist */,
@@ -157,13 +162,14 @@
 		7ACE87A31BD7F96A00A6CE7F /* FallWatch WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */,
 				7ACE87A61BD7F96A00A6CE7F /* InterfaceController.swift */,
+				7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */,
 				7ACE87A81BD7F96A00A6CE7F /* ExtensionDelegate.swift */,
 				7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */,
 				7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */,
 				7ACE87AE1BD7F96A00A6CE7F /* Info.plist */,
 				7ACE87A41BD7F96A00A6CE7F /* Supporting Files */,
-				7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */,
 			);
 			path = "FallWatch WatchKit Extension";
 			sourceTree = "<group>";
@@ -244,14 +250,29 @@
 					7ACE877D1BD7F96900A6CE7F = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 6P4A6KN8B8;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					7ACE878F1BD7F96A00A6CE7F = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 6P4A6KN8B8;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					7ACE879E1BD7F96A00A6CE7F = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 6P4A6KN8B8;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -455,10 +476,14 @@
 		7ACE87B21BD7F96A00A6CE7F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "FallWatch WatchKit Extension/FallWatch WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "FallWatch WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -469,10 +494,14 @@
 		7ACE87B31BD7F96A00A6CE7F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "FallWatch WatchKit Extension/FallWatch WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "FallWatch WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -484,11 +513,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "FallWatch WatchKit App/FallWatch WatchKit App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = FallWatch_WatchKit_Extension;
 				INFOPLIST_FILE = "FallWatch WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -500,11 +533,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "FallWatch WatchKit App/FallWatch WatchKit App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = FallWatch_WatchKit_Extension;
 				INFOPLIST_FILE = "FallWatch WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -516,10 +553,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FallWatch/FallWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FallWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -527,10 +568,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FallWatch/FallWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FallWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.fallwatch.FallWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -553,6 +598,7 @@
 				7ACE87B31BD7F96A00A6CE7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7ACE87B51BD7F96A00A6CE7F /* Build configuration list for PBXNativeTarget "FallWatch WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -561,6 +607,7 @@
 				7ACE87B71BD7F96A00A6CE7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7ACE87B91BD7F96A00A6CE7F /* Build configuration list for PBXNativeTarget "FallWatch" */ = {
 			isa = XCConfigurationList;
@@ -569,6 +616,7 @@
 				7ACE87BB1BD7F96A00A6CE7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

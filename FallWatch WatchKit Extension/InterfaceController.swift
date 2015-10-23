@@ -17,9 +17,9 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet var toggleMonitoringBtn: WKInterfaceButton!
     var monitoringOn = false
     var count = 0
-    let healthStore = HKHealthStore()
-    let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
-    let accMonitor = FallWatchAcceleration()
+//    let healthStore = HKHealthStore()
+//    let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
+    let accMonitor = FWAcceleration()
     
     func update() {
         timeLabel.setText(String(count++))
@@ -30,17 +30,13 @@ class InterfaceController: WKInterfaceController {
         if monitoringOn == false {
             monitoringOn = true
             print("on")
-            
-//            NSTimer.every(1.0.seconds) {
-//                self.update()
-//            }
-            
+
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Success)
             
             accMonitor.startMonitoring()
             
-            healthStore.startWorkoutSession(workoutSession)
+//            healthStore.startWorkoutSession(workoutSession)
             
             // interface updates
             toggleMonitoringBtn.setBackgroundColor(UIColor.redColor())
@@ -54,7 +50,7 @@ class InterfaceController: WKInterfaceController {
             
             accMonitor.stopMonitoring()
             
-            // ui updates
+            // interface updates
             toggleMonitoringBtn.setBackgroundColor(UIColor.greenColor())
             toggleMonitoringBtn.setTitle("START Monitoring")
             statusLabel.setTextColor(UIColor.redColor())
@@ -72,6 +68,9 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+        print("\(defaults.integerForKey("countdown"))")
+        
     }
     
     override func didDeactivate() {
