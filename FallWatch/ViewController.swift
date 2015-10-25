@@ -22,9 +22,9 @@ class ViewController: UIViewController {
         let dateComp = NSDateComponents()
         dateComp.year = 2015
         dateComp.month = 10
-        dateComp.day = 24
-        dateComp.hour = 20
-        dateComp.minute = 16 // when simulating modify hour/minute/day/month
+        dateComp.day = 25
+        dateComp.hour = 15
+        dateComp.minute = 52 // when simulating modify hour/minute/day/month
         dateComp.timeZone = NSTimeZone.systemTimeZone()
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)

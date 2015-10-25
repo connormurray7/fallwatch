@@ -31,5 +31,6 @@
 	<string>me.fallwatch.FallWatch</string>
 	<key>WKWatchKitApp</key>
 	<true/>
+
 </dict>
 </plist>
