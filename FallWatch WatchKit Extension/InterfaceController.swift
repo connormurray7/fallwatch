@@ -20,6 +20,7 @@ class InterfaceController: WKInterfaceController {
 //    let healthStore = HKHealthStore()
 //    let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
     let accMonitor = FWAcceleration()
+    let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     
     func update() {
         timeLabel.setText(String(count++))
@@ -68,7 +69,6 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
        // print("\(defaults.integerForKey("countdown"))")
         
     }
