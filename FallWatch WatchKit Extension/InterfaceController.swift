@@ -69,7 +69,7 @@ class InterfaceController: WKInterfaceController {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
-        print("\(defaults.integerForKey("countdown"))")
+       // print("\(defaults.integerForKey("countdown"))")
         
     }
     
