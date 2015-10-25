@@ -12,14 +12,14 @@ import CoreMotion
 class FWAcceleration : NSObject {
     
     // private Variables
-    private var accelerationArray = [Double](count: 8, repeatedValue: 0.0)
-    private var flagArray = [Bool](count: 8, repeatedValue: false)
+    private var accelerationArray = [Double](count: 30, repeatedValue: 0.0)
+    private var flagArray = [Bool](count: 30, repeatedValue: false)
     private let motionManager = CMMotionManager()
     private var timer = NSTimer()
-    private let lowNormalRange = -0.2
-    private let highNormalRange = 0.2
-    private let lowFallingRange = 0.6
-    private let highFallingRange = 1.1
+    private let lowNormalRange = 0.8
+    private let highNormalRange = 1.2
+    private let lowFallingRange = -0.2
+    private let highFallingRange = 0.6
     private var foundAFall = false
     private var stillMonitoring = true
     
@@ -39,10 +39,10 @@ class FWAcceleration : NSObject {
             
             foundAFall = true
             
-            if(i < 4) {
+            if(i < 20) {
                 flagArray[i] = checkNormalRange(i) ? true : false
             }
-            else if(i < 6 && i >= 4) {
+            else if(i < 25 && i >= 20) {
                 flagArray[i] = checkFallingRange(i) ? true : false
             }
             else {
@@ -60,6 +60,8 @@ class FWAcceleration : NSObject {
         
         if(!motionManager.accelerometerActive) {
             motionManager.startAccelerometerUpdates()
+            motionManager.deviceMotionUpdateInterval = 0.1
+            motionManager.accelerometerUpdateInterval = 0.1
         }
         
         stillMonitoring = true
