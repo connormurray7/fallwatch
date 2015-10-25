@@ -79,6 +79,20 @@ class InterfaceController: WKInterfaceController {
         print("done")
     }
     
+    override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
+        
+        if let notificationIdentifier = identifier{
+            if notificationIdentifier == "fallenButtonPressed"
+            {
+                print("send message to my contacts, I have fallen")
+            }
+            else if notificationIdentifier == "dismissButtonPressed"
+            {
+                print("no I haven't fallen")
+            }
+        }
+    }
+    
     deinit {
         print("deinit interface controller")
     }
