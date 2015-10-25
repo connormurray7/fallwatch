@@ -100,6 +100,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="messageEdit:" destination="3Gb-5G-2Xc" eventType="editingDidEnd" id="OnE-CQ-xH6"/>
                                     <outlet property="delegate" destination="3Gb-5G-2Xc" id="ZIb-sf-5T8"/>
                                 </connections>
                             </textField>
@@ -108,6 +109,9 @@
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="contactEdit:" destination="3Gb-5G-2Xc" eventType="editingDidEnd" id="EVQ-nl-vr3"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Timer Length" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vus-jf-m4B">
                                 <rect key="frame" x="20" y="88" width="102" height="21"/>
@@ -148,6 +152,13 @@
                                     <action selector="text:" destination="3Gb-5G-2Xc" eventType="touchUpInside" id="Odu-9H-zvP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7b5-rQ-4b3">
+                                <rect key="frame" x="114" y="151" width="86" height="30"/>
+                                <state key="normal" title="Add Contact"/>
+                                <connections>
+                                    <action selector="contactAction:" destination="3Gb-5G-2Xc" eventType="touchUpInside" id="Rso-7f-7Pa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -183,6 +194,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addContact" destination="7b5-rQ-4b3" id="z7m-m2-NZM"/>
+                        <outlet property="contactText" destination="apX-0b-BHG" id="jd3-PU-86m"/>
+                        <outlet property="messageText" destination="5qa-e0-frc" id="Adj-GN-TEa"/>
                         <outlet property="textField" destination="5qa-e0-frc" id="KE8-Na-oSS"/>
                         <outlet property="timeLabel" destination="aXD-XC-dt0" id="R62-b2-If0"/>
                     </connections>
