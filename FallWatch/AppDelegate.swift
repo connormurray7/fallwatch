@@ -15,10 +15,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //Actions
+        // Appears in red when the app loads
+        let firstAction = UIMutableUserNotificationAction()
+        firstAction.identifier = "FIRST_ACTION" // check if the identifier has been checked
+        firstAction.title = "dismiss alert"
+        
+        // Mode Background activation, this will update information in the app without launching the app when the user clicks on it.
+        firstAction.activationMode = UIUserNotificationActivationMode.Background
+        firstAction.destructive = true
+        firstAction.authenticationRequired = false
+        
+        // Appears in Blue when the app loads
+        let secondAction = UIMutableUserNotificationAction()
+        secondAction.identifier = "SECOND_ACTION"
+        secondAction.title = "Assist Fallen Person"
+        // foreground activation, the app will launch when the user activates the notification
+        secondAction.activationMode = UIUserNotificationActivationMode.Foreground
+        secondAction.destructive = false
+        secondAction.authenticationRequired = false
+        
+        let thirdAction = UIMutableUserNotificationAction()
+        thirdAction.identifier = "THIRD_ACTION"
+        thirdAction.title = "third action"
+        // foreground activation, the app will launch when the user activates the notification
+        thirdAction.activationMode = UIUserNotificationActivationMode.Foreground
+        thirdAction.destructive = false
+        thirdAction.authenticationRequired = false
+        
+        // group actions into a category
+        let firstCategory = UIMutableUserNotificationCategory()
+        firstCategory.identifier = "FIRST_CATEGORY"
+        
+        let defaultActions:NSArray = [firstAction, secondAction, thirdAction]
+        let minimalAction:NSArray = [firstAction, secondAction]
+        // actions that will be displayed in the notification center, log screen and in the banner
+        
+        firstCategory.setActions(defaultActions as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Default)
+        firstCategory.setActions(minimalAction as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Minimal)
+        
+        // NSSet of our categories
+        let categories = NSSet(object: firstCategory)
+        
+        
+        // Allow for local notifications, the user can allow/disallow for the notifications in Settings
+        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge], categories: categories as? Set<UIUserNotificationCategory>)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        
         return true
     }
 
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        
+        if identifier == "FIRST_ACTION"
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("actionOnePressed", object: nil)
+        }
+        else if identifier == "SECOND_ACTION"
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("actionTwoPressed", object: nil)
+        }
+        
+        completionHandler()
+    }
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
