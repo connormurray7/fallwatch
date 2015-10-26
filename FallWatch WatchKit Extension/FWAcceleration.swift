@@ -12,14 +12,14 @@ import CoreMotion
 class FWAcceleration : NSObject {
     
     // private Variables
-    private var accelerationArray = [Double](count: 30, repeatedValue: 0.0)
-    private var flagArray = [Bool](count: 30, repeatedValue: false)
+    private var accelerationArray = [Double](count: 60, repeatedValue: 0.0)
+    private var flagArray = [Bool](count: 60, repeatedValue: false)
     private let motionManager = CMMotionManager()
     private var timer = NSTimer()
-    private let lowNormalRange = 0.8
-    private let highNormalRange = 1.2
-    private let lowFallingRange = -0.2
-    private let highFallingRange = 0.6
+    private let lowNormalRange = 0.7
+    private let highNormalRange = 1.3
+    private let lowFallingRange = 1.5
+    private let highFallingRange = 5.0
     private var foundAFall = false
     private var stillMonitoring = true
     
@@ -39,10 +39,10 @@ class FWAcceleration : NSObject {
             
             foundAFall = true
             
-            if(i < 20) {
+            if(i < 40) {
                 flagArray[i] = checkNormalRange(i) ? true : false
             }
-            else if(i < 25 && i >= 20) {
+            else if(i < 48 && i >= 40) {
                 flagArray[i] = checkFallingRange(i) ? true : false
             }
             else {
@@ -60,12 +60,12 @@ class FWAcceleration : NSObject {
         
         if(!motionManager.accelerometerActive) {
             motionManager.startAccelerometerUpdates()
-            motionManager.deviceMotionUpdateInterval = 0.1
-            motionManager.accelerometerUpdateInterval = 0.1
+            motionManager.deviceMotionUpdateInterval = 0.05
+            motionManager.accelerometerUpdateInterval = 0.05
         }
         
         stillMonitoring = true
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
     
     func stopMonitoring() {
