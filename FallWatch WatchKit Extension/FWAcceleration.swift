@@ -13,7 +13,7 @@ class FWAcceleration : NSObject {
     
     // private Variables
     private var accelerationArray = [Double](count: 60, repeatedValue: 0.0)
-    private var flagArray = [Bool](count: 60, repeatedValue: false)
+    //private var flagArray = [Bool](count: 60, repeatedValue: false)
     private let motionManager = CMMotionManager()
     private var timer = NSTimer()
     private let lowNormalRange = 0.7
@@ -35,22 +35,20 @@ class FWAcceleration : NSObject {
     // only called once a value is pushed, so checks the flag values...
     private func checkFlags() -> Bool {
         
-        for(var i = 0; i < 4; ++i) {
+        var normalMag = 0
+        var highMag = 0
+        foundAFall = false
+        
+        for(var i = 0; i < 60; ++i) {
             
-            foundAFall = true
-            
-            if(i < 40) {
-                flagArray[i] = checkNormalRange(i) ? true : false
+            if(i < 50 && checkNormalRange(i)) {
+                normalMag++
             }
-            else if(i < 48 && i >= 40) {
-                flagArray[i] = checkFallingRange(i) ? true : false
+            else if(checkFallingRange(i)) {
+                highMag++
             }
-            else {
-                flagArray[i] = checkNormalRange(i) ? true : false
-            }
-            if(flagArray[i] == false) { foundAFall = false }
         }
-        return foundAFall
+        return ((normalMag >= 45 && highMag >= 3) ? true : false)
     }
     
     func startMonitoring() {
@@ -86,7 +84,7 @@ class FWAcceleration : NSObject {
         print(motionManager.accelerometerData?.acceleration.y)
         print(motionManager.accelerometerData?.acceleration.z)
         accelerationArray.rotate(1)
-        flagArray.rotate(1)
+        //flagArray.rotate(1)
         
         // magnitude of acceleration formula
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
