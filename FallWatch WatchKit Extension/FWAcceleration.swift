@@ -13,7 +13,7 @@ class FWAcceleration : NSObject {
     
     // private Variables
     private var accelerationArray = [Double](count: 60, repeatedValue: 0.0)
-    //private var flagArray = [Bool](count: 60, repeatedValue: false)
+    private var flagArray = [Bool](count: 60, repeatedValue: false)
     private let motionManager = CMMotionManager()
     private var timer = NSTimer()
     private let lowNormalRange = 0.7
