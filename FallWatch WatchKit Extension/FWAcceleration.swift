@@ -1,4 +1,4 @@
-//
+
 //  File.swift
 //  FallWatch
 //
@@ -98,21 +98,9 @@ class FWAcceleration : NSObject {
 }
 
 extension Array {
-    func rotate(shift:Int) -> Array {
-        var array = Array()
-        if (self.count > 0) {
-            array = self
-            if (shift > 0) {
-                for _ in 1...shift {
-                    array.append(array.removeAtIndex(0))
-                }
-            }
-            else if (shift < 0) {
-                for _ in 1...abs(shift) {
-                    array.insert(array.removeAtIndex(array.count-1),atIndex:0)
-                }
-            }
+    mutating func rotate(shift:Int) -> Void {
+        for var i = self.count; i > 0; --i {
+            self[i] = self[i-1]
         }
-        return array
     }
 }
