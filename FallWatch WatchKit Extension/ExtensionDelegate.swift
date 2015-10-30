@@ -10,8 +10,6 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     
-    var timer = NSTimer()
-    
     func printEverySec() {
         print("1/10 sec")
     }

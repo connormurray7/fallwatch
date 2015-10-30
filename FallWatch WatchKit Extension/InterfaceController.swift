@@ -33,7 +33,7 @@ class InterfaceController: WKInterfaceController {
             print("on")
 
             let hpt = WKInterfaceDevice()
-            hpt.playHaptic(WKHapticType.Success)
+            hpt.playHaptic(WKHapticType.Start)
             
             accMonitor.startMonitoring()
             

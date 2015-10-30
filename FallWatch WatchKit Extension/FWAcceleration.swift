@@ -6,6 +6,7 @@
 //  Copyright © 2015 FallWatch. All rights reserved.
 //
 
+import WatchKit
 import Foundation
 import CoreMotion
 
@@ -16,12 +17,14 @@ class FWAcceleration : NSObject {
     private var flagArray = [Bool](count: 60, repeatedValue: false)
     private let motionManager = CMMotionManager()
     private var timer = NSTimer()
+    //private var hapticTimer = NSTimer()
     private let lowNormalRange = 0.7
     private let highNormalRange = 1.3
-    private let lowFallingRange = 1.5
-    private let highFallingRange = 5.0
+    private let lowFallingRange = 2.3
+    private let highFallingRange = 5.5
     private var foundAFall = false
     private var stillMonitoring = true
+//    var ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
     
     // private Methods
     private func checkNormalRange(idx : Int) -> Bool {
@@ -41,19 +44,21 @@ class FWAcceleration : NSObject {
         
         for(var i = 0; i < 60; ++i) {
             
-            if(i < 50 && checkNormalRange(i)) {
+            // only checks for stillness in most recent 1.5 seconds
+            if(i < 30 && checkNormalRange(i)) {
                 normalMag++
             }
-            else if(checkFallingRange(i)) {
+            // only checks for falls greater than 1.5 seconds ago
+            else if(i >= 30 && checkFallingRange(i)) {
                 highMag++
             }
         }
-        return ((normalMag >= 45 && highMag >= 3) ? true : false)
+        return ((normalMag == 30 && highMag >= 1) ? true : false)
     }
     
     func startMonitoring() {
         
-        print("Accelerometer active: \(motionManager.accelerometerActive)")
+//        print("Accelerometer active: \(motionManager.accelerometerActive)")
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
         
         if(!motionManager.accelerometerActive) {
@@ -63,7 +68,7 @@ class FWAcceleration : NSObject {
         }
         
         stillMonitoring = true
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
     
     func stopMonitoring() {
@@ -72,35 +77,68 @@ class FWAcceleration : NSObject {
             motionManager.stopAccelerometerUpdates()
         }
         
+        //ic.toggleMonitoring()
+        
         timer.invalidate()
         stillMonitoring = false;
     }
 
     func pushValue(timer: NSTimer) {
-        print("Accelerometer active: \(motionManager.accelerometerActive)")
+//        print("Accelerometer active: \(motionManager.accelerometerActive)")
         
         let a = motionManager.accelerometerData?.acceleration
-        print(motionManager.accelerometerData?.acceleration.x)
-        print(motionManager.accelerometerData?.acceleration.y)
-        print(motionManager.accelerometerData?.acceleration.z)
-        accelerationArray.rotate(1)
+//        print(motionManager.accelerometerData?.acceleration.x)
+//        print(motionManager.accelerometerData?.acceleration.y)
+//        print(motionManager.accelerometerData?.acceleration.z)
+        accelerationArray.rotate()
         //flagArray.rotate(1)
         
         // magnitude of acceleration formula
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
+        print(accelerationArray[0])
         
         // fall detected
         if(checkFlags()) {
             print("fall detected")
+            timer.invalidate()
+            
+            let hpt = WKInterfaceDevice()
+            hpt.playHaptic(WKHapticType.Failure)
+            let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+            ic.toggleMonitoring()
+
+            //InterfaceController.toggleMonitoring(xtension.rootInterfaceController as! InterfaceController)
+//            xtension.rootInterfaceController as! InterfaceController.toggleMonitoring;()
+            
+//            InterfaceController.
+//            ExtensionDelegate.in
+
+
+//            hapticTimer = NSTimer.sched
+//            haptictimer = NSTimer.scheduledTimerWithTimeInterval(1/10, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: true)
+            
+//            accelerationArray.removeAll(keepCapacity: true)
+            
+            for var i = accelerationArray.count - 1; i >= 0; --i {
+                accelerationArray[i] =  0.0
+            }
+            
             return;
         }
     }
 }
 
 extension Array {
-    mutating func rotate(shift:Int) -> Void {
-        for var i = self.count; i > 0; --i {
+    mutating func rotate() -> Void {
+        for var i = self.count - 1; i > 0; --i {
             self[i] = self[i-1]
         }
     }
+    
+//    mutating func clear() -> Void {
+//        for var i = self.count - 1; i >= 0; --i {
+//            self[i] =  self[i - 1]
+//            self.removeAll(keepCapacity: <#T##Bool#>)
+//        }
+//    }
 }
