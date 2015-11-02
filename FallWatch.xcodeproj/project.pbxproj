@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */; };
 		7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */; };
 		7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87831BD7F96A00A6CE7F /* ViewController.swift */; };
 		7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87851BD7F96A00A6CE7F /* Main.storyboard */; };
@@ -68,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
 		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
 		7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit App.entitlements"; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				7ACE878D1BD7F96A00A6CE7F /* Info.plist */,
 				7ACE87BE1BD7FF0F00A6CE7F /* SettingsController.swift */,
 				7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */,
+				3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */,
 			);
 			path = FallWatch;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				7ACE87C11BD7FF7800A6CE7F /* SettingsData.swift in Sources */,
 				7ACE87BF1BD7FF0F00A6CE7F /* SettingsController.swift in Sources */,
 				7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */,
+				3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */,
 				7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

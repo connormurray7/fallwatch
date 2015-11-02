@@ -9,8 +9,10 @@
 import WatchKit
 import Foundation
 import HealthKit
+import WatchConnectivity
 
-class InterfaceController: WKInterfaceController {
+
+class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet var timeLabel: WKInterfaceLabel!
     @IBOutlet var statusLabel: WKInterfaceLabel!
@@ -21,6 +23,17 @@ class InterfaceController: WKInterfaceController {
 //    let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+    
+    //connect watch to iphone
+    private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
+    
+    override init() {
+        super.init()
+        
+        session?.delegate = self
+        session?.activateSession()
+    }
+
     
     func update() {
         timeLabel.setText(String(count++))
@@ -35,7 +48,8 @@ class InterfaceController: WKInterfaceController {
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Start)
             
-            accMonitor.startMonitoring()
+            testMsg();//testing
+            //accMonitor.startMonitoring()
             
 //            healthStore.startWorkoutSession(workoutSession)
             
@@ -59,7 +73,19 @@ class InterfaceController: WKInterfaceController {
             
         }
     }
-    
+    func testMsg()
+    {
+        print("send message to my contacts, I have fallen")
+        let alert = "yes"
+        let applicationDict = ["alert" : alert]
+        do {
+            print("Send alert")
+            try self.session?.updateApplicationContext(applicationDict)
+        } catch {
+            print("error")
+        }
+        
+    }
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -84,7 +110,7 @@ class InterfaceController: WKInterfaceController {
         if let notificationIdentifier = identifier{
             if notificationIdentifier == "fallenButtonPressed"
             {
-                print("send message to my contacts, I have fallen")
+                self.testMsg()
             }
             else if notificationIdentifier == "dismissButtonPressed"
             {

@@ -59,6 +59,7 @@ class FWAcceleration : NSObject {
     func startMonitoring() {
         
 //        print("Accelerometer active: \(motionManager.accelerometerActive)")
+        
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
         
         if(!motionManager.accelerometerActive) {
@@ -70,6 +71,8 @@ class FWAcceleration : NSObject {
         stillMonitoring = true
         timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target:self, selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
+    
+
     
     func stopMonitoring() {
         
