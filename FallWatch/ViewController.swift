@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import WatchConnectivity
+
 class ViewController: UIViewController, WCSessionDelegate {
 
     @IBOutlet weak var alert: UILabel!

@@ -10,10 +10,11 @@ import WatchKit
 import Foundation
 import Contacts
 import ContactsUI
+import CoreFoundation // required for the communication between phone and watch
 
 var settingsData = SettingsData()
 
-class SettingsController: UIViewController {
+class SettingsController: UIViewController{
     var textBody = "Default help request"
     var contactNumber = "2484620038"
     @IBOutlet var timeLabel: UILabel!
@@ -31,13 +32,33 @@ class SettingsController: UIViewController {
         settingsData.setTimer(val)
     }
     
-    override func viewDidLoad() {
+    func notificationCallback(center: CFNotificationCenterRef , observer: UnsafePointer<Void>,  name: CFStringRef, object: UnsafePointer<Void>, userInfo: CFDictionaryRef)->Void {
+            print("Callback detected: \(name), \(object)")
+    }
+    
+    override func viewDidLoad(){
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
         view.addGestureRecognizer(tap)
         
+        let callback: @convention(block)
+        (CFNotificationCenter!, UnsafeMutablePointer<Void>, CFString!, UnsafePointer<Void>, CFDictionary!) -> Void = {
+            (center, observer, name, object, userInfo) in
+            
+            print("darwin callback")
+            //NSNotificationCenter.defaultCenter().postNotificationName(object: nil,
+             //   userInfo: nil)
+        }
+        /*
+        let notificationCallback: CFNotificationCallback = callback
+        
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), nil, notificationCallback, nil, nil, CFNotificationSuspensionBehavior.Drop)
+*/
+        
     }
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
