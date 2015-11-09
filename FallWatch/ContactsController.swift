@@ -8,8 +8,10 @@
 
 import UIKit
 import Contacts
+import ContactsUI
 
-class ContactsController: UIViewController {
+class ContactsController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate
+ {
 
     override func viewDidLoad() {
         super.viewDidLoad()

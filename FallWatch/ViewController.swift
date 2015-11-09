@@ -9,14 +9,24 @@
 import UIKit
 import Foundation
 import WatchConnectivity
+import Contacts
+import ContactsUI
+protocol ViewControllerDelegate {
+    func didFetchContacts(contacts: [CNContact])
+}
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate {
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate, UITableViewCell
+ {
     var textBody = "Default help request"
     var contactNumber = "2484620038"
+    var contacts = [CNContact]()
+    var delegate: ViewControllerDelegate!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
     @IBOutlet var addContact: UIBarButtonItem!
+    @IBOutlet weak var tblContacts: UITableView!
+
     
     @IBAction func timer(sender: UISlider) {
         print(sender)
@@ -26,6 +36,81 @@ class ViewController: UIViewController, WCSessionDelegate {
         
         //settingsData.setTimer(val)
 
+    }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    func didFetchContacts(contacts: [CNContact]) {
+        for contact in contacts {
+            self.contacts.append(contact)
+        }
+        
+        tblContacts.reloadData()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = UIColor.lightGrayColor()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMessage:", name: "actionTwoPressed", object: nil)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
+        let dateComp = NSDateComponents()
+        dateComp.year = 2015
+        dateComp.month = 10
+        dateComp.day = 25
+        dateComp.hour = 15
+        dateComp.minute = 52 // when simulating modify hour/minute/day/month
+        dateComp.timeZone = NSTimeZone.systemTimeZone()
+        
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+        let date = (calendar!.dateFromComponents(dateComp))!
+        
+        let notification = UILocalNotification()
+        notification.category = "FIRST_CATEGORY"
+        notification.alertBody = "This is a notification"
+        notification.fireDate = date
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
+        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+        defaults.setInteger(30, forKey: "countdown")
+        defaults.synchronize()
+        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
+            print(accessGranted)
+        })
+        configureTableView()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    func configureTableView() {
+        tblContacts.delegate = self
+        tblContacts.dataSource = self
+        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
+    }
+
+   /* func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      //  let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
+        
+        let currentContact = contacts[indexPath.row]
+        
+        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
+        
+        // Set the contact image.
+        if let imageData = currentContact.imageData {
+            cell.imgContactImage.image = UIImage(data: imageData)
+        }
+        
+        return cell
+    }*/
+    @IBAction func showContacts(sender: AnyObject) {
+        let contactPickerViewController = CNContactPickerViewController()
+        
+        contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "firstName != nil")
+        
+        contactPickerViewController.delegate = self
+        
+        presentViewController(contactPickerViewController, animated: true, completion: nil)
     }
     @IBOutlet var messageEdit: UITextField!
     @IBAction func messageEdit(sender: AnyObject) {
@@ -76,42 +161,6 @@ class ViewController: UIViewController, WCSessionDelegate {
     private func configureWCSession() {
         session?.delegate = self;
         session?.activateSession()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor.lightGrayColor()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMessage:", name: "actionTwoPressed", object: nil)
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
-        view.addGestureRecognizer(tap)
-
-        let dateComp = NSDateComponents()
-        dateComp.year = 2015
-        dateComp.month = 10
-        dateComp.day = 25
-        dateComp.hour = 15
-        dateComp.minute = 52 // when simulating modify hour/minute/day/month
-        dateComp.timeZone = NSTimeZone.systemTimeZone()
-        
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let date = (calendar!.dateFromComponents(dateComp))!
-        
-        let notification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "This is a notification"
-        notification.fireDate = date
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
-        defaults.setInteger(30, forKey: "countdown")
-        defaults.synchronize()
-        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
-            print(accessGranted)
-        })
-
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     func acknowledgeAlert(notification:NSNotification)
