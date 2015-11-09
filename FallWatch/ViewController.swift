@@ -9,34 +9,53 @@
 import UIKit
 import Foundation
 import WatchConnectivity
+import Contacts
+import ContactsUI
+protocol ViewControllerDelegate {
+    func didFetchContacts(contacts: [CNContact])
+}
+//var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate {
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate, UITableViewCell
+ {
+    var textBody = "Default help request"
+    var contactNumber = "2484620038"
+    var contacts = [CNContact]()
+    var delegate: ViewControllerDelegate!
+    @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var messageText: UITextField!
+    @IBOutlet var addContact: UIBarButtonItem!
+    @IBOutlet weak var tblContacts: UITableView!
 
-    @IBOutlet weak var alert: UILabel!
-    private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    @IBAction func timer(sender: UISlider) {
+        print(sender)
+        let num = Float(sender.value)
+        let val = Int(num)
+        timeLabel.text = "\(val)"
         
-        configureWCSession()
+        //settingsData.setTimer(val)
+
     }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    func didFetchContacts(contacts: [CNContact]) {
+        for contact in contacts {
+            self.contacts.append(contact)
+        }
         
-        configureWCSession()
-    }
-    
-    private func configureWCSession() {
-        session?.delegate = self;
-        session?.activateSession()
+        tblContacts.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.lightGrayColor()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMessage:", name: "actionTwoPressed", object: nil)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+        view.addGestureRecognizer(tap)
         
         let dateComp = NSDateComponents()
         dateComp.year = 2015
@@ -61,8 +80,87 @@ class ViewController: UIViewController, WCSessionDelegate {
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
-
+        configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    func configureTableView() {
+        tblContacts.delegate = self
+        tblContacts.dataSource = self
+        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
+    }
+
+   /* func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      //  let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
+        
+        let currentContact = contacts[indexPath.row]
+        
+        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
+        
+        // Set the contact image.
+        if let imageData = currentContact.imageData {
+            cell.imgContactImage.image = UIImage(data: imageData)
+        }
+        
+        return cell
+    }*/
+    @IBAction func showContacts(sender: AnyObject) {
+        let contactPickerViewController = CNContactPickerViewController()
+        
+        contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "firstName != nil")
+        
+        contactPickerViewController.delegate = self
+        
+        presentViewController(contactPickerViewController, animated: true, completion: nil)
+    }
+    @IBOutlet var messageEdit: UITextField!
+    @IBAction func messageEdit(sender: AnyObject) {
+        textBody = messageText.text!
+    }
+    @IBAction func text(sender: AnyObject) {
+        // Use your own details here
+        let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
+        let twilioSecret = "9a1daecd3a6206463e13259a65001131"
+        let fromNumber = "2486483835"
+        let toNumber = "2484620038"
+        let message = textBody
+        //let message = "Yo I fell please help me"
+        // Build the request
+        let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
+        
+        // Build the completion block and send the request
+        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
+            print("Finished")
+            if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                // Success
+                print("Response: \(responseDetails)")
+            } else {
+                // Failure
+                print("Error: \(error)")
+            }
+        }).resume()
+
+    }
+    
+    @IBOutlet weak var alert: UILabel!
+    private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        configureWCSession()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        configureWCSession()
+    }
+    
+    private func configureWCSession() {
+        session?.delegate = self;
+        session?.activateSession()
     }
     
     func acknowledgeAlert(notification:NSNotification)
@@ -91,11 +189,16 @@ class ViewController: UIViewController, WCSessionDelegate {
         //Use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
             if let alert = alert {
-                self.alert.text = "Did someone fall? \(alert)"
+                self.alert.text = "Current Status: \(alert)"
                 self.textContact()
             }
         }
     }
+    func DismissKeyboard(){
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+
     func textContact()
     {
         print("TEXT CONTACT")
