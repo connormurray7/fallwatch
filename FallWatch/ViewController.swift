@@ -16,7 +16,7 @@ protocol ViewControllerDelegate {
 }
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate, UITableViewCell
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate
  {
     var textBody = "Default help request"
     var contactNumber = "2484620038"
@@ -80,14 +80,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
-        configureTableView()
+       // configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
-    func configureTableView() {
+   /* func configureTableView() {
         tblContacts.delegate = self
         tblContacts.dataSource = self
         tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
-    }
+    }*/
 
    /* func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       //  let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
