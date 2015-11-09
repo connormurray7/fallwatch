@@ -9,9 +9,55 @@
 import UIKit
 import Foundation
 import WatchConnectivity
+//var settingsData = SettingsData()
 
 class ViewController: UIViewController, WCSessionDelegate {
+    var textBody = "Default help request"
+    var contactNumber = "2484620038"
+    @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var messageText: UITextField!
+    @IBOutlet var addContact: UIBarButtonItem!
+    
+    @IBAction func timer(sender: UISlider) {
+        print(sender)
+        let num = Float(sender.value)
+        let val = Int(num)
+        timeLabel.text = "\(val)"
+        
+        //settingsData.setTimer(val)
 
+    }
+    @IBOutlet var messageEdit: UITextField!
+    @IBAction func messageEdit(sender: AnyObject) {
+        textBody = messageText.text!
+    }
+    @IBAction func text(sender: AnyObject) {
+        // Use your own details here
+        let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
+        let twilioSecret = "9a1daecd3a6206463e13259a65001131"
+        let fromNumber = "2486483835"
+        let toNumber = "2484620038"
+        let message = textBody
+        //let message = "Yo I fell please help me"
+        // Build the request
+        let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
+        
+        // Build the completion block and send the request
+        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
+            print("Finished")
+            if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                // Success
+                print("Response: \(responseDetails)")
+            } else {
+                // Failure
+                print("Error: \(error)")
+            }
+        }).resume()
+
+    }
+    
     @IBOutlet weak var alert: UILabel!
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
@@ -33,11 +79,14 @@ class ViewController: UIViewController, WCSessionDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor.lightGrayColor()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMessage:", name: "actionTwoPressed", object: nil)
-        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+        view.addGestureRecognizer(tap)
+
         let dateComp = NSDateComponents()
         dateComp.year = 2015
         dateComp.month = 10
@@ -91,11 +140,16 @@ class ViewController: UIViewController, WCSessionDelegate {
         //Use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
             if let alert = alert {
-                self.alert.text = "Did someone fall? \(alert)"
+                self.alert.text = "Current Status: \(alert)"
                 self.textContact()
             }
         }
     }
+    func DismissKeyboard(){
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+
     func textContact()
     {
         print("TEXT CONTACT")
