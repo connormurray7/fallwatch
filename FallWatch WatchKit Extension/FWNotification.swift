@@ -32,7 +32,7 @@ class FWNotification {
         seconds = time
         timer = NSTimer()
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: icSelfPtr, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: icSelfPtr, selector: Selector(":subtractTime"), userInfo: nil, repeats: true)
         if seconds == 0 {
 //            icSelfPtr.testMsg()
         }

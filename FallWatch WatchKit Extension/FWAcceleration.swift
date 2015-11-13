@@ -130,16 +130,16 @@ class FWAcceleration : NSObject {
         // fall detected
         if(checkFlags()) {
             print("fall detected")
-//            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
-//            {
-//                // if the user did not dismiss the alert
-//                
-//            }
+            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
+            {
+                // if the user did not dismiss the alert
+                
+            }
             timer.invalidate()
             
             // create and display notification
-            var note = UILocalNotification()
-            presentLocalNotificationNow(note)
+            //var note = UILocalNotification()
+            //presentLocalNotificationNow(note)
             
             // play failure haptic feedback
             let hpt = WKInterfaceDevice()

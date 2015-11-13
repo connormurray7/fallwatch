@@ -73,20 +73,20 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
-//    func fireNotification() {
-//        let notification = UILocalNotification()
-//        notification.category = "FIRST_CATEGORY"
-//        notification.alertBody = "Send from FWNotification"
-//        //notification.fireDate = date
-//        notification.alertTitle = "User has fallen"
-//        let dict = ["fireNotification": notification]
-//        do {
-//            print("Fire Local Notification")
-//            try self.session?.updateApplicationContext(dict)
-//        } catch {
-//            print("error")
-//        }
-//    }
+    func fireNotification() {
+        let notification = UILocalNotification()
+        notification.category = "FIRST_CATEGORY"
+        notification.alertBody = "Send from FWNotification"
+        //notification.fireDate = date
+        notification.alertTitle = "User has fallen"
+        let dict = ["fireNotification": notification]
+        do {
+            print("Fire Local Notification")
+            try self.session?.updateApplicationContext(dict)
+        } catch {
+            print("error")
+        }
+    }
     
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         let data = applicationContext["timer"] as? Int
