@@ -16,16 +16,18 @@ protocol ViewControllerDelegate {
 }
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate
- {
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate//, UITableViewDataSource
+{
     var textBody = "Default help request"
     var contactNumber = "2484620038"
     var contacts = [CNContact]()
     var delegate: ViewControllerDelegate!
+    @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
     @IBOutlet var addContact: UIBarButtonItem!
     @IBOutlet weak var tblContacts: UITableView!
+    @IBOutlet weak var contactView: UIView!
 
     
     @IBAction func timer(sender: UISlider) {
@@ -37,20 +39,18 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         //settingsData.setTimer(val)
 
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
-    }
-    func didFetchContacts(contacts: [CNContact]) {
-        for contact in contacts {
-            self.contacts.append(contact)
-        }
-        
-        tblContacts.reloadData()
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.lightGrayColor()
+        let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
+
+        self.view.backgroundColor = swiftColor
         
+        self.contactView.layer.borderWidth = 1
+        self.contactView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
+
+        
+        self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMessage:", name: "actionTwoPressed", object: nil)
@@ -64,7 +64,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         dateComp.hour = 15
         dateComp.minute = 52 // when simulating modify hour/minute/day/month
         dateComp.timeZone = NSTimeZone.systemTimeZone()
-        
+        timerSegment.layer.cornerRadius = 5.0
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let date = (calendar!.dateFromComponents(dateComp))!
         
@@ -73,6 +73,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         notification.alertBody = "This is a notification"
         notification.fireDate = date
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
+
         
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
         defaults.setInteger(30, forKey: "countdown")
@@ -80,29 +81,11 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
-       // configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
-   /* func configureTableView() {
-        tblContacts.delegate = self
-        tblContacts.dataSource = self
-        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
-    }*/
 
-   /* func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-      //  let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
-        
-        let currentContact = contacts[indexPath.row]
-        
-        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
-        
-        // Set the contact image.
-        if let imageData = currentContact.imageData {
-            cell.imgContactImage.image = UIImage(data: imageData)
-        }
-        
-        return cell
-    }*/
+
+
     @IBAction func showContacts(sender: AnyObject) {
         let contactPickerViewController = CNContactPickerViewController()
         
