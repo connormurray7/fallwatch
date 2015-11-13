@@ -10,13 +10,18 @@ import Foundation
 
 class SettingsData
 {
-    var time  = 35 // Default time
+    static let sharedInstance = SettingsData()
+    
+    var time  = 40 // Default time
     
     func setTimer(amount: Int) {
         time = amount
         print(time)
         
         
+    }
+    func getTimer() ->Int{
+        return time
     }
     
 }

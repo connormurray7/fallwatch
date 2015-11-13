@@ -12,7 +12,7 @@ import Contacts
 import ContactsUI
 import CoreFoundation // required for the communication between phone and watch
 
-var settingsData = SettingsData()
+//var settingsData = SettingsData()
 
 class SettingsController: UIViewController{
     var textBody = "Default help request"
@@ -29,7 +29,7 @@ class SettingsController: UIViewController{
         let val = Int(num)
         timeLabel.text = "\(val)"
         
-        settingsData.setTimer(val)
+        //settingsData.setTimer(val)
     }
     
     func notificationCallback(center: CFNotificationCenterRef , observer: UnsafePointer<Void>,  name: CFStringRef, object: UnsafePointer<Void>, userInfo: CFDictionaryRef)->Void {

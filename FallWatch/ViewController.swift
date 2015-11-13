@@ -185,12 +185,18 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         let alert = applicationContext["alert"] as? String
+        let localNotification = applicationContext["fireNotification"] as? UILocalNotification
         
         //Use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
             if let alert = alert {
                 self.alert.text = "Current Status: \(alert)"
                 self.textContact()
+                
+            } else if let notification = localNotification{
+                
+                print("local notification should fire soon")
+                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
             }
         }
     }
@@ -242,6 +248,43 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func segmentPressed(sender: UISegmentedControl) {
+        
+        var selection = 20
+        switch sender.selectedSegmentIndex
+        {
+            case 0:
+                selection = 20
+            case 1:
+                selection = 40
+            case 2:
+                selection = 60
+            default:
+                break
+            
+        }
+        print(selection)
+        SettingsData.sharedInstance.setTimer(selection)
+        let dict = ["timer": selection]
+        sendWatchTimerAndContactInfo(dict)
+        
+        
+    }
+    
+    func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject])
+    {
+        print("sendind info to watch")
+        
+        do {
+            print("Send alert")
+            try self.session?.updateApplicationContext(settingsData)
+        } catch {
+            print("error")
+        }
+        
+    }
+    
 
 
 }

@@ -56,6 +56,9 @@
                                     <segment title="40 seconds"/>
                                     <segment title="60 seconds"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="aYL-81-p1B"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93c-KW-njp">
                                 <rect key="frame" x="141" y="169" width="93" height="21"/>
@@ -112,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="646.5" y="580.5"/>
+            <point key="canvasLocation" x="239.5" y="457.5"/>
         </scene>
         <!--Settings Controller-->
         <scene sceneID="Ujg-50-rL1">

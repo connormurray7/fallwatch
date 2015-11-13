@@ -125,6 +125,12 @@ class FWAcceleration : NSObject {
         // Fall Detected
         if(checkFlags()) {
             print("fall detected")
+            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
+            {
+                // if the user did not dismiss the alert
+                
+                
+            }
             timer.invalidate()
             
             let hpt = WKInterfaceDevice()
@@ -138,6 +144,7 @@ class FWAcceleration : NSObject {
             
             return;
         }
+        
     }
 }
 

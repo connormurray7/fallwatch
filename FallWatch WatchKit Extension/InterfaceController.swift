@@ -86,6 +86,35 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         }
         
     }
+    func fireNotification()
+    {
+        let notification = UILocalNotification()
+        notification.category = "FIRST_CATEGORY"
+        notification.alertBody = "Send from FWNotification"
+        //notification.fireDate = date
+        notification.alertTitle = "User has fallen"
+        let dict = ["fireNotification": notification]
+        do {
+            print("Fire Local Notification")
+            try self.session?.updateApplicationContext(dict)
+        } catch {
+            print("error")
+        }
+        
+    }
+    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+        let data = applicationContext["timer"] as? Int
+        
+        //Use this to update the UI instantaneously (otherwise, takes a little while)
+        dispatch_async(dispatch_get_main_queue()) {
+            if let value = data {
+                
+                FWNotification.sharedInstance.setTimer(value);
+                //self.statusLabel.setText("timer \(value)")
+                
+            }
+        }
+    }
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -108,13 +137,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
         
         if let notificationIdentifier = identifier{
+            
             if notificationIdentifier == "fallenButtonPressed"
             {
+                // notify user's contacts immmidiately
                 self.testMsg()
             }
             else if notificationIdentifier == "dismissButtonPressed"
             {
                 print("no I haven't fallen")
+                FWNotification.sharedInstance.notificationDismissed()
             }
         }
     }
