@@ -1,4 +1,4 @@
-
+//
 //  File.swift
 //  FallWatch
 //
@@ -9,10 +9,11 @@
 import WatchKit
 import Foundation
 import CoreMotion
+import UIKit
 
 class FWAcceleration : NSObject {
     
-    // Private Variables
+    // private Variables
     private var accelerationArray = [Double](count: 60, repeatedValue: 0.0)
     private var flagArray = [Bool](count: 60, repeatedValue: false)
     private var logging = false;
@@ -62,7 +63,8 @@ class FWAcceleration : NSObject {
         
         if(!motionManager.accelerometerActive) {
             motionManager.startAccelerometerUpdates()
-            motionManager.deviceMotionUpdateInterval = 0.05 //Set the intervals to 20 Hz
+            // set the intervals to 20 Hz
+            motionManager.deviceMotionUpdateInterval = 0.05
             motionManager.accelerometerUpdateInterval = 0.05
         }
         
@@ -70,6 +72,7 @@ class FWAcceleration : NSObject {
         timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target:self,
             selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
+    
     /*
     * Begins acceleration monitoring
     */
@@ -104,10 +107,9 @@ class FWAcceleration : NSObject {
                 highMag++
             }
         }
-        //If enough values are in the ranges then a fall was found
+        // if enough values are in the ranges then a fall was found
         return ((normalMag == 30 && highMag >= 1) ? true : false)
     }
-
     
     /*
      * This functions rotates the acceleration array and adds the new value from
@@ -119,32 +121,39 @@ class FWAcceleration : NSObject {
 
         accelerationArray.rotate()
         
-        // Magnitude of Acceleration
+        // magnitude of Acceleration
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
+        for(var i = 0; i < accelerationArray.count; ++i) {
+            print(accelerationArray[i])
+        }
         
-        // Fall Detected
+        // fall detected
         if(checkFlags()) {
             print("fall detected")
-            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
-            {
-                // if the user did not dismiss the alert
-                
-                
-            }
+//            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
+//            {
+//                // if the user did not dismiss the alert
+//                
+//            }
             timer.invalidate()
             
+            // create and display notification
+            var note = UILocalNotification()
+            presentLocalNotificationNow(note)
+            
+            // play failure haptic feedback
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Failure)
+            
+            // update the interface
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
             ic.toggleMonitoring()
             
+            // clear array
             for var i = accelerationArray.count - 1; i >= 0; --i {
                 accelerationArray[i] =  0.0
             }
-            
-            return;
         }
-        
     }
 }
 

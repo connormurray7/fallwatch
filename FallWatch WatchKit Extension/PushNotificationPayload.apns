@@ -1,22 +1,21 @@
 {
     "aps": {
         "alert": {
-            "body": "Just checking if you have fallen.",
-            "title": "fallAlertMessage"
+            "body": "Fall Detected! Requesting Help in 30s...",
+            "title": "Fall Detected"
         },
-        "category": "myCategory"
+        "category": "fallDetected"
     },
     
     "WatchKit Simulator Actions": [
         {
-            "title": "Have you fallen?",
-            "identifier": "fallenButtonPressed"
+            "title": "Cancel",
+            "identifier": "cancelButtonPressed",
+            "destructive": true
         },
         {
-             "title": "Dismiss Alert",
-             "identifier": "dismissButtonPressed",
-             "destructive": true
-            
+            "title": "Get Help!",
+            "identifier": "helpButtonPressed"
         }
     
     ],

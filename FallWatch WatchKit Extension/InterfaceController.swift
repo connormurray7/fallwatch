@@ -11,7 +11,6 @@ import Foundation
 import HealthKit
 import WatchConnectivity
 
-
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet var timeLabel: WKInterfaceLabel!
@@ -19,12 +18,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var toggleMonitoringBtn: WKInterfaceButton!
     var monitoringOn = false
     var count = 0
-//    let healthStore = HKHealthStore()
-//    let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
+    // let healthStore = HKHealthStore()
+    // let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+    //let note = NotificationController()
     
-    //connect watch to iphone
+    // connect watch to iphone
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
     override init() {
@@ -34,7 +34,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session?.activateSession()
     }
 
-    
     func update() {
         timeLabel.setText(String(count++))
     }
@@ -43,15 +42,15 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         
         if monitoringOn == false {
             monitoringOn = true
-            print("on")
+            //note.didReceiveLocalNotification(<#T##localNotification: UILocalNotification##UILocalNotification#>, withCompletion: <#T##((WKUserNotificationInterfaceType) -> Void)##((WKUserNotificationInterfaceType) -> Void)##(WKUserNotificationInterfaceType) -> Void#>)
 
+            // play haptic to signal monitoring has started
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Start)
             
-            testMsg();//testing
-            //accMonitor.startMonitoring()
-            
-//            healthStore.startWorkoutSession(workoutSession)
+            // testMsg();
+            accMonitor.startMonitoring()
+            // healthStore.startWorkoutSession(workoutSession)
             
             // interface updates
             toggleMonitoringBtn.setBackgroundColor(UIColor.redColor())
@@ -73,39 +72,26 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             
         }
     }
-    func testMsg()
-    {
-        print("send message to my contacts, I have fallen")
-        let alert = "yes"
-        let applicationDict = ["alert" : alert]
-        do {
-            print("Send alert")
-            try self.session?.updateApplicationContext(applicationDict)
-        } catch {
-            print("error")
-        }
-        
-    }
-    func fireNotification()
-    {
-        let notification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "Send from FWNotification"
-        //notification.fireDate = date
-        notification.alertTitle = "User has fallen"
-        let dict = ["fireNotification": notification]
-        do {
-            print("Fire Local Notification")
-            try self.session?.updateApplicationContext(dict)
-        } catch {
-            print("error")
-        }
-        
-    }
+    
+//    func fireNotification() {
+//        let notification = UILocalNotification()
+//        notification.category = "FIRST_CATEGORY"
+//        notification.alertBody = "Send from FWNotification"
+//        //notification.fireDate = date
+//        notification.alertTitle = "User has fallen"
+//        let dict = ["fireNotification": notification]
+//        do {
+//            print("Fire Local Notification")
+//            try self.session?.updateApplicationContext(dict)
+//        } catch {
+//            print("error")
+//        }
+//    }
+    
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         let data = applicationContext["timer"] as? Int
         
-        //Use this to update the UI instantaneously (otherwise, takes a little while)
+        // use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
             if let value = data {
                 
@@ -115,23 +101,22 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             }
         }
     }
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        
-        // Configure interface objects here.
+        // configure interface objects here.
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-       // print("\(defaults.integerForKey("countdown"))")
-        
+        print("willActivate")
     }
     
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
-        print("done")
+        print("didDeactivate")
     }
     
     override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
@@ -141,7 +126,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             if notificationIdentifier == "fallenButtonPressed"
             {
                 // notify user's contacts immmidiately
-                self.testMsg()
             }
             else if notificationIdentifier == "dismissButtonPressed"
             {
@@ -150,9 +134,4 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             }
         }
     }
-    
-    deinit {
-        print("deinit interface controller")
-    }
-    
 }

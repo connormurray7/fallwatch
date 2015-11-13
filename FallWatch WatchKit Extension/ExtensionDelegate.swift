@@ -27,13 +27,22 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationWillResignActive() {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, etc.
-                print("applicationWillResignActive")
+        print("applicationWillResignActive")
        //timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector: Selector("printEverySec"), userInfo: nil, repeats: true)
 //        var count = 0
 //        while(true) {
 //            print("count /(count)")
 //            count++
 //        }
+    }
+    
+    func handleActionWithIdentifier(identifier: String?, forLocalNotification localNotification: UILocalNotification) {
+        if identifier == "cancelButtonPressed" {
+            
+        }
+        else if identifier == "helpButtonPressed" {
+            
+        }
     }
 
 }
