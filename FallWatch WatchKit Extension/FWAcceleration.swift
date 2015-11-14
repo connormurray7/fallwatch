@@ -130,9 +130,13 @@ class FWAcceleration : NSObject {
         // fall detected
         if(checkFlags()) {
             print("fall detected")
-            if(FWNotification.sharedInstance.didUserDismissAlert() == false)
+            let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+            
+            if(ic.didUserDismissAlert() == true)
             {
-                // if the user did not dismiss the alert
+                // if the user did not dismiss the alert handle case here
+                //return;
+                
                 
             }
             timer.invalidate()
@@ -146,7 +150,7 @@ class FWAcceleration : NSObject {
             hpt.playHaptic(WKHapticType.Failure)
             
             // update the interface
-            let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+            
             ic.toggleMonitoring()
             
             // clear array

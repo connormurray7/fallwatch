@@ -22,37 +22,8 @@ class FWNotification {
         print("Singleton init: time= \(time)")
     }
     
-    // returns true if the user dismisses the alert, else notifies the user's emergency contacts and returns false
-    func didUserDismissAlert() ->Bool{
-        
-        let icSelfPtr = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-       
-        icSelfPtr.fireNotification()
-        
-        seconds = time
-        timer = NSTimer()
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: icSelfPtr, selector: Selector(":subtractTime"), userInfo: nil, repeats: true)
-        if seconds == 0 {
-//            icSelfPtr.testMsg()
-        }
-        //assert timer should never be < than 0
-        return seconds != 0; // the user dismissed the alert before it reached 0
-        
-    }
-    func subtractTime() {
-        seconds--
-        print("Time: \(seconds)")
-        
-        if(seconds == 0)  {
-            timer.invalidate()
-        }
-    }
-    func notificationDismissed()
-    {
-        //invalidate timer and return false
-        timer.invalidate()
-    }
+
+    
     
     func setTimer(FWTime: Int)
     {
@@ -61,23 +32,9 @@ class FWNotification {
         time = FWTime
         print("New timer value= \(time)")
     }
-    
-    
-}
-/*
-var seconds = 0
-var timer = NSTimer()
-func startCountDown()
-{
-    let icSelfPtr = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-    timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: icSelfPtr, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
-}
-func subtractTime() {
-    seconds--
-    print("Time: \(seconds)")
-    
-    if(seconds == 0)  {
-        timer.invalidate()
+    func getTimer() ->Int{
+        return time;
     }
+    
+    
 }
-*/

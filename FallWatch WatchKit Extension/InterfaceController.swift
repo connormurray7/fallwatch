@@ -23,7 +23,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     //let note = NotificationController()
-    
+    var timer: NSTimer?
+    var seconds = 0
     // connect watch to iphone
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
@@ -37,16 +38,32 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     func update() {
         timeLabel.setText(String(count++))
     }
+    func timerDidFire(timer: NSTimer)
+    {
+        --seconds
+        print("timerDidFire")
+        print(timer)
+        print(seconds)
+        if seconds == 0
+        {
+            timer.invalidate()
+        }
+    }
     
     @IBAction func toggleMonitoring() {
         
         if monitoringOn == false {
             monitoringOn = true
             //note.didReceiveLocalNotification(<#T##localNotification: UILocalNotification##UILocalNotification#>, withCompletion: <#T##((WKUserNotificationInterfaceType) -> Void)##((WKUserNotificationInterfaceType) -> Void)##(WKUserNotificationInterfaceType) -> Void#>)
-
+            
+            //let myTimer = NSTimer(timeInterval: 1.0, target: self, selector: "timerDidFire:", userInfo: nil, repeats: true)
+            //NSRunLoop.currentRunLoop().addTimer(myTimer, forMode: NSRunLoopCommonModes)
+            
             // play haptic to signal monitoring has started
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Start)
+            
+            
             
             // testMsg();
             accMonitor.startMonitoring()
@@ -130,8 +147,47 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             else if notificationIdentifier == "dismissButtonPressed"
             {
                 print("no I haven't fallen")
-                FWNotification.sharedInstance.notificationDismissed()
+                notificationDismissed()
             }
         }
+        
     }
+    
+    func notificationDismissed()
+    {
+        //invalidate timer and return false
+        timer!.invalidate()
+        timer = nil
+    }
+
+    func subtractTime() {
+        seconds--
+        print("Time: \(seconds)")
+        
+        if(seconds == 0)  {
+            timer!.invalidate()
+            timer = nil
+        }
+    }
+    
+    func didUserDismissAlert() ->Bool{
+        fireNotification()
+        seconds = FWNotification.sharedInstance.getTimer()
+        //timer = NSTimer()
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
+        
+        if seconds == 0 {
+            //            icSelfPtr.testMsg()
+            // notify user contacts via text msg
+           
+        }
+        
+        //assert timer should never be < than 0
+        return seconds != 0; // the user dismissed the alert before it reached 0
+        
+    }
+    
+    
+    
 }
