@@ -167,8 +167,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
     }
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+        print("session ViewController")
         let alert = applicationContext["alert"] as? String
-        let localNotification = applicationContext["fireNotification"] as? UILocalNotification
+        let localNotification = applicationContext["fireNotification"] as? String
         
         //Use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
@@ -179,6 +180,10 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             } else if let notification = localNotification{
                 
                 print("local notification should fire soon")
+                let notification = UILocalNotification()
+                notification.category = "FIRST_CATEGORY"
+                notification.alertBody = "Send from FWNotification"
+                notification.alertTitle = "User has fallen"
                 UIApplication.sharedApplication().presentLocalNotificationNow(notification)
             }
         }

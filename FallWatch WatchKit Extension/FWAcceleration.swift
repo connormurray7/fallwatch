@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  FWAcceleration.swift
 //  FallWatch
 //
 //  Created by Connor Murray on 10/11/15.
@@ -12,8 +12,7 @@ import CoreMotion
 import UIKit
 
 class FWAcceleration : NSObject {
-    
-    // private Variables
+
     private var accelerationArray = [Double](count: 60, repeatedValue: 0.0)
     private var flagArray = [Bool](count: 60, repeatedValue: false)
     private var logging = false;
@@ -25,39 +24,34 @@ class FWAcceleration : NSObject {
     private let highNormalRange = 1.3
     private let lowFallingRange = 2.3
     private let highFallingRange = 5.5
-    
-    // Private Methods
-    
-    /*
-     * Assumes that the acceleration array is populated at the specific index.
-     * Returns true if the value falls within the normal range
-     */
+
+    // Assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the normal range
+
     private func checkNormalRange(idx : Int) -> Bool {
         return (accelerationArray[idx] <= highNormalRange && accelerationArray[idx] >= lowNormalRange) ? true : false
     }
     
-    /*
-     * Assumes that the acceleration array is populated at the specific index.
-     * Returns true if the value falls within the falling range
-     */
+
+    // Assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the falling range
+
     private func checkFallingRange(idx : Int) -> Bool {
         return (accelerationArray[idx] < highFallingRange && accelerationArray[idx] > lowFallingRange) ? true : false
     }
     
-    /*
-     * Allows for logging
-     */
+    // Allows for logging
+    
     private func log() {
         print(NSDate().timeIntervalSince1970*1000)
         print(motionManager.accelerometerData?.acceleration.x)
         print(motionManager.accelerometerData?.acceleration.y)
         print(motionManager.accelerometerData?.acceleration.z)
     }
-    
-    /*
-    * Begins acceleration monitoring
-    */
+
+    // Begins acceleration monitoring
+
     func startMonitoring() {
+        
+        FWNotification.sharedInstance.invalidateTimer()
         
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
         
@@ -73,9 +67,9 @@ class FWAcceleration : NSObject {
             selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
     
-    /*
-    * Begins acceleration monitoring
-    */
+
+    // Begins acceleration monitoring
+
     func stopMonitoring() {
         
         if(motionManager.accelerometerActive) {
@@ -84,12 +78,16 @@ class FWAcceleration : NSObject {
         
         timer.invalidate()
         stillMonitoring = false;
+        
+        // clear array
+        for var i = accelerationArray.count - 1; i >= 0; --i {
+            accelerationArray[i] =  0.0
+        }
     }
     
-    /*
-     * Checks the entire array to see if enough variables fall within the falling and still ranges
-     * Returns true if the value falls within the falling range
-     */
+
+    // Checks the entire array to see if enough variables fall within the falling and still ranges. Returns true if the value falls within the falling range
+
     private func checkFlags() -> Bool {
         
         var normalMag = 0
@@ -110,11 +108,28 @@ class FWAcceleration : NSObject {
         // if enough values are in the ranges then a fall was found
         return ((normalMag == 30 && highMag >= 1) ? true : false)
     }
+
+    // This functions rotates the acceleration array and adds the new value from the acceleromter. It then checks the flags to see if there was a fall.
     
-    /*
-     * This functions rotates the acceleration array and adds the new value from
-     * the acceleromter. It then checks the flags to see if there was a fall.
-     */
+    func trueAlarm() {
+        print("True Alarm")
+        
+        // play failure haptic feedback
+        let hpt = WKInterfaceDevice()
+        hpt.playHaptic(WKHapticType.Failure)
+        
+        // send text/get help
+    }
+    
+    // resume monitoring
+    func falseAlarm() {
+        print("False Alarm")
+        
+        startMonitoring()
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+        ic.toggleMonitoring()
+    }
+    
     func pushValue(timer: NSTimer) {
         
         let a = motionManager.accelerometerData?.acceleration
@@ -128,35 +143,15 @@ class FWAcceleration : NSObject {
         }
         
         // fall detected
-        if(checkFlags()) {
+        if checkFlags() {
             print("fall detected")
+            
+            // temporarily stop monitoring
+            stopMonitoring()
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-            
-            if(ic.didUserDismissAlert() == true)
-            {
-                // if the user did not dismiss the alert handle case here
-                //return;
-                
-                
-            }
-            timer.invalidate()
-            
-            // create and display notification
-            //var note = UILocalNotification()
-            //presentLocalNotificationNow(note)
-            
-            // play failure haptic feedback
-            let hpt = WKInterfaceDevice()
-            hpt.playHaptic(WKHapticType.Failure)
-            
-            // update the interface
-            
             ic.toggleMonitoring()
             
-            // clear array
-            for var i = accelerationArray.count - 1; i >= 0; --i {
-                accelerationArray[i] =  0.0
-            }
+            FWNotification.sharedInstance.didUserDismissAlert()
         }
     }
 }
