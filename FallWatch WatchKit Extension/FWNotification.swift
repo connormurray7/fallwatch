@@ -40,6 +40,9 @@ class FWNotification : WKInterfaceController {
         ic.accMonitor.trueAlarm()
         dismissController()
     }
+    func setTime(time_in : Int) {
+        time = time_in;
+    }
     
     func subtractTime() {
         seconds--

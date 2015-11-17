@@ -346,8 +346,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
     }
     
-    func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject])
-    {
+    func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject]) {
         print("sendind info to watch")
         
         do {
