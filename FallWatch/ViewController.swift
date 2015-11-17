@@ -12,18 +12,14 @@ import Foundation
 import WatchConnectivity
 import Contacts
 import ContactsUI
-protocol ViewControllerDelegate {
-    func didFetchContacts(contacts: [CNContact])
-}
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate,
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
     UITableViewDataSource
 {
     var textBody = "Default help request"
     var contactNumber = "2484620038"
     var contacts = [CNContact]()
-    var delegate: ViewControllerDelegate!
     @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
@@ -76,34 +72,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
+        print("HELLO TEST")
         configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
-    }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
-    }
-    func configureTableView() {
-        tblContacts.delegate = self
-        tblContacts.dataSource = self
-        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
-    }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
-        assert(contacts.count > 0)
-        let currentContact = contacts[indexPath.row]
-        
-        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
-        
-        
-        // Set the contact image.
-        if let imageData = currentContact.imageData {
-            cell.imgContactImage.image = UIImage(data: imageData)
-        }
-        
-        
-        
-        
-        return cell
     }
 
 
@@ -116,16 +87,36 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         //settingsData.setTimer(val)
 
     }
+    
+    //CONTACT PICKER FUNCTIONS
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    func configureTableView() {
+        tblContacts.delegate = self
+        tblContacts.dataSource = self
+        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
+        //assert(contacts.count > 0)
+        let currentContact = contacts[indexPath.row]
+        
+        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
+        
+        
+        return cell
+    }
 
     func didFetchContacts(contacts: [CNContact]) {
         for contact in contacts {
             self.contacts.append(contact)
+            print(contact.givenName)
         }
         
         tblContacts.reloadData()
     }
-
-
 
     @IBAction func showContacts(sender: AnyObject) {
         let contactPickerViewController = CNContactPickerViewController()
@@ -140,6 +131,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     func contactPicker(picker: CNContactPickerViewController,
         didSelectContacts contacts: [CNContact]) {
+            didFetchContacts(contacts)
             print("Selected \(contacts.count) contacts")
     }
     
@@ -158,14 +150,17 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
         
         navigationController?.presentViewController(controller,
-            animated: true, completion: nil)    }
-
+            animated: true, completion: nil)
+    }
+    //
     @IBOutlet var messageEdit: UITextField!
     @IBAction func messageEdit(sender: AnyObject) {
         textBody = messageText.text!
     }
     @IBAction func text(sender: AnyObject) {
         // Use your own details here
+        //for contact in contacts
+        
         let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
         let twilioSecret = "9a1daecd3a6206463e13259a65001131"
         let fromNumber = "2486483835"

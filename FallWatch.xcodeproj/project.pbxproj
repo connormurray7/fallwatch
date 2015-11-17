@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19D3E41BFB314000CCFECE /* ContactCell.swift */; };
+		3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD02B551BFBCDF900009A93 /* ContactCell.xib */; };
 		3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
 		7A5E8C401BF010DD001C194F /* fallwatch_logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3F1BF010DD001C194F /* fallwatch_logo_58x58.png */; };
@@ -77,6 +78,7 @@
 
 /* Begin PBXFileReference section */
 		3D19D3E41BFB314000CCFECE /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
+		3DD02B551BFBCDF900009A93 /* ContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
 		3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
 		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
 		7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */,
 				3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */,
 				3D19D3E41BFB314000CCFECE /* ContactCell.swift */,
+				3DD02B551BFBCDF900009A93 /* ContactCell.xib */,
 			);
 			path = FallWatch;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */,
 				7ACE878C1BD7F96A00A6CE7F /* LaunchScreen.storyboard in Resources */,
 				7ACE87891BD7F96A00A6CE7F /* Assets.xcassets in Resources */,
 				7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */,
