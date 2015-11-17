@@ -7,10 +7,7 @@
 //
 
 import WatchKit
-import Foundation
 import CoreMotion
-import UIKit
-import HealthKit
 
 class FWAcceleration : NSObject {
 
@@ -20,6 +17,7 @@ class FWAcceleration : NSObject {
     private var foundAFall = false
     private var stillMonitoring = true
     private var timer = NSTimer()
+    
     private let motionManager = CMMotionManager()
     private let lowNormalRange = 0.7
     private let highNormalRange = 1.3
@@ -47,14 +45,8 @@ class FWAcceleration : NSObject {
         print(motionManager.accelerometerData?.acceleration.z)
     }
     
-    func completionHandler() {
-        print("completion handler")
-    }
-
     func startMonitoring() {
-        
-        FWNotification.sharedInstance.invalidateTimer()
-        
+
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
         
         if(!motionManager.accelerometerActive) {
@@ -125,7 +117,6 @@ class FWAcceleration : NSObject {
     func falseAlarm() {
         print("False Alarm")
         
-        startMonitoring()
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
         ic.toggleMonitoring()
     }
@@ -149,8 +140,7 @@ class FWAcceleration : NSObject {
             // temporarily stop monitoring
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
             ic.toggleMonitoring()
-            
-            FWNotification.sharedInstance.didUserDismissAlert()
+            ic.presentControllerWithName("FWNotification", context: nil)
         }
     }
 }
