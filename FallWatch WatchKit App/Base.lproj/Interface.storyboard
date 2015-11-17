@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9052" systemVersion="15A282a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9058" systemVersion="15A284" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zPq-JH-64v">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9016"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9019"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -31,10 +31,10 @@
             </objects>
             <point key="canvasLocation" x="220" y="345"/>
         </scene>
-        <!--Interface Controller-->
+        <!--Alert Controller-->
         <scene sceneID="PdW-ZD-xUd">
             <objects>
-                <controller id="zPq-JH-64v">
+                <controller id="zPq-JH-64v" customClass="AlertController" customModule="FallWatch_WatchKit_Extension">
                     <items>
                         <imageView alignment="left" image="top_bar.PNG" id="njR-mD-IIJ"/>
                         <label width="136" height="43" alignment="left" text="Fall Detected Sending SMS in 40s" textAlignment="left" numberOfLines="2" id="Ll1-r2-ZyX">
@@ -43,14 +43,20 @@
                         <button width="1" alignment="left" verticalAlignment="bottom" title="Cancel" id="qn6-ee-12j">
                             <color key="titleColor" red="1" green="0.091490704978799298" blue="0.0096049339501820263" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="font" type="boldSystem" pointSize="15"/>
+                            <connections>
+                                <action selector="cancelButton" destination="zPq-JH-64v" id="KEn-Ga-zfq"/>
+                            </connections>
                         </button>
                         <button width="1" alignment="left" verticalAlignment="bottom" title="Get Help!" id="YwC-j6-4jw">
                             <fontDescription key="font" type="boldSystem" pointSize="15"/>
+                            <connections>
+                                <action selector="helpButton" destination="zPq-JH-64v" id="Fbf-Kb-uhS"/>
+                            </connections>
                         </button>
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="468" y="345"/>
+            <point key="canvasLocation" x="500" y="357"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
