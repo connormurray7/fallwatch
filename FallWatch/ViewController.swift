@@ -17,8 +17,8 @@ protocol ViewControllerDelegate {
 }
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate
-    //UITableViewDataSource
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate,
+    UITableViewDataSource
 {
     var textBody = "Default help request"
     var contactNumber = "2484620038"
@@ -76,9 +76,36 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
-
+        configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    func configureTableView() {
+        tblContacts.delegate = self
+        tblContacts.dataSource = self
+        tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
+        assert(contacts.count > 0)
+        let currentContact = contacts[indexPath.row]
+        
+        cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
+        
+        
+        // Set the contact image.
+        if let imageData = currentContact.imageData {
+            cell.imgContactImage.image = UIImage(data: imageData)
+        }
+        
+        
+        
+        
+        return cell
+    }
+
 
     @IBAction func timer(sender: UISlider) {
         print(sender)
@@ -103,8 +130,10 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBAction func showContacts(sender: AnyObject) {
         let contactPickerViewController = CNContactPickerViewController()
         
-        contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "firstName != nil")
-        
+        contactPickerViewController.predicateForEnablingContact = NSPredicate(format:  "phoneNumbers.@count > 0")
+        contactPickerViewController.predicateForSelectionOfProperty =
+            NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
+
         contactPickerViewController.delegate = self
         
         presentViewController(contactPickerViewController, animated: true, completion: nil)

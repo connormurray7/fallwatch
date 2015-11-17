@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19D3E41BFB314000CCFECE /* ContactCell.swift */; };
 		3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
 		7A5E8C401BF010DD001C194F /* fallwatch_logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3F1BF010DD001C194F /* fallwatch_logo_58x58.png */; };
@@ -75,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D19D3E41BFB314000CCFECE /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
 		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
 		7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				7ACE87BE1BD7FF0F00A6CE7F /* SettingsController.swift */,
 				7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */,
 				3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */,
+				3D19D3E41BFB314000CCFECE /* ContactCell.swift */,
 			);
 			path = FallWatch;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */,
 				7ACE87C11BD7FF7800A6CE7F /* SettingsData.swift in Sources */,
 				7ACE87BF1BD7FF0F00A6CE7F /* SettingsController.swift in Sources */,
 				7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */,

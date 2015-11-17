@@ -10,6 +10,7 @@ import UIKit
 import Contacts
 import HealthKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -34,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(accessGranted: false)
         }
     }
+    //class func getAppDelegate() -> AppDelegate {
+    //    return UIApplication.sharedApplication().delegate as! AppDelegate
+    //}
     class func sharedDelegate() -> AppDelegate {
         return UIApplication.sharedApplication().delegate as! AppDelegate
     }
