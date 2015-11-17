@@ -28,6 +28,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet var addContact: UIBarButtonItem!
     @IBOutlet weak var tblContacts: UITableView!
     @IBOutlet weak var contactView: UIView!
+    @IBOutlet weak var messageView: UIView!
+    @IBOutlet weak var messageTextView: UITextView!
 
     
     @IBAction func timer(sender: UISlider) {
@@ -48,6 +50,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         self.contactView.layer.borderWidth = 1
         self.contactView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
+        self.messageView.layer.borderWidth = 1
+        self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
 
         
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
@@ -105,7 +109,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let twilioSecret = "9a1daecd3a6206463e13259a65001131"
         let fromNumber = "2486483835"
         let toNumber = "2484620038"
-        let message = textBody
+        let message = messageTextView.text
         //let message = "Yo I fell please help me"
         // Build the request
         let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
@@ -202,8 +206,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let fromNumber = "2486483835"
         let toNumber = "2484620038"
         //let message = textBody
-        let message = "Yo I fell please help me"
-        // Build the request
+        let message = messageTextView.text        // Build the request
         let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
         request.HTTPMethod = "POST"
         request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
