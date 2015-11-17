@@ -6,6 +6,7 @@
 //  Copyright © 2015 FallWatch. All rights reserved.
 //
 
+//import HealthKit
 import UIKit
 import Foundation
 import WatchConnectivity
@@ -44,6 +45,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
 
         self.view.backgroundColor = swiftColor
@@ -72,11 +74,11 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let date = (calendar!.dateFromComponents(dateComp))!
         
-        let notification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "This is a notification"
-        notification.fireDate = date
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+//        let notification = UILocalNotification()
+//        notification.category = "FIRST_CATEGORY"
+//        notification.alertBody = "This is a notification"
+//        notification.fireDate = date
+//        UIApplication.sharedApplication().scheduleLocalNotification(notification)
 
         
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
@@ -135,8 +137,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        print("initializing wcsession")
         configureWCSession()
+        
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -146,7 +149,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     
     private func configureWCSession() {
-        session?.delegate = self;
+        session?.delegate = self
         session?.activateSession()
     }
     
@@ -170,27 +173,53 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         
     }
+    
+    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+        print("session ViewController")
+        //        let alert = applicationContext["alert"] as? String
+        let localNotification = message["fireNotification"] as? String
+        
+        //Use this to update the UI instantaneously (otherwise, takes a little while)
+        //        dispatch_async(dispatch_get_main_queue()) {
+        //            if let alert = alert {
+        //                self.alert.text = "Current Status: \(alert)"
+        //                self.textContact()
+        //
+        //            }
+        if let notification = localNotification {
+            let date = NSDate()
+            print("local notification should fire soon")
+            let notification = UILocalNotification()
+            notification.category = "FIRST_CATEGORY"
+            notification.alertBody = "Sending SMS in 40s"
+            notification.alertTitle = "Fall Detected"
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
+    }
+    
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         print("session ViewController")
-        let alert = applicationContext["alert"] as? String
+//        let alert = applicationContext["alert"] as? String
         let localNotification = applicationContext["fireNotification"] as? String
         
         //Use this to update the UI instantaneously (otherwise, takes a little while)
-        dispatch_async(dispatch_get_main_queue()) {
-            if let alert = alert {
-                self.alert.text = "Current Status: \(alert)"
-                self.textContact()
-                
-            } else if let notification = localNotification{
-                
+//        dispatch_async(dispatch_get_main_queue()) {
+//            if let alert = alert {
+//                self.alert.text = "Current Status: \(alert)"
+//                self.textContact()
+//                
+//            }
+            if let notification = localNotification {
+                let date = NSDate()
                 print("local notification should fire soon")
                 let notification = UILocalNotification()
                 notification.category = "FIRST_CATEGORY"
                 notification.alertBody = "Send from FWNotification"
                 notification.alertTitle = "User has fallen"
-                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                notification.fireDate = date.dateByAddingTimeInterval(15)
+                UIApplication.sharedApplication().scheduleLocalNotification(notification)
             }
-        }
+//        }
     }
     func DismissKeyboard(){
         //Causes the view (or one of its embedded text fields) to resign the first responder status.

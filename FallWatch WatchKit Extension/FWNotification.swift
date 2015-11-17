@@ -6,75 +6,58 @@
 //  Copyright © 2015 FallWatch. All rights reserved.
 //
 
-import Foundation
 import WatchKit
 import UIKit
 
-class FWNotification : NSObject {
+class FWNotification : WKInterfaceController {
     
-    static let sharedInstance = FWNotification()
+    @IBOutlet var cancelButton: WKInterfaceButton!
+    @IBOutlet var getHelpButton: WKInterfaceButton!
+    @IBOutlet var notificationLabel: WKInterfaceLabel!
+    @IBOutlet var timeLabel: WKInterfaceLabel!
+
     private var time = 40
     private var seconds = 0
     private var timer = NSTimer()
-    private let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
     
     override init() {
+        super.init()
         print("Singleton init FWNotification: time= \(time)")
+        seconds = time
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
     }
     
-    func invalidateTimer() {
+    @IBAction func notificationDismissed() {
         timer.invalidate()
-    }
-    
-    func setTimer(FWTime: Int) {
-        time = FWTime
-        print("New timer value= \(time)")
-    }
-    
-    func notificationDismissed() {
-        timer.invalidate()
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+        dismissController()
         ic.accMonitor.falseAlarm()
     }
     
-    func helpNeeded() {
+    @IBAction func helpNeeded() {
         timer.invalidate()
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
         ic.accMonitor.trueAlarm()
+        dismissController()
     }
     
     func subtractTime() {
         seconds--
+        timeLabel.setText("\(seconds)s")
         print("Time: \(seconds)")
         
         let hpt = WKInterfaceDevice()
-        hpt.playHaptic(WKHapticType.Failure)
+//        if seconds % 4 == 0 {
+//            hpt.playHaptic(WKHapticType.Failure)
+//        } else 
+        if seconds % 2 == 0 {
+            hpt.playHaptic(WKHapticType.Stop)
+        }
         
         // if user doesn't dismiss alert, fall is legit
         if seconds == 0 {
             print("User didn't dismiss alert. Fall detected.")
             helpNeeded()
         }
-    }
-    
-    func didUserDismissAlert() {
-        // create and send UILocalNotification to iPhone for scheduling
-        fireNotification()
-        seconds = time
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
-    }
-    
-    func fireNotification() {
-        let notification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "Send from FWNotification"
-        notification.alertTitle = "User has fallen"
-        
-        let dict = ["fireNotification": "notify"]
-        
-//        do {
-//            print("Fire Local Notification")
-        ic.session!.sendMessage(dict, replyHandler: nil, errorHandler: {(error) -> Void in print("error") })
-//        } catch {
-//            print("error")
-//        }
     }
 }

@@ -7,9 +7,7 @@
 //
 
 import WatchKit
-import Foundation
 import CoreMotion
-import UIKit
 
 class FWAcceleration : NSObject {
 
@@ -19,6 +17,7 @@ class FWAcceleration : NSObject {
     private var foundAFall = false
     private var stillMonitoring = true
     private var timer = NSTimer()
+    
     private let motionManager = CMMotionManager()
     private let lowNormalRange = 0.7
     private let highNormalRange = 1.3
@@ -30,7 +29,6 @@ class FWAcceleration : NSObject {
     private func checkNormalRange(idx : Int) -> Bool {
         return (accelerationArray[idx] <= highNormalRange && accelerationArray[idx] >= lowNormalRange) ? true : false
     }
-    
 
     // Assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the falling range
 
@@ -46,13 +44,9 @@ class FWAcceleration : NSObject {
         print(motionManager.accelerometerData?.acceleration.y)
         print(motionManager.accelerometerData?.acceleration.z)
     }
-
-    // Begins acceleration monitoring
-
+    
     func startMonitoring() {
-        
-        FWNotification.sharedInstance.invalidateTimer()
-        
+
         assert(motionManager.accelerometerAvailable, "Accelerometer not available on this device!")
         
         if(!motionManager.accelerometerActive) {
@@ -66,9 +60,7 @@ class FWAcceleration : NSObject {
         timer = NSTimer.scheduledTimerWithTimeInterval(1/20, target:self,
             selector: Selector("pushValue:"), userInfo: nil, repeats: stillMonitoring)
     }
-    
 
-    // Begins acceleration monitoring
 
     func stopMonitoring() {
         
@@ -84,7 +76,6 @@ class FWAcceleration : NSObject {
             accelerationArray[i] =  0.0
         }
     }
-    
 
     // Checks the entire array to see if enough variables fall within the falling and still ranges. Returns true if the value falls within the falling range
 
@@ -105,7 +96,8 @@ class FWAcceleration : NSObject {
                 highMag++
             }
         }
-        // if enough values are in the ranges then a fall was found
+        
+        // if enough values are in the ranges, then a fall was found
         return ((normalMag == 30 && highMag >= 1) ? true : false)
     }
 
@@ -125,7 +117,6 @@ class FWAcceleration : NSObject {
     func falseAlarm() {
         print("False Alarm")
         
-        startMonitoring()
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
         ic.toggleMonitoring()
     }
@@ -147,11 +138,9 @@ class FWAcceleration : NSObject {
             print("fall detected")
             
             // temporarily stop monitoring
-            stopMonitoring()
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
             ic.toggleMonitoring()
-            
-            FWNotification.sharedInstance.didUserDismissAlert()
+            ic.presentControllerWithName("FWNotification", context: nil)
         }
     }
 }

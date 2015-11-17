@@ -8,10 +8,12 @@
 
 import UIKit
 import Contacts
+import HealthKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    let healthStore = HKHealthStore()
     var window: UIWindow?
     var store = CNContactStore()
     func checkAccessStatus(completionHandler: (accessGranted: Bool) -> Void) {
@@ -35,6 +37,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     class func sharedDelegate() -> AppDelegate {
         return UIApplication.sharedApplication().delegate as! AppDelegate
     }
+    
+    override init() {
+        healthStore.enableBackgroundDeliveryForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!, frequency: HKUpdateFrequency.Immediate) { (success, nser) -> Void in
+            print("running")
+        }
+    }
 
     func showMessage(message: String) {
         let alertController = UIAlertController(title: "Birthdays", message: message, preferredStyle: UIAlertControllerStyle.Alert)
@@ -56,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Appears in red when the app loads
         let firstAction = UIMutableUserNotificationAction()
         firstAction.identifier = "FIRST_ACTION" // check if the identifier has been checked
-        firstAction.title = "dismiss alert"
+        firstAction.title = "Cancel"
         
         // Mode Background activation, this will update information in the app without launching the app when the user clicks on it.
         firstAction.activationMode = UIUserNotificationActivationMode.Background
@@ -66,25 +74,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Appears in Blue when the app loads
         let secondAction = UIMutableUserNotificationAction()
         secondAction.identifier = "SECOND_ACTION"
-        secondAction.title = "Assist Fallen Person"
+        secondAction.title = "Get Help!"
         // foreground activation, the app will launch when the user activates the notification
         secondAction.activationMode = UIUserNotificationActivationMode.Foreground
         secondAction.destructive = false
         secondAction.authenticationRequired = false
         
-        let thirdAction = UIMutableUserNotificationAction()
-        thirdAction.identifier = "THIRD_ACTION"
-        thirdAction.title = "third action"
-        // foreground activation, the app will launch when the user activates the notification
-        thirdAction.activationMode = UIUserNotificationActivationMode.Foreground
-        thirdAction.destructive = false
-        thirdAction.authenticationRequired = false
+//        let thirdAction = UIMutableUserNotificationAction()
+//        thirdAction.identifier = "THIRD_ACTION"
+//        thirdAction.title = "third action"
+//        // foreground activation, the app will launch when the user activates the notification
+//        thirdAction.activationMode = UIUserNotificationActivationMode.Foreground
+//        thirdAction.destructive = false
+//        thirdAction.authenticationRequired = false
         
         // group actions into a category
         let firstCategory = UIMutableUserNotificationCategory()
         firstCategory.identifier = "FIRST_CATEGORY"
         
-        let defaultActions:NSArray = [firstAction, secondAction, thirdAction]
+        let defaultActions:NSArray = [firstAction, secondAction]
         let minimalAction:NSArray = [firstAction, secondAction]
         // actions that will be displayed in the notification center, log screen and in the banner
         
@@ -131,10 +139,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//        let healthStore = HKHealthStore()
+//        var someSet = Set<HKSampleType>()
+//        someSet.insert(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!)
+//        healthStore.requestAuthorizationToShareTypes(someSet, readTypes: someSet) { (bl : Bool, nser : NSError?) -> Void in
+//            print("in here")
+//        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    // authorization from watch
+    func applicationShouldRequestHealthAuthorization(application: UIApplication) {
+        
+        healthStore.handleAuthorizationForExtensionWithCompletion { success, error in
+            
+        }
     }
 
 }
