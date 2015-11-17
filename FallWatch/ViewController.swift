@@ -12,6 +12,7 @@ import Foundation
 import WatchConnectivity
 import Contacts
 import ContactsUI
+
 //var settingsData = SettingsData()
 
 class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
@@ -159,13 +160,17 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     @IBAction func text(sender: AnyObject) {
         // Use your own details here
-        //for contact in contacts
-        
+        for contact in contacts {
+            let contactDetails = contact.phoneNumbers[0].value as! CNPhoneNumber
+            let toNumber = contactDetails.stringValue
+         //   toNumber = toNumber
+            
+            print ("HELLO", toNumber)
         let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
         let twilioSecret = "9a1daecd3a6206463e13259a65001131"
         let fromNumber = "2486483835"
-        let toNumber = "2484620038"
-        let message = messageTextView.text
+        //let toNumber = "2484620038"
+        let message = "Hello " + contact.givenName + messageTextView.text
         //let message = "Yo I fell please help me"
         // Build the request
         let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
@@ -182,7 +187,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                 // Failure
                 print("Error: \(error)")
             }
-        }).resume()
+        }).resume()}
 
     }
     
@@ -284,10 +289,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     {
         print("TEXT CONTACT")
         // Use your own details here
+        for contact in contacts {
+        let toNumber = contact.phoneNumbers[0]
         let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
         let twilioSecret = "9a1daecd3a6206463e13259a65001131"
         let fromNumber = "2486483835"
-        let toNumber = "2484620038"
+        //let toNumber = "2484620038"
         //let message = textBody
         let message = messageTextView.text        // Build the request
         let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
@@ -305,7 +312,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                 print("Error: \(error)")
             }
         }).resume()
-
+        }
     }
     func showMessage(notification:NSNotification)
     {

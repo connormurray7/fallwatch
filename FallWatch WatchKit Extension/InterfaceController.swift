@@ -11,6 +11,7 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
+    @IBOutlet var messageSentLabel: WKInterfaceLabel!
     @IBOutlet var timeLabel: WKInterfaceLabel!
     @IBOutlet var statusLabel: WKInterfaceLabel!
     @IBOutlet var toggleMonitoringBtn: WKInterfaceButton!
@@ -18,6 +19,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var monitoringOn = false
     var count = 0
     var seconds = 0
+    var enableMonitoring = false
+
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
@@ -35,6 +38,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         if monitoringOn == false {
             print("toggle monitoring on")
             monitoringOn = true
+            messageSentLabel.setText("")
             
             // play haptic to signal monitoring has started
             let hpt = WKInterfaceDevice()
@@ -75,19 +79,33 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        print("awakeWithContext")
+        print("awakeWithContext InterfaceController")
         // configure interface objects here.
     }
     
     override func willActivate() {
         super.willActivate()
-        print("willActivate")
+        print("willActivate InterfaceController")
         // This method is called when watch view controller is about to be visible to user
+        
+        // update inteface to reflect that message was sent
+        if accMonitor.helpNeeded == true {
+            messageSentLabel.setText("Message Sent")
+            accMonitor.helpNeeded = false
+        } else {
+            messageSentLabel.setText("")
+        }
+        
+        // if monitoring needs to be enabled after a false alarm, toggle it on
+        if enableMonitoring == true {
+            toggleMonitoring()
+            enableMonitoring = false
+        }
     }
     
     override func didDeactivate() {
         super.didDeactivate()
-        print("didDeactivate")
+        print("didDeactivate InterfaceController")
         // This method is called when watch view controller is no longer visible
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9052" systemVersion="15A282a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9527.1" systemVersion="15C40a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9016"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9525.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9513.1"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -18,18 +18,23 @@
                                 <action selector="toggleMonitoring" destination="AgC-eL-Hgc" id="iHl-Dp-C7k"/>
                             </connections>
                         </button>
-                        <label width="136" height="60" alignment="center" text="Monitoring Off" textAlignment="center" id="DuN-TO-5NX">
+                        <label width="136" height="33" alignment="center" text="Monitoring Off" textAlignment="center" numberOfLines="2" id="DuN-TO-5NX">
                             <color key="textColor" red="0.79851762820000005" green="0.06102439933" blue="0.19413068380000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="font" type="system" weight="semibold" pointSize="15"/>
+                        </label>
+                        <label alignment="center" textAlignment="center" id="pPs-DI-iOC">
+                            <color key="textColor" red="0.18834999990000001" green="0.47001008989999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="font" type="system" weight="semibold" pointSize="15"/>
                         </label>
                     </items>
                     <connections>
+                        <outlet property="messageSentLabel" destination="pPs-DI-iOC" id="9iF-Bl-2Qq"/>
                         <outlet property="statusLabel" destination="DuN-TO-5NX" id="yhU-JC-OEm"/>
                         <outlet property="toggleMonitoringBtn" destination="4QD-vB-8D7" id="Fqn-WR-Ck1"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="220" y="345"/>
+            <point key="canvasLocation" x="220" y="333"/>
         </scene>
         <!--FWNotification-->
         <scene sceneID="PdW-ZD-xUd">
@@ -67,7 +72,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="545" y="345"/>
+            <point key="canvasLocation" x="374" y="333"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

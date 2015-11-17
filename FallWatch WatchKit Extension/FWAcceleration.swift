@@ -17,6 +17,7 @@ class FWAcceleration : NSObject {
     private var foundAFall = false
     private var stillMonitoring = true
     private var timer = NSTimer()
+    var helpNeeded = false
     
     private let motionManager = CMMotionManager()
     private let lowNormalRange = 0.7
@@ -105,6 +106,7 @@ class FWAcceleration : NSObject {
     
     func trueAlarm() {
         print("True Alarm")
+        helpNeeded = true
         
         // play failure haptic feedback
         let hpt = WKInterfaceDevice()
@@ -118,7 +120,8 @@ class FWAcceleration : NSObject {
         print("False Alarm")
         
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-        ic.toggleMonitoring()
+        ic.enableMonitoring = true
+//        ic.toggleMonitoring()
     }
     
     func pushValue(timer: NSTimer) {
@@ -129,9 +132,9 @@ class FWAcceleration : NSObject {
         
         // magnitude of Acceleration
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
-        for(var i = 0; i < accelerationArray.count; ++i) {
-            print(accelerationArray[i])
-        }
+//        for(var i = 0; i < accelerationArray.count; ++i) {
+//            print(accelerationArray[i])
+//        }=
         
         // fall detected
         if checkFlags() {
@@ -140,7 +143,7 @@ class FWAcceleration : NSObject {
             // temporarily stop monitoring
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
             ic.toggleMonitoring()
-            ic.presentControllerWithName("FWNotification", context: nil)
+            ic.presentControllerWithName("FWNotification", context: ic.settingsContext)
         }
     }
 }
