@@ -17,7 +17,8 @@ protocol ViewControllerDelegate {
 }
 //var settingsData = SettingsData()
 
-class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate//, UITableViewDataSource
+class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, CNContactPickerDelegate
+    //UITableViewDataSource
 {
     var textBody = "Default help request"
     var contactNumber = "2484620038"
@@ -32,29 +33,17 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageTextView: UITextView!
 
-    
-    @IBAction func timer(sender: UISlider) {
-        print(sender)
-        let num = Float(sender.value)
-        let val = Int(num)
-        timeLabel.text = "\(val)"
-        
-        //settingsData.setTimer(val)
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
-
+        
         self.view.backgroundColor = swiftColor
         
         self.contactView.layer.borderWidth = 1
         self.contactView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
         self.messageView.layer.borderWidth = 1
         self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
-
+        
         
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
@@ -74,12 +63,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let date = (calendar!.dateFromComponents(dateComp))!
         
-//        let notification = UILocalNotification()
-//        notification.category = "FIRST_CATEGORY"
-//        notification.alertBody = "This is a notification"
-//        notification.fireDate = date
-//        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-
+        //        let notification = UILocalNotification()
+        //        notification.category = "FIRST_CATEGORY"
+        //        notification.alertBody = "This is a notification"
+        //        notification.fireDate = date
+        //        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
         
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
         defaults.setInteger(30, forKey: "countdown")
@@ -87,7 +76,26 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
+
         // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    @IBAction func timer(sender: UISlider) {
+        print(sender)
+        let num = Float(sender.value)
+        let val = Int(num)
+        timeLabel.text = "\(val)"
+        
+        //settingsData.setTimer(val)
+
+    }
+
+    func didFetchContacts(contacts: [CNContact]) {
+        for contact in contacts {
+            self.contacts.append(contact)
+        }
+        
+        tblContacts.reloadData()
     }
 
 
@@ -101,6 +109,28 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         presentViewController(contactPickerViewController, animated: true, completion: nil)
     }
+    func contactPicker(picker: CNContactPickerViewController,
+        didSelectContacts contacts: [CNContact]) {
+            print("Selected \(contacts.count) contacts")
+    }
+    
+    //allows multiple selection mixed with contactPicker:didSelectContacts:
+    func example5(){
+        let controller = CNContactPickerViewController()
+        
+        controller.delegate = self
+        
+        controller.predicateForEnablingContact =
+            NSPredicate(format:
+                "phoneNumbers.@count > 0",
+                argumentArray: nil)
+        
+        controller.predicateForSelectionOfProperty =
+            NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
+        
+        navigationController?.presentViewController(controller,
+            animated: true, completion: nil)    }
+
     @IBOutlet var messageEdit: UITextField!
     @IBAction func messageEdit(sender: AnyObject) {
         textBody = messageText.text!
