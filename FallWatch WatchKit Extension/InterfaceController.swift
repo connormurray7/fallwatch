@@ -16,6 +16,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var timeLabel: WKInterfaceLabel!
     @IBOutlet var statusLabel: WKInterfaceLabel!
     @IBOutlet var toggleMonitoringBtn: WKInterfaceButton!
+    var workoutSession: HKWorkoutSession?
     var monitoringOn = false
     var count = 0
     let accMonitor = FWAcceleration()
@@ -23,7 +24,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var seconds = 0
     // connect watch to iphone
     let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
-    // let healthStore = HKHealthStore()
+     let healthStore = HKHealthStore()
     // let workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Unknown)
     
     override init() {
@@ -31,6 +32,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session?.delegate = self
         session?.activateSession()
         print("init InterfaceController")
+        
+        workoutSession = HKWorkoutSession(activityType: HKWorkoutActivityType.Other, locationType: HKWorkoutSessionLocationType.Indoor)
     }
     
     @IBAction func toggleMonitoring() {
@@ -50,6 +53,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             toggleMonitoringBtn.setTitle("STOP Monitoring")
             statusLabel.setTextColor(UIColor.greenColor())
             statusLabel.setText("Monitoring On")
+            
+            healthStore.startWorkoutSession(workoutSession!)
         }
             
         else {
@@ -66,6 +71,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             toggleMonitoringBtn.setTitle("START Monitoring")
             statusLabel.setTextColor(UIColor.redColor())
             statusLabel.setText("Monitoring Off")
+            
+            healthStore.endWorkoutSession(workoutSession!)
             
         }
     }
@@ -91,6 +98,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         super.willActivate()
         print("willActivate")
         // This method is called when watch view controller is about to be visible to user
+        
+//        var someSet = Set<HKSampleType>()
+//        someSet.insert(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!)
+//        print("cool")
+//        healthStore.requestAuthorizationToShareTypes(nil, readTypes: someSet) { (bl : Bool, nser : NSError?) -> Void in
+//            print("in here")
+//        }
     }
     
     override func didDeactivate() {

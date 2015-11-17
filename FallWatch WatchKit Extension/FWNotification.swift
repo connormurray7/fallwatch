@@ -45,8 +45,12 @@ class FWNotification : NSObject {
         seconds--
         print("Time: \(seconds)")
         
-        let hpt = WKInterfaceDevice()
-        hpt.playHaptic(WKHapticType.Failure)
+//        let hpt = WKInterfaceDevice()
+//        if(seconds % 2 == 0) {
+//            hpt.playHaptic(WKHapticType.Failure)
+//        } else {
+//            hpt.playHaptic(WKHapticType.Retry)
+//        }
         
         // if user doesn't dismiss alert, fall is legit
         if seconds == 0 {
@@ -60,13 +64,10 @@ class FWNotification : NSObject {
         fireNotification()
         seconds = time
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
+        print("didUserDismissAlert")
     }
     
     func fireNotification() {
-        let notification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "Send from FWNotification"
-        notification.alertTitle = "User has fallen"
         
         let dict = ["fireNotification": "notify"]
         

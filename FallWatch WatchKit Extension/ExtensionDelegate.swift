@@ -7,8 +7,11 @@
 //
 
 import WatchKit
+import HealthKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
+    
+    let healthStore = HKHealthStore()
 
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
@@ -26,12 +29,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         print("applicationWillResignActive")
     }
     
-    func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
-        
-        if identifier == "cancelButtonPressed" {
+    func handleActionWithIdentifier(identifier: String?, forLocalNotification localNotification: UILocalNotification) {
+        if identifier == "FIRST_ACTION" {
             FWNotification.sharedInstance.notificationDismissed()
-        }
-        else if identifier == "helpButtonPressed" {
+        } else if identifier == "SECOND_ACTION" {
             FWNotification.sharedInstance.helpNeeded()
         }
     }
