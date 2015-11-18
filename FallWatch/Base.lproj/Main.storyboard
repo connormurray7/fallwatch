@@ -40,10 +40,10 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nuU-SX-orw">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nuU-SX-orw">
                                 <rect key="frame" x="-6" y="161" width="387" height="46"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scS-Vs-IBg">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scS-Vs-IBg">
                                         <rect key="frame" x="50" y="11" width="74" height="23"/>
                                         <animations/>
                                         <attributedString key="attributedText">
@@ -56,32 +56,12 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HHs-qt-Yfc">
-                                        <rect key="frame" x="231" y="6" width="55" height="32"/>
-                                        <animations/>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="Text">
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.8571456755050505" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <font key="NSFont" size="17" name="AvenirNext-Regular"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
-                                        <connections>
-                                            <action selector="text:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x78-1v-5I7"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="HHs-qt-Yfc" firstAttribute="top" secondItem="nuU-SX-orw" secondAttribute="top" constant="6" id="CXS-Zq-v5t"/>
-                                    <constraint firstAttribute="trailing" secondItem="HHs-qt-Yfc" secondAttribute="trailing" constant="101" id="RK9-2u-nEI"/>
                                     <constraint firstItem="scS-Vs-IBg" firstAttribute="leading" secondItem="nuU-SX-orw" secondAttribute="leading" constant="50" id="SBB-uO-Rtb"/>
                                     <constraint firstItem="scS-Vs-IBg" firstAttribute="centerY" secondItem="nuU-SX-orw" secondAttribute="centerY" constant="-0.5" id="eHd-ZV-r23"/>
-                                    <constraint firstItem="scS-Vs-IBg" firstAttribute="baseline" secondItem="HHs-qt-Yfc" secondAttribute="baseline" id="nfH-ZR-Iaf"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HhD-L9-apS">
