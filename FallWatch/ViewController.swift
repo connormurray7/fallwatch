@@ -19,7 +19,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     UITableViewDataSource
 {
     var textBody = "Default help request"
-    var contactNumber = "2484620038"
     var contacts = [CNContact]()
     @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
@@ -29,11 +28,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var contactView: UIView!
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageTextView: UITextView!
-
+    @IBOutlet var messageEdit: UITextField!
+    @IBOutlet weak var alert: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
         
+        let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
         self.view.backgroundColor = swiftColor
         
         self.contactView.layer.borderWidth = 1
@@ -59,37 +61,25 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         timerSegment.layer.cornerRadius = 5.0
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let date = (calendar!.dateFromComponents(dateComp))!
-        
-        //        let notification = UILocalNotification()
-        //        notification.category = "FIRST_CATEGORY"
-        //        notification.alertBody = "This is a notification"
-        //        notification.fireDate = date
-        //        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-        
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
         defaults.setInteger(30, forKey: "countdown")
         defaults.synchronize()
         AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
-        print("HELLO TEST")
         configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-
+    
+    
     @IBAction func timer(sender: UISlider) {
         print(sender)
         let num = Float(sender.value)
         let val = Int(num)
         timeLabel.text = "\(val)"
-        
-        //settingsData.setTimer(val)
-
     }
     
-    //CONTACT PICKER FUNCTIONS
+    //Functions for selecting/adding contacts
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
@@ -109,7 +99,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         return cell
     }
-
+    
     func didFetchContacts(contacts: [CNContact]) {
         for contact in contacts {
             self.contacts.append(contact)
@@ -118,14 +108,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         tblContacts.reloadData()
     }
-
+    
     @IBAction func showContacts(sender: AnyObject) {
         let contactPickerViewController = CNContactPickerViewController()
         
         contactPickerViewController.predicateForEnablingContact = NSPredicate(format:  "phoneNumbers.@count > 0")
         contactPickerViewController.predicateForSelectionOfProperty =
             NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
-
+        
         contactPickerViewController.delegate = self
         
         presentViewController(contactPickerViewController, animated: true, completion: nil)
@@ -133,7 +123,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     func contactPicker(picker: CNContactPickerViewController,
         didSelectContacts contacts: [CNContact]) {
             didFetchContacts(contacts)
-            print("Selected \(contacts.count) contacts")
     }
     
     //allows multiple selection mixed with contactPicker:didSelectContacts:
@@ -153,45 +142,39 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         navigationController?.presentViewController(controller,
             animated: true, completion: nil)
     }
-    //
-    @IBOutlet var messageEdit: UITextField!
+    
     @IBAction func messageEdit(sender: AnyObject) {
         textBody = messageText.text!
     }
+    //Request Twilio to send text message each selected contacts
     @IBAction func text() {
         // Use your own details here
         for contact in contacts {
             let contactDetails = contact.phoneNumbers[0].value as! CNPhoneNumber
             let toNumber = contactDetails.stringValue
-         //   toNumber = toNumber
+            let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
+            let twilioSecret = "9a1daecd3a6206463e13259a65001131"
+            let fromNumber = "2486483835"
+            let message = "Hello " + contact.givenName + messageTextView.text
+            // Build the request
+            let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
+            request.HTTPMethod = "POST"
+            request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
             
-            print ("HELLO", toNumber)
-        let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
-        let twilioSecret = "9a1daecd3a6206463e13259a65001131"
-        let fromNumber = "2486483835"
-        //let toNumber = "2484620038"
-        let message = "Hello " + contact.givenName + messageTextView.text
-        //let message = "Yo I fell please help me"
-        // Build the request
-        let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
+            // Build the completion block and send the request
+            NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
+                print("Finished")
+                if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                    // Success
+                    print("Response: \(responseDetails)")
+                } else {
+                    // Failure
+                    print("Error: \(error)")
+                }
+            }).resume()}
         
-        // Build the completion block and send the request
-        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-            print("Finished")
-            if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                // Success
-                print("Response: \(responseDetails)")
-            } else {
-                // Failure
-                print("Error: \(error)")
-            }
-        }).resume()}
-
     }
-    
-    @IBOutlet weak var alert: UILabel!
+    //Functions for connecting watch/phone, sending timer info, triggering text messages.
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
     required init?(coder aDecoder: NSCoder) {
@@ -203,7 +186,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
         configureWCSession()
     }
     
@@ -212,39 +194,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
-    func acknowledgeAlert(notification:NSNotification)
-    {
-        /*
-        let view:UIView = UIView(frame: CGRectMake(100, 100, 100, 100))
-        
-        view.backgroundColor = UIColor.redColor()
-        
-        self.view.addSubview(view)
-        */
-        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-        label.center = CGPointMake(160, 284)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = "A family member has fallen"
-        label.textColor = UIColor.redColor()
-        self.view.addSubview(label)
-        print("handle the case in which people fall")
-        
-        
-        
-    }
-    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print("session ViewController")
-        //        let alert = applicationContext["alert"] as? String
         let localNotification = message["fireNotification"] as? String
-        
-        //Use this to update the UI instantaneously (otherwise, takes a little while)
-        //        dispatch_async(dispatch_get_main_queue()) {
-        //            if let alert = alert {
-        //                self.alert.text = "Current Status: \(alert)"
-        //                self.textContact()
-        //
-        //            }
         if let notification = localNotification {
             let date = NSDate()
             print("local notification should fire soon")
@@ -269,47 +221,30 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
-
-    func textContact()
+    
+    
+    func acknowledgeAlert(notification:NSNotification)
     {
-        print("TEXT CONTACT")
-        // Use your own details here
-        for contact in contacts {
-        let toNumber = contact.phoneNumbers[0]
-        let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
-        let twilioSecret = "9a1daecd3a6206463e13259a65001131"
-        let fromNumber = "2486483835"
-        //let toNumber = "2484620038"
-        //let message = textBody
-        let message = messageTextView.text        // Build the request
-        let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
-        
-        // Build the completion block and send the request
-        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-            print("Finished")
-            if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                // Success
-                print("Response: \(responseDetails)")
-            } else {
-                // Failure
-                print("Error: \(error)")
-            }
-        }).resume()
-        }
+        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+        label.center = CGPointMake(160, 284)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = "A family member has fallen"
+        label.textColor = UIColor.redColor()
+        self.view.addSubview(label)
+        print("handle the case in which people fall")
     }
+    
     func showMessage(notification:NSNotification)
     {
         let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
         
         message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
         
-       // self.presentedViewController(message, animated: true, completion: nil)
+        // self.presentedViewController(message, animated: true, completion: nil)
         self.presentViewController(message, animated: true, completion: nil)
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -320,26 +255,24 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         var selection = 20
         switch sender.selectedSegmentIndex
         {
-            case 0:
-                selection = 20
-            case 1:
-                selection = 40
-            case 2:
-                selection = 60
-            default:
-                break
+        case 0:
+            selection = 20
+        case 1:
+            selection = 40
+        case 2:
+            selection = 60
+        default:
+            break
             
         }
         print(selection)
         SettingsData.sharedInstance.setTimer(selection)
         let dict = ["timer": selection]
         sendWatchTimerAndContactInfo(dict)
-        
-        
     }
     
     func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject]) {
-        print("sendind info to watch")
+        print("sending info to watch")
         
         do {
             print("Send alert")
@@ -350,7 +283,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
     }
     
-
-
+    
+    
 }
 
