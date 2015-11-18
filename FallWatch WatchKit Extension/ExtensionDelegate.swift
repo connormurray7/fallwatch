@@ -28,13 +28,4 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // Use this method to pause ongoing tasks, disable timers, etc.
         print("applicationWillResignActive")
     }
-    
-    func handleActionWithIdentifier(identifier: String?, forLocalNotification localNotification: UILocalNotification) {
-        if identifier == "FIRST_ACTION" {
-            //FWNotification.sharedInstance.notificationDismissed()
-        } else if identifier == "SECOND_ACTION" {
-            //FWNotification.sharedInstance.helpNeeded()
-        }
-    }
-
 }

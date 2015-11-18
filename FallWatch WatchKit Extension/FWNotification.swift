@@ -51,9 +51,6 @@ class FWNotification : WKInterfaceController {
         buttonPressed = true
         dismissController()
     }
-    func setTime(time_in : Int) {
-        time = time_in;
-    }
     
     func subtractTime() {
         time--

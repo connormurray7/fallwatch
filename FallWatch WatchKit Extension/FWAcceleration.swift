@@ -25,19 +25,19 @@ class FWAcceleration : NSObject {
     private let lowFallingRange = 2.3
     private let highFallingRange = 5.5
 
-    // Assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the normal range
+    // assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the normal range
 
     private func checkNormalRange(idx : Int) -> Bool {
         return (accelerationArray[idx] <= highNormalRange && accelerationArray[idx] >= lowNormalRange) ? true : false
     }
 
-    // Assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the falling range
+    // assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the falling range
 
     private func checkFallingRange(idx : Int) -> Bool {
         return (accelerationArray[idx] < highFallingRange && accelerationArray[idx] > lowFallingRange) ? true : false
     }
     
-    // Allows for logging
+    // allows for logging
     
     private func log() {
         print(NSDate().timeIntervalSince1970*1000)
@@ -78,7 +78,7 @@ class FWAcceleration : NSObject {
         }
     }
 
-    // Checks the entire array to see if enough variables fall within the falling and still ranges. Returns true if the value falls within the falling range
+    // checks the entire array to see if enough variables fall within the falling and still ranges. Returns true if the value falls within the falling range
 
     private func checkFlags() -> Bool {
         
@@ -102,7 +102,7 @@ class FWAcceleration : NSObject {
         return ((normalMag == 30 && highMag >= 1) ? true : false)
     }
 
-    // This functions rotates the acceleration array and adds the new value from the acceleromter. It then checks the flags to see if there was a fall.
+    // this functions rotates the acceleration array and adds the new value from the acceleromter. It then checks the flags to see if there was a fall.
     
     func trueAlarm() {
         print("True Alarm")
@@ -124,7 +124,6 @@ class FWAcceleration : NSObject {
         
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
         ic.enableMonitoring = true
-//        ic.toggleMonitoring()
     }
     
     func pushValue(timer: NSTimer) {
@@ -133,11 +132,8 @@ class FWAcceleration : NSObject {
 
         accelerationArray.rotate()
         
-        // magnitude of Acceleration
+        // magnitude of acceleration
         accelerationArray[0] = sqrt(a!.x*a!.x + a!.y*a!.y + a!.z*a!.z)
-//        for(var i = 0; i < accelerationArray.count; ++i) {
-//            print(accelerationArray[i])
-//        }=
         
         // fall detected
         if checkFlags() {
