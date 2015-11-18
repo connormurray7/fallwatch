@@ -84,13 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         secondAction.destructive = false
         secondAction.authenticationRequired = false
         
-//        let thirdAction = UIMutableUserNotificationAction()
-//        thirdAction.identifier = "THIRD_ACTION"
-//        thirdAction.title = "third action"
-//        // foreground activation, the app will launch when the user activates the notification
-//        thirdAction.activationMode = UIUserNotificationActivationMode.Foreground
-//        thirdAction.destructive = false
-//        thirdAction.authenticationRequired = false
+
         
         // group actions into a category
         let firstCategory = UIMutableUserNotificationCategory()
@@ -143,12 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//        let healthStore = HKHealthStore()
-//        var someSet = Set<HKSampleType>()
-//        someSet.insert(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!)
-//        healthStore.requestAuthorizationToShareTypes(someSet, readTypes: someSet) { (bl : Bool, nser : NSError?) -> Void in
-//            print("in here")
-//        }
+
     }
 
     func applicationWillTerminate(application: UIApplication) {

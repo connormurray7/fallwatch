@@ -26,8 +26,6 @@
 		7ACE87AB1BD7F96A00A6CE7F /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */; };
 		7ACE87AD1BD7F96A00A6CE7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */; };
 		7ACE87BD1BD7F9C000A6CE7F /* FWAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */; };
-		7ACE87BF1BD7FF0F00A6CE7F /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87BE1BD7FF0F00A6CE7F /* SettingsController.swift */; };
-		7ACE87C11BD7FF7800A6CE7F /* SettingsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */; };
 		7ADBF8D31BFA660600C3A61B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADBF8D21BFA660600C3A61B /* HealthKit.framework */; };
 		809948221BF53AA50006522D /* FWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809948211BF53AA50006522D /* FWNotification.swift */; };
 /* End PBXBuildFile section */
@@ -102,8 +100,6 @@
 		7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7ACE87AE1BD7F96A00A6CE7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWAcceleration.swift; sourceTree = "<group>"; };
-		7ACE87BE1BD7FF0F00A6CE7F /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
-		7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsData.swift; sourceTree = "<group>"; };
 		7ADBF8D21BFA660600C3A61B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		809948211BF53AA50006522D /* FWNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,8 +154,6 @@
 				7ACE87881BD7F96A00A6CE7F /* Assets.xcassets */,
 				7ACE878A1BD7F96A00A6CE7F /* LaunchScreen.storyboard */,
 				7ACE878D1BD7F96A00A6CE7F /* Info.plist */,
-				7ACE87BE1BD7FF0F00A6CE7F /* SettingsController.swift */,
-				7ACE87C01BD7FF7800A6CE7F /* SettingsData.swift */,
 				3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */,
 				3D19D3E41BFB314000CCFECE /* ContactCell.swift */,
 				3DD02B551BFBCDF900009A93 /* ContactCell.xib */,
@@ -362,8 +356,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */,
-				7ACE87C11BD7FF7800A6CE7F /* SettingsData.swift in Sources */,
-				7ACE87BF1BD7FF0F00A6CE7F /* SettingsController.swift in Sources */,
 				7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */,
 				3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */,
 				7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */,
