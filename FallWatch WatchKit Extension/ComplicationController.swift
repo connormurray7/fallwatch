@@ -24,7 +24,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         if complication.family == .ModularSmall {
             
             let complicationTemplate = CLKComplicationTemplateModularSmallSimpleImage()
-            let fwLogo = UIImage(named: "beer_glass")
+            let fwLogo = UIImage(named: "fallwatch_logo_58x58.png")
             assert(fwLogo != nil)
             complicationTemplate.imageProvider = CLKImageProvider(onePieceImage: fwLogo!)
             

@@ -18,7 +18,6 @@ class FWNotification : WKInterfaceController {
     @IBOutlet var timeLabel: WKInterfaceLabel!
 
     private var time = 40
-//    private var seconds = 0
     private var timer = NSTimer()
     private var buttonPressed = false
     
@@ -28,9 +27,6 @@ class FWNotification : WKInterfaceController {
         
         // hides the cancel button
         setTitle("")
-
-        // set countdown seconds to stored time value
-//        seconds = time
         
         // start countdown
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
@@ -82,10 +78,9 @@ class FWNotification : WKInterfaceController {
         super.awakeWithContext(context)
         print("awakeWithContext FWNotification")
         // configure interface objects here.
-        print("\(context!["timer"])")
-
-        let settings = context as! Dictionary<String, Int>
-        time = settings["timer"]!
+        
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+        time = ic.defaults.integerForKey("timer")
     }
     
     override func willActivate() {
@@ -97,6 +92,7 @@ class FWNotification : WKInterfaceController {
     override func didDeactivate() {
         super.didDeactivate()
         print("didDeactivate FWNotification")
+        timer.invalidate()
         // this method is called when watch view controller is no longer visible
         
         // treats a press to upper left corner the same as pressing cancel

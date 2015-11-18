@@ -115,8 +115,7 @@ class FWAcceleration : NSObject {
         // send text/get help
         let message = ["needsHelp" : true]
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-        
-        do{try ic.session?.updateApplicationContext(message)} catch {print("error")}
+        do {try ic.session?.updateApplicationContext(message)} catch {print("error")}
     }
     
     // resume monitoring
@@ -147,7 +146,7 @@ class FWAcceleration : NSObject {
             // temporarily stop monitoring
             let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
             ic.toggleMonitoring()
-            ic.presentControllerWithName("FWNotification", context: ic.settingsContext)
+            ic.presentControllerWithName("FWNotification", context: nil)
         }
     }
 }
