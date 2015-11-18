@@ -13,7 +13,7 @@ import WatchConnectivity
 import Contacts
 import ContactsUI
 
-//var settingsData = SettingsData()
+
 
 class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
     UITableViewDataSource
@@ -51,16 +51,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
         view.addGestureRecognizer(tap)
         
-        let dateComp = NSDateComponents()
-        dateComp.year = 2015
-        dateComp.month = 10
-        dateComp.day = 25
-        dateComp.hour = 15
-        dateComp.minute = 52 // when simulating modify hour/minute/day/month
-        dateComp.timeZone = NSTimeZone.systemTimeZone()
+        
         timerSegment.layer.cornerRadius = 5.0
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let date = (calendar!.dateFromComponents(dateComp))!
+        
         let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
         defaults.setInteger(30, forKey: "countdown")
         defaults.synchronize()
@@ -73,6 +66,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     
     @IBAction func timer(sender: UISlider) {
+        print("yes im in timer")
         print(sender)
         let num = Float(sender.value)
         let val = Int(num)
@@ -197,8 +191,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print("session ViewController")
         let localNotification = message["fireNotification"] as? String
-        if let notification = localNotification {
-            let date = NSDate()
+        if localNotification != nil {
             print("local notification should fire soon")
             let notification = UILocalNotification()
             notification.category = "FIRST_CATEGORY"
@@ -240,7 +233,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
         
-        // self.presentedViewController(message, animated: true, completion: nil)
+        
         self.presentViewController(message, animated: true, completion: nil)
         
     }
@@ -266,7 +259,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             
         }
         print(selection)
-        SettingsData.sharedInstance.setTimer(selection)
+        
         let dict = ["timer": selection]
         sendWatchTimerAndContactInfo(dict)
     }
