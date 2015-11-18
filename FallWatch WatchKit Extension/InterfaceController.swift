@@ -112,4 +112,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         print("didDeactivate InterfaceController")
         // this method is called when watch view controller is no longer visible
     }
+    
+    override func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
+        let fromComplication = ["fromComplication" : true]
+        presentControllerWithName("FWNotification", context: fromComplication)
+    }
 }
