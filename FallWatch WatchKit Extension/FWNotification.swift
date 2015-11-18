@@ -18,7 +18,7 @@ class FWNotification : WKInterfaceController {
     @IBOutlet var timeLabel: WKInterfaceLabel!
 
     private var time = 40
-    private var seconds = 0
+//    private var seconds = 0
     private var timer = NSTimer()
     private var buttonPressed = false
     
@@ -30,7 +30,7 @@ class FWNotification : WKInterfaceController {
         setTitle("")
 
         // set countdown seconds to stored time value
-        seconds = time
+//        seconds = time
         
         // start countdown
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
@@ -60,19 +60,19 @@ class FWNotification : WKInterfaceController {
     }
     
     func subtractTime() {
-        seconds--
+        time--
         
-        timeLabel.setText("\(seconds)s")
-        print("Time: \(seconds)")
+        timeLabel.setText("\(time)s")
+        print("Time: \(time)")
         
         // play haptic to remind user that time is ticking!
         let hpt = WKInterfaceDevice()
-        if seconds % 2 == 0 {
+        if time % 2 == 0 {
             hpt.playHaptic(WKHapticType.Stop)
         }
         
         // if user doesn't dismiss alert before countdown expires, fall is legit
-        if seconds == 0 {
+        if time == 0 {
             print("User didn't dismiss alert. Fall detected.")
             helpNeeded()
         }
@@ -82,6 +82,7 @@ class FWNotification : WKInterfaceController {
         super.awakeWithContext(context)
         print("awakeWithContext FWNotification")
         // configure interface objects here.
+        print("\(context!["timer"])")
 
         let settings = context as! Dictionary<String, Int>
         time = settings["timer"]!

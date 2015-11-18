@@ -20,11 +20,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var count = 0
     var seconds = 0
     var enableMonitoring = false
+    var settings = NSUserDefaults(user: "group.me.fallwatch.FallWatch.defaults")
 
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
-    var settingsContext : [String : Int]
+    var settingsContext = Dictionary<String, Int>()
     
     override init() {
         super.init()
@@ -74,6 +75,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         // use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
             self.settingsContext = applicationContext as! [String : Int]
+            print("SetTiem: \(applicationContext["timer"])")
+            self.settings?.setInteger(applicationContext["timer"] as! Int, forKey: "timer")
         }
     }
     

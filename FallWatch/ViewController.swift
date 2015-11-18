@@ -158,7 +158,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBAction func messageEdit(sender: AnyObject) {
         textBody = messageText.text!
     }
-    @IBAction func text(sender: AnyObject) {
+    @IBAction func text() {
         // Use your own details here
         for contact in contacts {
             let contactDetails = contact.phoneNumbers[0].value as! CNPhoneNumber
@@ -258,28 +258,13 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         print("session ViewController")
-//        let alert = applicationContext["alert"] as? String
-        let localNotification = applicationContext["fireNotification"] as? String
-        
-        //Use this to update the UI instantaneously (otherwise, takes a little while)
-//        dispatch_async(dispatch_get_main_queue()) {
-//            if let alert = alert {
-//                self.alert.text = "Current Status: \(alert)"
-//                self.textContact()
-//                
-//            }
-            if let notification = localNotification {
-                let date = NSDate()
-                print("local notification should fire soon")
-                let notification = UILocalNotification()
-                notification.category = "FIRST_CATEGORY"
-                notification.alertBody = "Send from FWNotification"
-                notification.alertTitle = "User has fallen"
-                notification.fireDate = date.dateByAddingTimeInterval(15)
-                UIApplication.sharedApplication().scheduleLocalNotification(notification)
-            }
-//        }
+        let helpNeeded = applicationContext["message"] as! Bool
+        if helpNeeded == true {
+            // send text msg
+            text()
+        }
     }
+    
     func DismissKeyboard(){
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)

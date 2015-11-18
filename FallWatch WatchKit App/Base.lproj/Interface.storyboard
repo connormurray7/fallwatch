@@ -44,7 +44,7 @@
                         <label width="136" height="36" alignment="left" text="Fall Detected! Sending SMS in..." textAlignment="center" numberOfLines="2" id="Ll1-r2-ZyX">
                             <fontDescription key="font" type="boldSystem" pointSize="15"/>
                         </label>
-                        <label width="60" height="36" alignment="center" text="40s" textAlignment="center" id="1H6-1u-6xg">
+                        <label width="60" height="36" alignment="center" textAlignment="center" id="1H6-1u-6xg">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="font" type="boldSystem" pointSize="21"/>
                         </label>

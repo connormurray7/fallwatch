@@ -113,6 +113,10 @@ class FWAcceleration : NSObject {
         hpt.playHaptic(WKHapticType.Failure)
         
         // send text/get help
+        let message = ["needsHelp" : true]
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+        
+        do{try ic.session?.updateApplicationContext(message)} catch {print("error")}
     }
     
     // resume monitoring
