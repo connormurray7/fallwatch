@@ -258,7 +258,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         print("session ViewController")
-        let helpNeeded = applicationContext["message"] as! Bool
+        let helpNeeded = applicationContext["needsHelp"] as! Bool
         if helpNeeded == true {
             // send text msg
             text()
