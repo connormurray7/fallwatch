@@ -20,12 +20,10 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var count = 0
     var seconds = 0
     var enableMonitoring = false
-    var settings = NSUserDefaults(user: "group.me.fallwatch.FallWatch.defaults")
 
     let accMonitor = FWAcceleration()
-    let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+    let defaults = NSUserDefaults(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
-    var settingsContext = Dictionary<String, Int>()
     
     override init() {
         super.init()
@@ -57,6 +55,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         else {
             monitoringOn = false
             print("toggle monitoring off")
+            
             // play haptic to signal monitoring has ended
             let hpt = WKInterfaceDevice()
             hpt.playHaptic(WKHapticType.Stop)
@@ -74,9 +73,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         // use this to update the UI instantaneously (otherwise, takes a little while)
         dispatch_async(dispatch_get_main_queue()) {
-            self.settingsContext = applicationContext as! [String : Int]
-            print("SetTiem: \(applicationContext["timer"])")
-            self.settings?.setInteger(applicationContext["timer"] as! Int, forKey: "timer")
+            let settingsContext = applicationContext as! [String : Int]
+            if let timer = settingsContext["timer"] {
+                self.defaults.setInteger(timer, forKey: "timer")
+            }
+            print("SetTime: \(settingsContext["timer"])")
         }
     }
     
@@ -89,7 +90,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func willActivate() {
         super.willActivate()
         print("willActivate InterfaceController")
-        // This method is called when watch view controller is about to be visible to user
+        // this method is called when watch view controller is about to be visible to user
         
         // update inteface to reflect that message was sent
         if accMonitor.helpNeeded == true {
@@ -109,6 +110,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func didDeactivate() {
         super.didDeactivate()
         print("didDeactivate InterfaceController")
-        // This method is called when watch view controller is no longer visible
+        // this method is called when watch view controller is no longer visible
     }
 }
