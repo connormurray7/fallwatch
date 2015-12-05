@@ -20,6 +20,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
 {
     var textBody = "Default help request"
     var contacts = [CNContact]()
+    //let defaults:NSUSerDefaults?
+    var defaults: NSUserDefaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
@@ -30,6 +32,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet var messageEdit: UITextField!
     @IBOutlet weak var alert: UILabel!
+    @IBOutlet weak var segmentLabel: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -54,24 +57,31 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         timerSegment.layer.cornerRadius = 5.0
         
-        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
-        defaults.setInteger(30, forKey: "countdown")
-        defaults.synchronize()
-        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
+        
+        var time:Int = defaults.integerForKey("countdown")
+        let index:Int = defaults.integerForKey("segmentIndex")
+        // this check is for the first time the user opens the app
+        if time == 0 {
+            time = 20
+        }
+        let title = String(time) + " s"
+        segmentLabel.insertSegmentWithTitle(title, atIndex: index, animated: true)
+        // get contacts from NSDefaults
+        let recoverContacts = defaults.objectForKey("contacts")
+        if recoverContacts != nil{
+            contacts = recoverContacts as! [CNContact]
+        }
+        let dict = ["contacts": contacts.count]
+        sendWatchTimerAndContactInfo(dict)
+        
+       AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
         configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    
-    @IBAction func timer(sender: UISlider) {
-        print("yes im in timer")
-        print(sender)
-        let num = Float(sender.value)
-        let val = Int(num)
-        timeLabel.text = "\(val)"
-    }
+   
     
     //Functions for selecting/adding contacts
     
@@ -97,9 +107,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     func didFetchContacts(contacts: [CNContact]) {
         for contact in contacts {
             self.contacts.append(contact)
+            
             print(contact.givenName)
         }
-        
+        // save all the contacts
+        defaults.setObject(self.contacts, forKey: "contacts")
+        defaults.synchronize()
         tblContacts.reloadData()
     }
     
@@ -246,20 +259,27 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBAction func segmentPressed(sender: UISegmentedControl) {
         
         var selection = 20
+        var index = 0
         switch sender.selectedSegmentIndex
         {
         case 0:
             selection = 20
+            index = 0
         case 1:
             selection = 40
+            index = 1
         case 2:
             selection = 60
+            index = 2
         default:
             break
             
         }
         print(selection)
-        
+        defaults.setInteger(selection, forKey: "countdown")
+        defaults.synchronize()
+        defaults.setInteger(index, forKey: "segmentIndex")
+        defaults.synchronize()
         let dict = ["timer": selection]
         sendWatchTimerAndContactInfo(dict)
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9058" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -214,13 +214,14 @@
                         <outlet property="contactView" destination="H4A-os-kGR" id="qk3-5K-5E3"/>
                         <outlet property="messageTextView" destination="cG6-PI-xBb" id="m7P-ib-VpR"/>
                         <outlet property="messageView" destination="nuU-SX-orw" id="p5k-WS-KC6"/>
+                        <outlet property="segmentLabel" destination="i2F-Bf-BNk" id="oLH-T2-zee"/>
                         <outlet property="tblContacts" destination="HhD-L9-apS" id="E0E-XT-85Z"/>
                         <outlet property="timerSegment" destination="i2F-Bf-BNk" id="zvA-7j-n2a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="997.5" y="474.5"/>
+            <point key="canvasLocation" x="1268.5" y="412.5"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
