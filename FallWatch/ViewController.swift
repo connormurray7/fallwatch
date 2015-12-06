@@ -64,14 +64,15 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         if time == 0 {
             time = 20
         }
-        let title = String(time) + " s"
-        segmentLabel.insertSegmentWithTitle(title, atIndex: index, animated: true)
-        // get contacts from NSDefaults
+        print("view did load segmentindex ... \(index)")
+        segmentLabel.selectedSegmentIndex = index
+        print(segmentLabel.selectedSegmentIndex)
         let recoverContacts = defaults.objectForKey("contacts")
         if recoverContacts != nil{
-            contacts = recoverContacts as! [CNContact]
+           // contacts = recoverContacts as! [CNContact]
         }
-        let dict = ["contacts": contacts.count]
+        //let dict = ["contacts": contacts.count, "timer": time]
+        let dict = ["timer": time]
         sendWatchTimerAndContactInfo(dict)
         
        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
@@ -100,23 +101,30 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
         
-        
+        print("in tableView cell function \(cell)")
+        //saveContacts()
         return cell
+    }
+    func saveContacts() -> Void{
+        self.defaults.setObject(self.contacts, forKey: "contacts")
+        self.defaults.synchronize()
+        print("contacts \(contacts.count) ...")
     }
     
     func didFetchContacts(contacts: [CNContact]) {
+         print("in didFetchContacts function \(contacts)")
         for contact in contacts {
             self.contacts.append(contact)
             
             print(contact.givenName)
         }
         // save all the contacts
-        defaults.setObject(self.contacts, forKey: "contacts")
-        defaults.synchronize()
+       
         tblContacts.reloadData()
     }
     
     @IBAction func showContacts(sender: AnyObject) {
+        print("in showContacts function \(sender)")
         let contactPickerViewController = CNContactPickerViewController()
         
         contactPickerViewController.predicateForEnablingContact = NSPredicate(format:  "phoneNumbers.@count > 0")
@@ -124,8 +132,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
         
         contactPickerViewController.delegate = self
+        dispatch_async(dispatch_get_main_queue()) {
+            self.presentViewController(contactPickerViewController, animated: true, completion: nil)
+            self.saveContacts()
+        }
         
-        presentViewController(contactPickerViewController, animated: true, completion: nil)
+        
+        
+        
     }
     func contactPicker(picker: CNContactPickerViewController,
         didSelectContacts contacts: [CNContact]) {
@@ -199,6 +213,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     private func configureWCSession() {
         session?.delegate = self
         session?.activateSession()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        self.saveContacts()
     }
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
@@ -275,7 +295,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             break
             
         }
-        print(selection)
+        
         defaults.setInteger(selection, forKey: "countdown")
         defaults.synchronize()
         defaults.setInteger(index, forKey: "segmentIndex")
@@ -286,7 +306,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject]) {
         print("sending info to watch")
-        
+        //saveContacts()
         do {
             print("Send alert")
             try self.session?.updateApplicationContext(settingsData)
