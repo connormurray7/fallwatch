@@ -20,6 +20,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
 {
     var textBody = "Default help request"
     var contacts = [CNContact]()
+    //let defaults:NSUSerDefaults?
+    var defaults: NSUserDefaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
@@ -30,6 +32,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet var messageEdit: UITextField!
     @IBOutlet weak var alert: UILabel!
+    @IBOutlet weak var segmentLabel: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -54,24 +57,32 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         timerSegment.layer.cornerRadius = 5.0
         
-        let defaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
-        defaults.setInteger(30, forKey: "countdown")
-        defaults.synchronize()
-        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
+        
+        var time:Int = defaults.integerForKey("countdown")
+        let index:Int = defaults.integerForKey("segmentIndex")
+        // this check is for the first time the user opens the app
+        if time == 0 {
+            time = 20
+        }
+        print("view did load segmentindex ... \(index)")
+        segmentLabel.selectedSegmentIndex = index
+        print(segmentLabel.selectedSegmentIndex)
+        let recoverContacts = defaults.objectForKey("contacts")
+        if recoverContacts != nil{
+           // contacts = recoverContacts as! [CNContact]
+        }
+        //let dict = ["contacts": contacts.count, "timer": time]
+        let dict = ["timer": time]
+        sendWatchTimerAndContactInfo(dict)
+        
+       AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
         configureTableView()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    
-    @IBAction func timer(sender: UISlider) {
-        print("yes im in timer")
-        print(sender)
-        let num = Float(sender.value)
-        let val = Int(num)
-        timeLabel.text = "\(val)"
-    }
+   
     
     //Functions for selecting/adding contacts
     
@@ -90,20 +101,30 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
         
-        
+        print("in tableView cell function \(cell)")
+        //saveContacts()
         return cell
+    }
+    func saveContacts() -> Void{
+        self.defaults.setObject(self.contacts, forKey: "contacts")
+        self.defaults.synchronize()
+        print("contacts \(contacts.count) ...")
     }
     
     func didFetchContacts(contacts: [CNContact]) {
+         print("in didFetchContacts function \(contacts)")
         for contact in contacts {
             self.contacts.append(contact)
+            
             print(contact.givenName)
         }
-        
+        // save all the contacts
+       
         tblContacts.reloadData()
     }
     
     @IBAction func showContacts(sender: AnyObject) {
+        print("in showContacts function \(sender)")
         let contactPickerViewController = CNContactPickerViewController()
         
         contactPickerViewController.predicateForEnablingContact = NSPredicate(format:  "phoneNumbers.@count > 0")
@@ -111,8 +132,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
         
         contactPickerViewController.delegate = self
+        dispatch_async(dispatch_get_main_queue()) {
+            self.presentViewController(contactPickerViewController, animated: true, completion: nil)
+            self.saveContacts()
+        }
         
-        presentViewController(contactPickerViewController, animated: true, completion: nil)
+        
+        
+        
     }
     func contactPicker(picker: CNContactPickerViewController,
         didSelectContacts contacts: [CNContact]) {
@@ -188,6 +215,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        self.saveContacts()
+    }
+    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print("session ViewController")
         let localNotification = message["fireNotification"] as? String
@@ -246,27 +279,34 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBAction func segmentPressed(sender: UISegmentedControl) {
         
         var selection = 20
+        var index = 0
         switch sender.selectedSegmentIndex
         {
         case 0:
             selection = 20
+            index = 0
         case 1:
             selection = 40
+            index = 1
         case 2:
             selection = 60
+            index = 2
         default:
             break
             
         }
-        print(selection)
         
+        defaults.setInteger(selection, forKey: "countdown")
+        defaults.synchronize()
+        defaults.setInteger(index, forKey: "segmentIndex")
+        defaults.synchronize()
         let dict = ["timer": selection]
         sendWatchTimerAndContactInfo(dict)
     }
     
     func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject]) {
         print("sending info to watch")
-        
+        //saveContacts()
         do {
             print("Send alert")
             try self.session?.updateApplicationContext(settingsData)

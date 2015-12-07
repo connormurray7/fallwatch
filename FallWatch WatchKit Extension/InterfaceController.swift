@@ -20,6 +20,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var count = 0
     var seconds = 0
     var enableMonitoring = false
+    var contacts = 0
 
     let accMonitor = FWAcceleration()
     let defaults = NSUserDefaults(suiteName: "group.me.fallwatch.FallWatch.defaults")!
@@ -30,9 +31,17 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session?.delegate = self
         session?.activateSession()
         print("init InterfaceController")
+        
+        contacts = defaults.integerForKey("contacts")
+        
     }
     
     @IBAction func toggleMonitoring() {
+        
+        if contacts == 0{
+            print("user hasn't added emergency contacts yet")
+            return
+        }
         
         if monitoringOn == false {
             print("toggle monitoring on")
@@ -50,9 +59,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             toggleMonitoringBtn.setTitle("STOP Monitoring")
             statusLabel.setTextColor(UIColor.greenColor())
             statusLabel.setText("Monitoring On")
-        }
-            
-        else {
+        } else {
             monitoringOn = false
             print("toggle monitoring off")
             
@@ -76,6 +83,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             let settingsContext = applicationContext as! [String : Int]
             if let timer = settingsContext["timer"] {
                 self.defaults.setInteger(timer, forKey: "timer")
+                self.defaults.synchronize()
+                
+            }
+            
+            if let numContacts = settingsContext["contacts"] {
+                self.defaults.setInteger(numContacts, forKey: "contacts")
+                self.defaults.synchronize()
             }
             print("SetTime: \(settingsContext["timer"])")
         }
