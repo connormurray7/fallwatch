@@ -80,16 +80,16 @@ class FWNotification : WKInterfaceController {
         time = ic.defaults.integerForKey("timer")
         
         // if app is opened from the complication
-        if let _ = context!["fromComplication"] {
-            timeLabel.setText("")
-            timer.invalidate()
-            notificationLabel.setText("Do you need help? Confirm Selection")
-            
+//        if let _ = context!["fromComplication"] {
+//            timeLabel.setText("")
+//            timer.invalidate()
+//            notificationLabel.setText("Do you need help? Confirm Selection")
+        
 //            var style = NSMutableParagraphStyle.defaultParagraphStyle()
 //            stylelignment = NSTextAlignment.Center
 //            var attributeDictionary = [NSParagraphStyle : style]
 //            notificationLabel.setAttributedText("NSTextAlignment.Center")
-        }
+//        }
     }
     
     override func willActivate() {
