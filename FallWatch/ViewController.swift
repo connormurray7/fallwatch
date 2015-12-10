@@ -12,16 +12,19 @@ import Foundation
 import WatchConnectivity
 import Contacts
 import ContactsUI
-
+import CoreLocation
 
 
 class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
-    UITableViewDataSource
+    UITableViewDataSource, CLLocationManagerDelegate
 {
     var textBody = "Default help request"
     var contacts = [CNContact]()
+    var locationManager = CLLocationManager()
+
     //let defaults:NSUSerDefaults?
     var defaults: NSUserDefaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
+    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var timerSegment: UISegmentedControl!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var messageText: UITextField!
@@ -34,9 +37,29 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var alert: UILabel!
     @IBOutlet weak var segmentLabel: UISegmentedControl!
     
+    @IBOutlet weak var showContactButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+        sendButton.hidden = true
+
+        
+        /*if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Authorized)
+        {
+            
+            print(locationManager.location)
+            
+        }  else {
+            print("Location not authorized")
+            print("Location not authorized")
+        }*/
+
         
         let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
         self.view.backgroundColor = swiftColor
@@ -64,6 +87,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         if time == 0 {
             time = 20
         }
+        if contacts.count == 0 {
+            showContactButton.sendActionsForControlEvents(.TouchUpInside)
+        }
         var dict = ["timer": time]
         segmentLabel.selectedSegmentIndex = index
       
@@ -81,10 +107,16 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         })
         configureTableView()
     }
+    #if ios
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    }
+    #endif
+    #if os (watchOS)
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject])  {    }
+    #endif
+
     
-   
-    
-    //Functions for selecting/adding contacts
+         //Functions for selecting/adding contacts
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
@@ -111,7 +143,20 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         sendWatchTimerAndContactInfo(["contacts": self.contacts.count])
        
     }
-    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            contacts.removeAtIndex(indexPath.row)
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            
+        }
+        print(contacts.count)
+        if (contacts.count == 0) {
+            showContactButton.sendActionsForControlEvents(.TouchUpInside)
+        }
+        
+    }
+
     func didFetchContacts(contacts: [CNContact]) {
         
         for contact in contacts {
@@ -164,6 +209,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         textBody = messageText.text!
     }
     //Request Twilio to send text message each selected contacts
+    
+    @IBAction func textTest(sender: AnyObject) {
+    }
     @IBAction func text() {
         // Use your own details here
         for contact in contacts {
@@ -172,7 +220,23 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
             let twilioSecret = "9a1daecd3a6206463e13259a65001131"
             let fromNumber = "2486483835"
-            let message = "Hello " + contact.givenName + messageTextView.text
+            
+            /*if self.location != nil {
+                
+                //assign your loaction values here
+                let lat = Float(location.coordinate.latitude)
+                let long = Float(location.coordinate.longitude)
+                print(lat)
+                print(long)
+            } else {
+                print("locationManager.location is nil")
+            }*/
+
+            var lat = String(locationManager.location!.coordinate.latitude)
+            var long = String(locationManager.location!.coordinate.longitude)
+            var googleMaps = "https://www.google.com/maps/@" + lat + ","+long + ",13z"
+            
+            let message = "Hello " + contact.givenName + " " + messageTextView.text + " " + googleMaps
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
