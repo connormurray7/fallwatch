@@ -16,7 +16,7 @@ import CoreLocation
 
 
 class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
-    UITableViewDataSource, CLLocationManagerDelegate
+    UITableViewDataSource, CLLocationManagerDelegate, UITextViewDelegate
 {
     var textBody = "Default help request"
     var contacts = [CNContact]()
@@ -41,13 +41,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        messageTextView.returnKeyType = UIReturnKeyType.Done
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
         sendButton.hidden = true
-
+        print(contacts.count)
+        messageTextView.delegate = self
         
         /*if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Authorized)
@@ -116,6 +117,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     #endif
 
     
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
          //Functions for selecting/adding contacts
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,6 +160,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             
         }
         print(contacts.count)
+        self.saveContacts()
         if (contacts.count == 0) {
             showContactButton.sendActionsForControlEvents(.TouchUpInside)
         }
