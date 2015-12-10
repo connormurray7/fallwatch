@@ -64,22 +64,22 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         if time == 0 {
             time = 20
         }
-        print("view did load segmentindex ... \(index)")
+        var dict = ["timer": time]
         segmentLabel.selectedSegmentIndex = index
-        print(segmentLabel.selectedSegmentIndex)
-        let recoverContacts = defaults.objectForKey("contacts")
+      
+        let recoverContacts = NSUserDefaults.standardUserDefaults().objectForKey("contacts")
         if recoverContacts != nil{
-           // contacts = recoverContacts as! [CNContact]
+            let savedContacts = NSKeyedUnarchiver.unarchiveObjectWithData(recoverContacts as! NSData)
+            contacts = savedContacts as! [CNContact]
+            
         }
-        //let dict = ["contacts": contacts.count, "timer": time]
-        let dict = ["timer": time]
+        dict["contacts"] = contacts.count
         sendWatchTimerAndContactInfo(dict)
         
        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
         configureTableView()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
    
@@ -96,30 +96,31 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
-        //assert(contacts.count > 0)
+       
         let currentContact = contacts[indexPath.row]
         
         cell.lblFullname.text = "\(currentContact.givenName) \(currentContact.familyName)"
         
-        print("in tableView cell function \(cell)")
-        //saveContacts()
         return cell
     }
     func saveContacts() -> Void{
-        self.defaults.setObject(self.contacts, forKey: "contacts")
-        self.defaults.synchronize()
-        print("contacts \(contacts.count) ...")
+        var dataSave:NSData = NSKeyedArchiver.archivedDataWithRootObject(contacts)
+        NSUserDefaults.standardUserDefaults().setObject(dataSave, forKey: "contacts")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        sendWatchTimerAndContactInfo(["contacts": self.contacts.count])
+       
     }
     
     func didFetchContacts(contacts: [CNContact]) {
-         print("in didFetchContacts function \(contacts)")
+        
         for contact in contacts {
             self.contacts.append(contact)
             
             print(contact.givenName)
         }
-        // save all the contacts
-       
+        // save all the contacts to NSUserDefaults
+        self.saveContacts()
         tblContacts.reloadData()
     }
     
@@ -132,13 +133,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             NSPredicate(format: "key == 'phoneNumbers'", argumentArray: nil)
         
         contactPickerViewController.delegate = self
-        dispatch_async(dispatch_get_main_queue()) {
-            self.presentViewController(contactPickerViewController, animated: true, completion: nil)
-            self.saveContacts()
-        }
         
-        
-        
+        self.presentViewController(contactPickerViewController, animated: true, completion: nil)
         
     }
     func contactPicker(picker: CNContactPickerViewController,
@@ -215,11 +211,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        self.saveContacts()
-    }
+   
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print("session ViewController")
@@ -297,7 +289,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         }
         
         defaults.setInteger(selection, forKey: "countdown")
-        defaults.synchronize()
         defaults.setInteger(index, forKey: "segmentIndex")
         defaults.synchronize()
         let dict = ["timer": selection]
@@ -306,7 +297,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     
     func sendWatchTimerAndContactInfo(settingsData: [String : AnyObject]) {
         print("sending info to watch")
-        //saveContacts()
+      
         do {
             print("Send alert")
             try self.session?.updateApplicationContext(settingsData)

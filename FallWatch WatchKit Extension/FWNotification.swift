@@ -17,17 +17,21 @@ class FWNotification : WKInterfaceController {
     @IBOutlet var notificationLabel: WKInterfaceLabel!
     @IBOutlet var timeLabel: WKInterfaceLabel!
 
-    private var time = 40
+    private var time = 20
     private var timer = NSTimer()
     private var buttonPressed = false
     
     override init() {
         super.init()
-        print("Singleton init FWNotification: time= \(time)")
-        
         // hides the cancel button
         setTitle("")
-        
+        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
+        let countdownTimer = ic.defaults.integerForKey("timer")
+        if countdownTimer == 0{
+            time = 20
+        } else{
+            time = countdownTimer
+        }
         // start countdown
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)
     }
@@ -74,22 +78,7 @@ class FWNotification : WKInterfaceController {
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         print("awakeWithContext FWNotification")
-        // configure interface objects here.
-        
-        let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-        time = ic.defaults.integerForKey("timer")
-        
-        // if app is opened from the complication
-//        if let _ = context!["fromComplication"] {
-//            timeLabel.setText("")
-//            timer.invalidate()
-//            notificationLabel.setText("Do you need help? Confirm Selection")
-        
-//            var style = NSMutableParagraphStyle.defaultParagraphStyle()
-//            stylelignment = NSTextAlignment.Center
-//            var attributeDictionary = [NSParagraphStyle : style]
-//            notificationLabel.setAttributedText("NSTextAlignment.Center")
-//        }
+      
     }
     
     override func willActivate() {

@@ -10,9 +10,9 @@
 		3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19D3E41BFB314000CCFECE /* ContactCell.swift */; };
 		3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD02B551BFBCDF900009A93 /* ContactCell.xib */; };
 		3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */; };
+		6193C57F1C191C3800846B39 /* AlertRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193C57E1C191C3800846B39 /* AlertRequirement.swift */; };
 		7A0859FC1BFCFC140006482F /* ExclamationMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A0859FB1BFCFC140006482F /* ExclamationMark.png */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
-		7A8E52CE1C18A8F3001568AF /* fallwatch_logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A8E52CD1C18A8F3001568AF /* fallwatch_logo_58x58.png */; };
 		7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */; };
 		7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87831BD7F96A00A6CE7F /* ViewController.swift */; };
 		7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87851BD7F96A00A6CE7F /* Main.storyboard */; };
@@ -77,12 +77,12 @@
 		3D19D3E41BFB314000CCFECE /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		3DD02B551BFBCDF900009A93 /* ContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
 		3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
+		6193C57E1C191C3800846B39 /* AlertRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertRequirement.swift; sourceTree = "<group>"; };
 		7A0859FB1BFCFC140006482F /* ExclamationMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ExclamationMark.png; sourceTree = "<group>"; };
 		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
 		7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit App.entitlements"; sourceTree = "<group>"; };
 		7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		7A8E52CD1C18A8F3001568AF /* fallwatch_logo_58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fallwatch_logo_58x58.png; sourceTree = "<group>"; };
 		7ACE877E1BD7F96A00A6CE7F /* FallWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FallWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ACE87831BD7F96A00A6CE7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +177,6 @@
 		7ACE87A31BD7F96A00A6CE7F /* FallWatch WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				7A8E52CD1C18A8F3001568AF /* fallwatch_logo_58x58.png */,
 				7A0859FB1BFCFC140006482F /* ExclamationMark.png */,
 				7A22D6221BDAED9F003AE514 /* FallWatch WatchKit Extension.entitlements */,
 				809948211BF53AA50006522D /* FWNotification.swift */,
@@ -185,6 +184,7 @@
 				7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */,
 				7ACE87A81BD7F96A00A6CE7F /* ExtensionDelegate.swift */,
 				7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */,
+				6193C57E1C191C3800846B39 /* AlertRequirement.swift */,
 				7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */,
 				7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */,
 				7ACE87AE1BD7F96A00A6CE7F /* Info.plist */,
@@ -349,7 +349,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A8E52CE1C18A8F3001568AF /* fallwatch_logo_58x58.png in Resources */,
 				7A0859FC1BFCFC140006482F /* ExclamationMark.png in Resources */,
 				7ACE87AD1BD7F96A00A6CE7F /* Assets.xcassets in Resources */,
 			);
@@ -378,6 +377,7 @@
 				7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */,
 				809948221BF53AA50006522D /* FWNotification.swift in Sources */,
 				7ACE87BD1BD7F9C000A6CE7F /* FWAcceleration.swift in Sources */,
+				6193C57F1C191C3800846B39 /* AlertRequirement.swift in Sources */,
 				7ACE87A71BD7F96A00A6CE7F /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

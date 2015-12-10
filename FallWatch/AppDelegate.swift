@@ -9,7 +9,7 @@
 import UIKit
 import Contacts
 import HealthKit
-
+import Foundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
