@@ -85,6 +85,24 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         // this highlights the correct time segment (20 s, 40 s, 60 s) selected by the user the last time he used the app, in order to restore previous state, the default time if 20 s the very first time the app is run
         let index:Int = defaults.integerForKey("segmentIndex")
         segmentLabel.selectedSegmentIndex = index
+        // the very first time the app is run a call to defaults.integerForKey("countdown") will return 0, becasue you haven't stored any value for that key yet, that is why the check time == 0 is necessary
+        var time:Int = defaults.integerForKey("countdown")
+        if time == 0 {
+            time = 20
+        }
+        var dict = ["timer": time]
+        
+        // the very first time the user runs the app a call to NSUserDefaults.standardUserDefaults().objectForKey("contacts") willl return nil that is why the check recoverContacts != nil is necessary, if recoverContacts != nil then you update the contacts array to reflect prevoiusly saved contacts
+        let recoverContacts = NSUserDefaults.standardUserDefaults().objectForKey("contacts")
+        if recoverContacts != nil{
+            let savedContacts = NSKeyedUnarchiver.unarchiveObjectWithData(recoverContacts as! NSData)
+            contacts = savedContacts as! [CNContact]
+            
+        }
+        
+        dict["contacts"] = contacts.count
+        sendWatchTimerAndContactInfo(dict)
+        
         
         if contacts.count == 0 {
             showContactButton.sendActionsForControlEvents(.TouchUpInside)
@@ -265,23 +283,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configureWCSession()
-        // the very first time the app is run a call to defaults.integerForKey("countdown") will return 0, becasue you haven't stored any value for that key yet, that is why the check time == 0 is necessary
-        var time:Int = defaults.integerForKey("countdown")
-        if time == 0 {
-            time = 20
-        }
-        var dict = ["timer": time]
         
-        // the very first time the user runs the app a call to NSUserDefaults.standardUserDefaults().objectForKey("contacts") willl return nil that is why the check recoverContacts != nil is necessary, if recoverContacts != nil then you update the contacts array to reflect prevoiusly saved contacts
-        let recoverContacts = NSUserDefaults.standardUserDefaults().objectForKey("contacts")
-        if recoverContacts != nil{
-            let savedContacts = NSKeyedUnarchiver.unarchiveObjectWithData(recoverContacts as! NSData)
-            contacts = savedContacts as! [CNContact]
-            
-        }
-        
-        dict["contacts"] = contacts.count
-        sendWatchTimerAndContactInfo(dict)
     }
     
     private func configureWCSession() {
