@@ -49,6 +49,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         print(contacts.count)
         messageTextView.delegate = self
         
+        // get permission to sound alarm
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil))
         
         let swiftColor = UIColor(red: 116/255, green: 116/255, blue: 116/255, alpha: 1)
         self.view.backgroundColor = swiftColor
@@ -58,7 +60,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.messageView.layer.borderWidth = 1
         self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
         
-        messageTextView.text = "Hello," + NSUserName() + "has fallen"
+        //messageTextView.text = "Hello," + NSUserName() + "has fallen"
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
@@ -227,7 +229,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                 googleMaps = ""
             }
             
-            let message = "Hello " + contact.givenName + " " + messageTextView.text + " " + googleMaps
+            let message = "Hello " + contact.givenName + "! " + messageTextView.text + " Location:" + googleMaps
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
