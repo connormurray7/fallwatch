@@ -16,23 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPH-Bd-fBj">
-                                <rect key="frame" x="129" y="140" width="117" height="44"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fallwatch_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="lZJ-EX-va8">
+                                <rect key="frame" x="127" y="246" width="120" height="120"/>
                                 <animations/>
-                                <attributedString key="attributedText">
-                                    <fragment content="FallWatch">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="26" name="AvenirNext-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="1" green="0.36800315890000002" blue="0.34738305580000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.94277854765352698" green="0.94266202381801756" blue="0.95005726439790572" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
@@ -41,4 +31,7 @@
             <point key="canvasLocation" x="431.5" y="370.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="fallwatch_logo.png" width="120" height="120"/>
+    </resources>
 </document>
