@@ -22,7 +22,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     var contacts = [CNContact]()
     var locationManager = CLLocationManager()
 
-    //let defaults:NSUSerDefaults?
     var defaults: NSUserDefaults = NSUserDefaults.init(suiteName: "group.me.fallwatch.FallWatch.defaults")!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var timerSegment: UISegmentedControl!
@@ -50,19 +49,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         print(contacts.count)
         messageTextView.delegate = self
         
-        /*if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Authorized)
-        {
-            
-            print(locationManager.location)
-            
-        }  else {
-            print("Location not authorized")
-            print("Location not authorized")
-        }*/
-
         
-        let swiftColor = UIColor(red: 1, green: 80/255, blue: 80/255, alpha: 1)
+        let swiftColor = UIColor(red: 116/255, green: 116/255, blue: 116/255, alpha: 1)
         self.view.backgroundColor = swiftColor
         
         self.contactView.layer.borderWidth = 1
@@ -70,7 +58,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.messageView.layer.borderWidth = 1
         self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
         
-        
+        messageTextView.text = "Hello," + NSUserName() + "has fallen"
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
@@ -78,9 +66,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
         view.addGestureRecognizer(tap)
         
-        
         timerSegment.layer.cornerRadius = 5.0
-        
         
         // this highlights the correct time segment (20 s, 40 s, 60 s) selected by the user the last time he used the app, in order to restore previous state, the default time if 20 s the very first time the app is run
         let index:Int = defaults.integerForKey("segmentIndex")
@@ -91,7 +77,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             time = 20
         }
         var dict = ["timer": time]
-        
         // the very first time the user runs the app a call to NSUserDefaults.standardUserDefaults().objectForKey("contacts") willl return nil that is why the check recoverContacts != nil is necessary, if recoverContacts != nil then you update the contacts array to reflect prevoiusly saved contacts
         let recoverContacts = NSUserDefaults.standardUserDefaults().objectForKey("contacts")
         if recoverContacts != nil{
@@ -103,11 +88,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         dict["contacts"] = contacts.count
         sendWatchTimerAndContactInfo(dict)
         
-        
         if contacts.count == 0 {
             showContactButton.sendActionsForControlEvents(.TouchUpInside)
         }
-        
        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
         })
@@ -120,8 +103,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     #if os (watchOS)
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject])  {    }
     #endif
-
-    
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
@@ -130,16 +111,19 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         }
         return true
     }
-         //Functions for selecting/adding contacts
+    
+    //Functions for selecting/adding contacts
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
     }
+    
     func configureTableView() {
         tblContacts.delegate = self
         tblContacts.dataSource = self
         tblContacts.registerNib(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "idCellContact")
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("idCellContact") as! ContactCell
        
@@ -149,14 +133,15 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         return cell
     }
+    
     func saveContacts() -> Void{
         var dataSave:NSData = NSKeyedArchiver.archivedDataWithRootObject(contacts)
         NSUserDefaults.standardUserDefaults().setObject(dataSave, forKey: "contacts")
         NSUserDefaults.standardUserDefaults().synchronize()
         
         sendWatchTimerAndContactInfo(["contacts": self.contacts.count])
-       
     }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
             contacts.removeAtIndex(indexPath.row)
@@ -223,10 +208,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBAction func messageEdit(sender: AnyObject) {
         textBody = messageText.text!
     }
-    //Request Twilio to send text message each selected contacts
     
-    @IBAction func textTest(sender: AnyObject) {
-    }
+    //Request Twilio to send text message to each contacts
     @IBAction func text() {
         // Use your own details here
         for contact in contacts {
@@ -235,21 +218,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
             let twilioSecret = "9a1daecd3a6206463e13259a65001131"
             let fromNumber = "2486483835"
-            
-            /*if self.location != nil {
-                
-                //assign your loaction values here
-                let lat = Float(location.coordinate.latitude)
-                let long = Float(location.coordinate.longitude)
-                print(lat)
-                print(long)
-            } else {
-                print("locationManager.location is nil")
-            }*/
-
+           
             var lat = String(locationManager.location!.coordinate.latitude)
             var long = String(locationManager.location!.coordinate.longitude)
+            
             var googleMaps = "https://www.google.com/maps/@" + lat + ","+long + ",13z"
+            if lat == ""{
+                googleMaps = ""
+            }
             
             let message = "Hello " + contact.givenName + " " + messageTextView.text + " " + googleMaps
             // Build the request
@@ -270,6 +246,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             }).resume()}
         
     }
+    
     //Functions for connecting watch/phone, sending timer info, triggering text messages.
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
@@ -290,8 +267,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.delegate = self
         session?.activateSession()
     }
-    
-   
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         print("session ViewController")

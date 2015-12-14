@@ -5,7 +5,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This application uses this information to show you your location.</string>
+	<string>This application uses this information to notify your emergency contacts of your location.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
