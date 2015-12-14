@@ -28,6 +28,7 @@
 		7ACE87BD1BD7F9C000A6CE7F /* FWAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */; };
 		7ADBF8D31BFA660600C3A61B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADBF8D21BFA660600C3A61B /* HealthKit.framework */; };
 		809948221BF53AA50006522D /* FWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809948211BF53AA50006522D /* FWNotification.swift */; };
+		E63BE2D51C1E562400B255D3 /* fallwatch_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWAcceleration.swift; sourceTree = "<group>"; };
 		7ADBF8D21BFA660600C3A61B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		809948211BF53AA50006522D /* FWNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWNotification.swift; sourceTree = "<group>"; };
+		E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fallwatch_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 		7ACE87801BD7F96A00A6CE7F /* FallWatch */ = {
 			isa = PBXGroup;
 			children = (
+				E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */,
 				7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */,
 				7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */,
 				7ACE87831BD7F96A00A6CE7F /* ViewController.swift */,
@@ -326,6 +329,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E63BE2D51C1E562400B255D3 /* fallwatch_logo.png in Resources */,
 				3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */,
 				7ACE878C1BD7F96A00A6CE7F /* LaunchScreen.storyboard in Resources */,
 				7ACE87891BD7F96A00A6CE7F /* Assets.xcassets in Resources */,
