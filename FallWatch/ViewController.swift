@@ -36,7 +36,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     @IBOutlet weak var alert: UILabel!
     @IBOutlet weak var segmentLabel: UISegmentedControl!
     
+
     @IBOutlet weak var showContactButton: UIButton!
+    
+    //UITextViewTextDidEndEditingNotification
+    
+    //NSNotifications
+    
+    //NSNotificationCenter.defaultCenter().addObserver(self, selector:"layoutSubviews", name: "UITextViewTextDidChangeNotification", object: messageTextView)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +99,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
         if contacts.count == 0 {
             showContactButton.sendActionsForControlEvents(.TouchUpInside)
+        }
+        
+        let message = defaults.objectForKey("message")
+        if message != nil{
+            
+            messageTextView.text = message as! String
         }
        AppDelegate.sharedDelegate().checkAccessStatus({ (accessGranted) -> Void in
             print(accessGranted)
@@ -256,13 +269,27 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         super.init(coder: aDecoder)
         print("initializing wcsession")
         configureWCSession()
+        commonInit()
         
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configureWCSession()
+        commonInit()
         
+    }
+    
+    private func commonInit(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"layoutSubview", name: "UITextViewTextDidEndEditingNotification", object: nil)
+    }
+
+    
+   
+    
+    func layoutSubview(){
+        defaults.setObject(messageTextView.text, forKey: "message")
+        defaults.synchronize()
     }
     
     private func configureWCSession() {
