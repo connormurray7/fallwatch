@@ -30,17 +30,15 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session?.delegate = self
         session?.activateSession()
         print("init InterfaceController")
-        
-                
     }
     
     @IBAction func toggleMonitoring() {
         
-//        if defaults.integerForKey("contacts") == 0 {
-//            print("user hasn't added emergency contacts yet")
-//            presentControllerWithName("AlertRequirement", context: nil)
-//            return
-//        }
+        if defaults.integerForKey("contacts") == 0 {
+            print("user hasn't added emergency contacts yet")
+            presentControllerWithName("AlertRequirement", context: nil)
+            return
+        }
         
         if monitoringOn == false {
             print("toggle monitoring on")
@@ -78,19 +76,22 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         // use this to update the UI instantaneously (otherwise, takes a little while)
-        dispatch_async(dispatch_get_main_queue()) {
+//        dispatch_async(dispatch_get_main_queue()) {
+        print("session")
+        
             let settingsContext = applicationContext as! [String : Int]
+            
             if let timer = settingsContext["timer"] {
                 self.defaults.setInteger(timer, forKey: "timer")
                 self.defaults.synchronize()
-                
             }
             
             if let numContacts = settingsContext["contacts"] {
                 self.defaults.setInteger(numContacts, forKey: "contacts")
                 self.defaults.synchronize()
+                print("num contacts updated")
             }
-        }
+//        }
     }
     
     override func awakeWithContext(context: AnyObject?) {
@@ -126,6 +127,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     override func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
+        
+        if defaults.integerForKey("contacts") == 0 {
+            print("user hasn't added emergency contacts yet")
+            presentControllerWithName("AlertRequirement", context: nil)
+            return
+        }
+        
         let fromComplication = ["fromComplication" : true]
         presentControllerWithName("FWNotification", context: fromComplication)
     }

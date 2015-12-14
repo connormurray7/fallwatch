@@ -115,7 +115,6 @@ class FWAcceleration : NSObject {
         // send text/get help
         let message = ["needsHelp" : true]
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-        //do {try ic.session?.updateApplicationContext(message)} catch {print("error")}
         ic.session?.sendMessage(message, replyHandler: nil, errorHandler: nil)
     }
     

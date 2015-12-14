@@ -6,7 +6,6 @@
 //  Copyright © 2015 FallWatch. All rights reserved.
 //
 
-//import HealthKit
 import UIKit
 import Foundation
 import WatchConnectivity
@@ -66,7 +65,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.messageView.layer.borderWidth = 1
         self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
         
-        //messageTextView.text = "Hello," + NSUserName() + "has fallen"
+        // messageTextView.text = "Hello," + NSUserName() + "has fallen"
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
@@ -126,7 +125,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         return true
     }
     
-    //Functions for selecting/adding contacts
+    // functions for selecting/adding contacts
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
@@ -148,11 +147,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         return cell
     }
     
-    func saveContacts() -> Void{
+    func saveContacts() -> Void {
         var dataSave:NSData = NSKeyedArchiver.archivedDataWithRootObject(contacts)
         NSUserDefaults.standardUserDefaults().setObject(dataSave, forKey: "contacts")
         NSUserDefaults.standardUserDefaults().synchronize()
         
+        print("sending number of contacts to watch")
         sendWatchTimerAndContactInfo(["contacts": self.contacts.count])
     }
     
@@ -196,12 +196,13 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.presentViewController(contactPickerViewController, animated: true, completion: nil)
         
     }
+    
     func contactPicker(picker: CNContactPickerViewController,
         didSelectContacts contacts: [CNContact]) {
             didFetchContacts(contacts)
     }
     
-    //allows multiple selection mixed with contactPicker:didSelectContacts:
+    // allows multiple selection mixed with contactPicker:didSelectContacts:
     func example5(){
         let controller = CNContactPickerViewController()
         
@@ -233,8 +234,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let twilioSecret = "9a1daecd3a6206463e13259a65001131"
             let fromNumber = "2486483835"
            
-            var lat = String(locationManager.location!.coordinate.latitude)
-            var long = String(locationManager.location!.coordinate.longitude)
+            let lat = String(locationManager.location!.coordinate.latitude)
+            let long = String(locationManager.location!.coordinate.longitude)
             
             var googleMaps = "https://www.google.com/maps/@" + lat + ","+long + ",13z"
             if lat == ""{
@@ -269,24 +270,19 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         print("initializing wcsession")
         configureWCSession()
         commonInit()
-        
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configureWCSession()
         commonInit()
-        
     }
     
-    private func commonInit(){
+    private func commonInit() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"layoutSubview", name: "UITextViewTextDidEndEditingNotification", object: nil)
     }
-
     
-   
-    
-    func layoutSubview(){
+    func layoutSubview() {
         defaults.setObject(messageTextView.text, forKey: "message")
         defaults.synchronize()
     }
@@ -340,33 +336,33 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         }
     }
     
-    func DismissKeyboard(){
+    func DismissKeyboard() {
         // causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
     
-    func acknowledgeAlert(notification:NSNotification)
-    {
-        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-        label.center = CGPointMake(160, 284)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = "A family member has fallen"
-        label.textColor = UIColor.redColor()
-        self.view.addSubview(label)
-        print("handle the case in which people fall")
-    }
+//    func acknowledgeAlert(notification:NSNotification)
+//    {
+//        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+//        label.center = CGPointMake(160, 284)
+//        label.textAlignment = NSTextAlignment.Center
+//        label.text = "A family member has fallen"
+//        label.textColor = UIColor.redColor()
+//        self.view.addSubview(label)
+//        print("handle the case in which people fall")
+//    }
     
-    func showMessage(notification:NSNotification)
-    {
-        let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
-        
-        
-        self.presentViewController(message, animated: true, completion: nil)
-        
-    }
+//    func showMessage(notification:NSNotification)
+//    {
+//        let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
+//        
+//        message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
+//        
+//        
+//        self.presentViewController(message, animated: true, completion: nil)
+//        
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

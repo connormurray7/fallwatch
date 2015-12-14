@@ -9,7 +9,6 @@
 import UIKit
 
 class ContactCell: UITableViewCell {
-    
         
     @IBOutlet weak var lblFullname: UILabel!
     override func awakeFromNib() {
@@ -19,7 +18,6 @@ class ContactCell: UITableViewCell {
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
         // Configure the view for the selected state
     }
     
