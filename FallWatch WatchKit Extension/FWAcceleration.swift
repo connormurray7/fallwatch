@@ -20,9 +20,9 @@ class FWAcceleration : NSObject {
     var helpNeeded = false
     
     private let motionManager = CMMotionManager()
-    private let lowNormalRange = 0.5
-    private let highNormalRange = 1.4
-    private let lowFallingRange = 2.5
+    private let lowNormalRange = 0.0
+    private let highNormalRange = 2.0
+    private let lowFallingRange = 3.0
     private let highFallingRange = 5.5
 
     // assumes that the acceleration array is populated at the specific index. Returns true if the value falls within the normal range
