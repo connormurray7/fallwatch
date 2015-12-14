@@ -35,9 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(accessGranted: false)
         }
     }
-    //class func getAppDelegate() -> AppDelegate {
-    //    return UIApplication.sharedApplication().delegate as! AppDelegate
-    //}
+   
     class func sharedDelegate() -> AppDelegate {
         return UIApplication.sharedApplication().delegate as! AppDelegate
     }
@@ -84,8 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         secondAction.destructive = false
         secondAction.authenticationRequired = false
         
-
-        
         // group actions into a category
         let firstCategory = UIMutableUserNotificationCategory()
         firstCategory.identifier = "FIRST_CATEGORY"
@@ -99,7 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // NSSet of our categories
         let categories = NSSet(object: firstCategory)
-        
         
         // Allow for local notifications, the user can allow/disallow for the notifications in Settings
         let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge], categories: categories as? Set<UIUserNotificationCategory>)

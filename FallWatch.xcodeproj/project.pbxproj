@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19D3E41BFB314000CCFECE /* ContactCell.swift */; };
 		3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD02B551BFBCDF900009A93 /* ContactCell.xib */; };
-		3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */; };
 		6193C57F1C191C3800846B39 /* AlertRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193C57E1C191C3800846B39 /* AlertRequirement.swift */; };
 		7A0859FC1BFCFC140006482F /* ExclamationMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A0859FB1BFCFC140006482F /* ExclamationMark.png */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
@@ -77,7 +76,6 @@
 /* Begin PBXFileReference section */
 		3D19D3E41BFB314000CCFECE /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		3DD02B551BFBCDF900009A93 /* ContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
-		3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
 		6193C57E1C191C3800846B39 /* AlertRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertRequirement.swift; sourceTree = "<group>"; };
 		7A0859FB1BFCFC140006482F /* ExclamationMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ExclamationMark.png; sourceTree = "<group>"; };
 		7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FallWatch.entitlements; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				7ACE87881BD7F96A00A6CE7F /* Assets.xcassets */,
 				7ACE878A1BD7F96A00A6CE7F /* LaunchScreen.storyboard */,
 				7ACE878D1BD7F96A00A6CE7F /* Info.plist */,
-				3DE0DE7B1BE6B5F200BBCD18 /* ContactsController.swift */,
 				3D19D3E41BFB314000CCFECE /* ContactCell.swift */,
 				3DD02B551BFBCDF900009A93 /* ContactCell.xib */,
 			);
@@ -367,7 +364,6 @@
 			files = (
 				3D19D3E51BFB314000CCFECE /* ContactCell.swift in Sources */,
 				7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */,
-				3DE0DE7C1BE6B5F200BBCD18 /* ContactsController.swift in Sources */,
 				7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

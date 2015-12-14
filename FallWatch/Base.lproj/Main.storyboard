@@ -72,7 +72,7 @@
                                         <animations/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                         <state key="normal" title="Add">
-                                            <color key="titleColor" red="0.85714567549999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="showContacts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vsX-lW-nFo"/>
@@ -99,13 +99,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="121" id="Vhd-f4-Cpn"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="*CLICK TO EDIT* Hello! Rohan may have fallen at his home.">
-                                        <attributes>
-                                            <font key="NSFont" size="14" name="AvenirNext-Regular"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i1x-IR-qYh">
