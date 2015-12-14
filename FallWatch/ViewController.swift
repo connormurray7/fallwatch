@@ -50,7 +50,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-//        sendButton.hidden = true
+        //sendButton.hidden = true
         print(contacts.count)
         messageTextView.delegate = self
         
@@ -233,16 +233,22 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
             let twilioSecret = "9a1daecd3a6206463e13259a65001131"
             let fromNumber = "2486483835"
-           
+            
             let lat = String(locationManager.location!.coordinate.latitude)
             let long = String(locationManager.location!.coordinate.longitude)
             
-            var googleMaps = "https://www.google.com/maps/@" + lat + ","+long + ",13z"
+            var googleMaps = "www.google.com/maps/@" + lat + ","+long + ",13z"
             if lat == ""{
                 googleMaps = ""
             }
+            var message = messageTextView.text + " Location: "
+            if (message.characters.count > 110) {
+                let cutlength = message.characters.count - 110
+                let range = message.endIndex.advancedBy(-cutlength)..<message.endIndex
+                message.removeRange(range)
+            }
+            message = message + " " + googleMaps
             
-            let message = "Hello " + contact.givenName + "! " + messageTextView.text + " Fall Location: " + googleMaps
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
@@ -292,6 +298,35 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
+//    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+//        print("session ViewController")
+//        let localNotification = message["fireNotification"] as? String
+//        if localNotification != nil {
+//            print("local notification should fire soon")
+//            let notification = UILocalNotification()
+//            notification.category = "FIRST_CATEGORY"
+//            notification.alertBody = "Sending SMS in 40s"
+//            notification.alertTitle = "Fall Detected"
+//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+//        }
+//    }
+    
+//    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+//        print("session ViewController")
+//        let helpNeeded = applicationContext["needsHelp"] as! Bool
+//        if helpNeeded == true {
+            // send text msg to emergency contact
+//            text()
+    
+//            // sound the alarm
+//            let notification = UILocalNotification()
+//            notification.alertTitle = "Test Title"
+//            notification.alertBody = "Test Body"
+//            notification.soundName = "alarm.mp3"
+//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+//        }
+//    }
+    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         let helpNeeded = message["needsHelp"] as! Bool
         if helpNeeded == true {
@@ -311,6 +346,29 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         // causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
+    
+    
+//    func acknowledgeAlert(notification:NSNotification)
+//    {
+//        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+//        label.center = CGPointMake(160, 284)
+//        label.textAlignment = NSTextAlignment.Center
+//        label.text = "A family member has fallen"
+//        label.textColor = UIColor.redColor()
+//        self.view.addSubview(label)
+//        print("handle the case in which people fall")
+//    }
+    
+//    func showMessage(notification:NSNotification)
+//    {
+//        let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
+//        
+//        message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
+//        
+//        
+//        self.presentViewController(message, animated: true, completion: nil)
+//        
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -355,6 +413,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         }
         
     }
+    
+    
     
 }
 
