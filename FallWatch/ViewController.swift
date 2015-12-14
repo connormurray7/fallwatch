@@ -242,12 +242,12 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                 googleMaps = ""
             }
             var message = messageTextView.text + " Location: "
-            if (message.characters.count > 110) {
-                let cutlength = message.characters.count - 110
+            if (message.characters.count > 160) {
+                let cutlength = message.characters.count - 160
                 let range = message.endIndex.advancedBy(-cutlength)..<message.endIndex
                 message.removeRange(range)
             }
-            message = message + " " + googleMaps
+            
             
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
@@ -264,10 +264,26 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                     // Failure
                     print("Error: \(error)")
                 }
-            }).resume()}
+            }).resume()
+            let request2 = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
+            request2.HTTPMethod = "POST"
+            request2.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(googleMaps)".dataUsingEncoding(NSUTF8StringEncoding)
+            
+            // Build the completion block and send the request
+            NSURLSession.sharedSession().dataTaskWithRequest(request2, completionHandler: { (data, response, error) in
+                print("Finished")
+                if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                    // Success
+                    print("Response: \(responseDetails)")
+                } else {
+                    // Failure
+                    print("Error: \(error)")
+                }
+            }).resume()
+            
+        }
         
     }
-    
     // functions for connecting watch/phone, sending timer info, triggering text messages
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
