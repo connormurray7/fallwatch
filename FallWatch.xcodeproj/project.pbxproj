@@ -289,7 +289,7 @@
 					};
 					7ACE879E1BD7F96A00A6CE7F = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = CT5WB9MNY8;
+						DevelopmentTeam = 6P4A6KN8B8;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;

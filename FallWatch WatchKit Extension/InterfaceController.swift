@@ -91,7 +91,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 self.defaults.setInteger(numContacts, forKey: "contacts")
                 self.defaults.synchronize()
             }
-            
         }
     }
     

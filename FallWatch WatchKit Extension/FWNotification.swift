@@ -26,11 +26,9 @@ class FWNotification : WKInterfaceController {
         // hides the cancel button
         setTitle("")
         let ic = WKExtension.sharedExtension().rootInterfaceController as! InterfaceController
-        let countdownTimer = ic.defaults.integerForKey("timer")
-        if countdownTimer == 0{
+        time = ic.defaults.integerForKey("timer")
+        if time == 0 {
             time = 20
-        } else{
-            time = countdownTimer
         }
         // start countdown
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("subtractTime"), userInfo: nil, repeats: true)

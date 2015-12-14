@@ -312,6 +312,13 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         if helpNeeded == true {
             // send text msg
             text()
+            
+            // sound the alarm
+            let notification = UILocalNotification()
+            notification.alertTitle = "Test Title"
+            notification.alertBody = "Test Body"
+            notification.soundName = UILocalNotificationDefaultSoundName
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
     }
     
