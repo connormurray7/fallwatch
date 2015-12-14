@@ -50,7 +50,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        sendButton.hidden = true
+//        sendButton.hidden = true
         print(contacts.count)
         messageTextView.delegate = self
         
@@ -292,35 +292,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
-//    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-//        print("session ViewController")
-//        let localNotification = message["fireNotification"] as? String
-//        if localNotification != nil {
-//            print("local notification should fire soon")
-//            let notification = UILocalNotification()
-//            notification.category = "FIRST_CATEGORY"
-//            notification.alertBody = "Sending SMS in 40s"
-//            notification.alertTitle = "Fall Detected"
-//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-//        }
-//    }
-    
-//    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
-//        print("session ViewController")
-//        let helpNeeded = applicationContext["needsHelp"] as! Bool
-//        if helpNeeded == true {
-            // send text msg to emergency contact
-//            text()
-    
-//            // sound the alarm
-//            let notification = UILocalNotification()
-//            notification.alertTitle = "Test Title"
-//            notification.alertBody = "Test Body"
-//            notification.soundName = "alarm.mp3"
-//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-//        }
-//    }
-    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         let helpNeeded = message["needsHelp"] as! Bool
         if helpNeeded == true {
@@ -340,29 +311,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         // causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
-    
-    
-//    func acknowledgeAlert(notification:NSNotification)
-//    {
-//        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-//        label.center = CGPointMake(160, 284)
-//        label.textAlignment = NSTextAlignment.Center
-//        label.text = "A family member has fallen"
-//        label.textColor = UIColor.redColor()
-//        self.view.addSubview(label)
-//        print("handle the case in which people fall")
-//    }
-    
-//    func showMessage(notification:NSNotification)
-//    {
-//        let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
-//        
-//        message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
-//        
-//        
-//        self.presentViewController(message, animated: true, completion: nil)
-//        
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -407,8 +355,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         }
         
     }
-    
-    
     
 }
 

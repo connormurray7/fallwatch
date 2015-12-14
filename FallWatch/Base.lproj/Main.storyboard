@@ -93,7 +93,7 @@
                                     <constraint firstAttribute="height" constant="121" id="Vhd-f4-Cpn"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="[insert name] may have fallen and requires assistance. Contact them at [insert number].">
+                                    <fragment content="[Insert name] may have fallen and might need help. Call [insert number].">
                                         <attributes>
                                             <font key="NSFont" size="17" name="AvenirNext-Regular"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
