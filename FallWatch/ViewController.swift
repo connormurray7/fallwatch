@@ -49,6 +49,8 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         print(contacts.count)
         messageTextView.delegate = self
         
+        // get permission to sound alarm
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil))
         
         let swiftColor = UIColor(red: 116/255, green: 116/255, blue: 116/255, alpha: 1)
         self.view.backgroundColor = swiftColor
