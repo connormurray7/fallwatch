@@ -85,7 +85,7 @@
                                     <constraint firstItem="93c-KW-njp" firstAttribute="leading" secondItem="H4A-os-kGR" secondAttribute="leading" constant="45" id="zIT-YP-cOd"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-PI-xBb">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-PI-xBb">
                                 <rect key="frame" x="0.0" y="204" width="375" height="121"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
