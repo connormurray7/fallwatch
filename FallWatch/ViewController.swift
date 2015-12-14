@@ -50,7 +50,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        sendButton.hidden = true
+        //sendButton.hidden = true
         print(contacts.count)
         messageTextView.delegate = self
         
@@ -233,16 +233,22 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let twilioSID = "ACf310bf0b1beb964d15360f0dfc8b317d"
             let twilioSecret = "9a1daecd3a6206463e13259a65001131"
             let fromNumber = "2486483835"
-           
+            
             let lat = String(locationManager.location!.coordinate.latitude)
             let long = String(locationManager.location!.coordinate.longitude)
             
-            var googleMaps = "https://www.google.com/maps/@" + lat + ","+long + ",13z"
+            var googleMaps = "www.google.com/maps/@" + lat + ","+long + ",13z"
             if lat == ""{
                 googleMaps = ""
             }
+            var message = messageTextView.text + " Location: "
+            if (message.characters.count > 110) {
+                let cutlength = message.characters.count - 110
+                let range = message.endIndex.advancedBy(-cutlength)..<message.endIndex
+                message.removeRange(range)
+            }
+            message = message + " " + googleMaps
             
-            let message = "Hello " + contact.givenName + "! " + messageTextView.text + " Fall Location: " + googleMaps
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
