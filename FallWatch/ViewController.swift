@@ -14,7 +14,6 @@ import Contacts
 import ContactsUI
 import CoreLocation
 
-
 class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, CNContactPickerDelegate,
     UITableViewDataSource, CLLocationManagerDelegate, UITextViewDelegate
 {
