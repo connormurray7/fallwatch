@@ -237,11 +237,11 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             let lat = String(locationManager.location!.coordinate.latitude)
             let long = String(locationManager.location!.coordinate.longitude)
             
-            var googleMaps = "www.google.com/maps/@" + lat + ","+long + ",13z"
+            var googleMaps = "Location: " + "www.google.com/maps/@" + lat + ","+long + ",13z"
             if lat == ""{
                 googleMaps = ""
             }
-            var message = messageTextView.text + " Location: "
+            var message = messageTextView.text
             if (message.characters.count > 160) {
                 let cutlength = message.characters.count - 160
                 let range = message.endIndex.advancedBy(-cutlength)..<message.endIndex
