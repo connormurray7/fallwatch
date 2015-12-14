@@ -37,12 +37,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
 
     @IBOutlet weak var showContactButton: UIButton!
     
-    //UITextViewTextDidEndEditingNotification
-    
-    //NSNotifications
-    
-    //NSNotificationCenter.defaultCenter().addObserver(self, selector:"layoutSubviews", name: "UITextViewTextDidChangeNotification", object: messageTextView)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         messageTextView.returnKeyType = UIReturnKeyType.Done
@@ -50,12 +44,10 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        //sendButton.hidden = true
+        sendButton.hidden = true
         print(contacts.count)
         messageTextView.delegate = self
-        
-        // get permission to sound alarm
-//        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil))
+
         
         let swiftColor = UIColor(red: 116/255, green: 116/255, blue: 116/255, alpha: 1)
         self.view.backgroundColor = swiftColor
@@ -65,7 +57,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         self.messageView.layer.borderWidth = 1
         self.messageView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:227/255.0, alpha: 1.0).CGColor
         
-        // messageTextView.text = "Hello," + NSUserName() + "has fallen"
         self.timerSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "acknowledgeAlert:", name: "actionOnePressed", object: nil)
         
@@ -148,7 +139,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
     }
     
     func saveContacts() -> Void {
-        var dataSave:NSData = NSKeyedArchiver.archivedDataWithRootObject(contacts)
+        let dataSave:NSData = NSKeyedArchiver.archivedDataWithRootObject(contacts)
         NSUserDefaults.standardUserDefaults().setObject(dataSave, forKey: "contacts")
         NSUserDefaults.standardUserDefaults().synchronize()
         
@@ -249,19 +240,19 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             }
             
             
-            // Build the request
+            // build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
             request.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(message)".dataUsingEncoding(NSUTF8StringEncoding)
             
-            // Build the completion block and send the request
+            // build the completion block and send the request
             NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) in
                 print("Finished")
                 if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                    // Success
+                    // success
                     print("Response: \(responseDetails)")
                 } else {
-                    // Failure
+                    // failure
                     print("Error: \(error)")
                 }
             }).resume()
@@ -269,14 +260,14 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
             request2.HTTPMethod = "POST"
             request2.HTTPBody = "From=\(fromNumber)&To=\(toNumber)&Body=\(googleMaps)".dataUsingEncoding(NSUTF8StringEncoding)
             
-            // Build the completion block and send the request
+            // build the completion block and send the request
             NSURLSession.sharedSession().dataTaskWithRequest(request2, completionHandler: { (data, response, error) in
                 print("Finished")
                 if let data = data, responseDetails = NSString(data: data, encoding: NSUTF8StringEncoding) {
                     // Success
                     print("Response: \(responseDetails)")
                 } else {
-                    // Failure
+                    // failure
                     print("Error: \(error)")
                 }
             }).resume()
@@ -314,47 +305,11 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
-//    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-//        print("session ViewController")
-//        let localNotification = message["fireNotification"] as? String
-//        if localNotification != nil {
-//            print("local notification should fire soon")
-//            let notification = UILocalNotification()
-//            notification.category = "FIRST_CATEGORY"
-//            notification.alertBody = "Sending SMS in 40s"
-//            notification.alertTitle = "Fall Detected"
-//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-//        }
-//    }
-    
-//    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
-//        print("session ViewController")
-//        let helpNeeded = applicationContext["needsHelp"] as! Bool
-//        if helpNeeded == true {
-            // send text msg to emergency contact
-//            text()
-    
-//            // sound the alarm
-//            let notification = UILocalNotification()
-//            notification.alertTitle = "Test Title"
-//            notification.alertBody = "Test Body"
-//            notification.soundName = "alarm.mp3"
-//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-//        }
-//    }
-    
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         let helpNeeded = message["needsHelp"] as! Bool
         if helpNeeded == true {
             // send text msg to emergency contact
             text()
-            
-            //            // sound the alarm
-            //            let notification = UILocalNotification()
-            //            notification.alertTitle = "Test Title"
-            //            notification.alertBody = "Test Body"
-            //            notification.soundName = "alarm.mp3"
-            //            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
     }
     
@@ -363,32 +318,9 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         view.endEditing(true)
     }
     
-    
-//    func acknowledgeAlert(notification:NSNotification)
-//    {
-//        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-//        label.center = CGPointMake(160, 284)
-//        label.textAlignment = NSTextAlignment.Center
-//        label.text = "A family member has fallen"
-//        label.textColor = UIColor.redColor()
-//        self.view.addSubview(label)
-//        print("handle the case in which people fall")
-//    }
-    
-//    func showMessage(notification:NSNotification)
-//    {
-//        let message:UIAlertController = UIAlertController(title: "A Notification Mesage", message: "You are the primary contact for someone that has fallen", preferredStyle: UIAlertControllerStyle.Alert)
-//        
-//        message.addAction(UIAlertAction(title: "2d", style: UIAlertActionStyle.Default, handler: nil))
-//        
-//        
-//        self.presentViewController(message, animated: true, completion: nil)
-//        
-//    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // dispose of any resources that can be recreated.
     }
     
     @IBAction func segmentPressed(sender: UISegmentedControl) {
@@ -427,10 +359,6 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         } catch {
             print("error")
         }
-        
     }
-    
-    
-    
 }
 

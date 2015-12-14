@@ -12,7 +12,6 @@
 		6193C57F1C191C3800846B39 /* AlertRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193C57E1C191C3800846B39 /* AlertRequirement.swift */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
 		7AC4CC5E1C1E5C6200475350 /* fallwatch_logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC4CC5D1C1E5C6200475350 /* fallwatch_logo_58x58.png */; };
-		7AC4CC641C1E6BC300475350 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7AC4CC631C1E6BC300475350 /* alarm.mp3 */; };
 		7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */; };
 		7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87831BD7F96A00A6CE7F /* ViewController.swift */; };
 		7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87851BD7F96A00A6CE7F /* Main.storyboard */; };
@@ -81,7 +80,6 @@
 		7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit App.entitlements"; sourceTree = "<group>"; };
 		7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		7AC4CC5D1C1E5C6200475350 /* fallwatch_logo_58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fallwatch_logo_58x58.png; sourceTree = "<group>"; };
-		7AC4CC631C1E6BC300475350 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		7ACE877E1BD7F96A00A6CE7F /* FallWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FallWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ACE87831BD7F96A00A6CE7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 		7ACE87801BD7F96A00A6CE7F /* FallWatch */ = {
 			isa = PBXGroup;
 			children = (
-				7AC4CC631C1E6BC300475350 /* alarm.mp3 */,
 				E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */,
 				7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */,
 				7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */,
@@ -329,7 +326,6 @@
 				3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */,
 				7ACE878C1BD7F96A00A6CE7F /* LaunchScreen.storyboard in Resources */,
 				7ACE87891BD7F96A00A6CE7F /* Assets.xcassets in Resources */,
-				7AC4CC641C1E6BC300475350 /* alarm.mp3 in Resources */,
 				7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

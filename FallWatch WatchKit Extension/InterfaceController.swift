@@ -76,7 +76,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
         // use this to update the UI instantaneously (otherwise, takes a little while)
-//        dispatch_async(dispatch_get_main_queue()) {
         print("session")
         
             let settingsContext = applicationContext as! [String : Int]
@@ -91,7 +90,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 self.defaults.synchronize()
                 print("num contacts updated")
             }
-//        }
     }
     
     override func awakeWithContext(context: AnyObject?) {
