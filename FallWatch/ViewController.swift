@@ -285,7 +285,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         print("session ViewController")
         let helpNeeded = applicationContext["needsHelp"] as! Bool
         if helpNeeded == true {
-            // send text msg
+            // send text msg to emergency contact
             text()
         }
     }
