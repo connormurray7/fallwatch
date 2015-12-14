@@ -12,6 +12,7 @@
 		6193C57F1C191C3800846B39 /* AlertRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193C57E1C191C3800846B39 /* AlertRequirement.swift */; };
 		7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */; };
 		7AC4CC5E1C1E5C6200475350 /* fallwatch_logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC4CC5D1C1E5C6200475350 /* fallwatch_logo_58x58.png */; };
+		7AC4CC641C1E6BC300475350 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7AC4CC631C1E6BC300475350 /* alarm.mp3 */; };
 		7ACE87821BD7F96A00A6CE7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */; };
 		7ACE87841BD7F96A00A6CE7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87831BD7F96A00A6CE7F /* ViewController.swift */; };
 		7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87851BD7F96A00A6CE7F /* Main.storyboard */; };
@@ -23,10 +24,8 @@
 		7ACE87A01BD7F96A00A6CE7F /* FallWatch WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7ACE879F1BD7F96A00A6CE7F /* FallWatch WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7ACE87A71BD7F96A00A6CE7F /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87A61BD7F96A00A6CE7F /* InterfaceController.swift */; };
 		7ACE87A91BD7F96A00A6CE7F /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87A81BD7F96A00A6CE7F /* ExtensionDelegate.swift */; };
-		7ACE87AB1BD7F96A00A6CE7F /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */; };
 		7ACE87AD1BD7F96A00A6CE7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */; };
 		7ACE87BD1BD7F9C000A6CE7F /* FWAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */; };
-		7ADBF8D31BFA660600C3A61B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADBF8D21BFA660600C3A61B /* HealthKit.framework */; };
 		809948221BF53AA50006522D /* FWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809948211BF53AA50006522D /* FWNotification.swift */; };
 		E63BE2D51C1E562400B255D3 /* fallwatch_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */; };
 /* End PBXBuildFile section */
@@ -82,6 +81,7 @@
 		7A22D6231BDAEF31003AE514 /* FallWatch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "FallWatch WatchKit App.entitlements"; sourceTree = "<group>"; };
 		7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		7AC4CC5D1C1E5C6200475350 /* fallwatch_logo_58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fallwatch_logo_58x58.png; sourceTree = "<group>"; };
+		7AC4CC631C1E6BC300475350 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		7ACE877E1BD7F96A00A6CE7F /* FallWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FallWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ACE87831BD7F96A00A6CE7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,11 +97,9 @@
 		7ACE87A51BD7F96A00A6CE7F /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		7ACE87A61BD7F96A00A6CE7F /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		7ACE87A81BD7F96A00A6CE7F /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7ACE87AE1BD7F96A00A6CE7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWAcceleration.swift; sourceTree = "<group>"; };
-		7ADBF8D21BFA660600C3A61B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		809948211BF53AA50006522D /* FWNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWNotification.swift; sourceTree = "<group>"; };
 		E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fallwatch_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,7 +116,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ADBF8D31BFA660600C3A61B /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,7 +125,6 @@
 		7ACE87751BD7F96900A6CE7F = {
 			isa = PBXGroup;
 			children = (
-				7ADBF8D21BFA660600C3A61B /* HealthKit.framework */,
 				7ACE87801BD7F96A00A6CE7F /* FallWatch */,
 				7ACE87941BD7F96A00A6CE7F /* FallWatch WatchKit App */,
 				7ACE87A31BD7F96A00A6CE7F /* FallWatch WatchKit Extension */,
@@ -149,6 +145,7 @@
 		7ACE87801BD7F96A00A6CE7F /* FallWatch */ = {
 			isa = PBXGroup;
 			children = (
+				7AC4CC631C1E6BC300475350 /* alarm.mp3 */,
 				E63BE2D41C1E562400B255D3 /* fallwatch_logo.png */,
 				7A22D6211BDAE4CA003AE514 /* FallWatch.entitlements */,
 				7ACE87811BD7F96A00A6CE7F /* AppDelegate.swift */,
@@ -183,7 +180,6 @@
 				7ACE87A61BD7F96A00A6CE7F /* InterfaceController.swift */,
 				7ACE87BC1BD7F9C000A6CE7F /* FWAcceleration.swift */,
 				7ACE87A81BD7F96A00A6CE7F /* ExtensionDelegate.swift */,
-				7ACE87AA1BD7F96A00A6CE7F /* NotificationController.swift */,
 				6193C57E1C191C3800846B39 /* AlertRequirement.swift */,
 				7A5E8C3D1BF005E3001C194F /* ComplicationController.swift */,
 				7ACE87AC1BD7F96A00A6CE7F /* Assets.xcassets */,
@@ -295,7 +291,7 @@
 								enabled = 1;
 							};
 							com.apple.HealthKit = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -333,6 +329,7 @@
 				3DD02B561BFBCDF900009A93 /* ContactCell.xib in Resources */,
 				7ACE878C1BD7F96A00A6CE7F /* LaunchScreen.storyboard in Resources */,
 				7ACE87891BD7F96A00A6CE7F /* Assets.xcassets in Resources */,
+				7AC4CC641C1E6BC300475350 /* alarm.mp3 in Resources */,
 				7ACE87871BD7F96A00A6CE7F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,7 +369,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ACE87AB1BD7F96A00A6CE7F /* NotificationController.swift in Sources */,
 				7ACE87A91BD7F96A00A6CE7F /* ExtensionDelegate.swift in Sources */,
 				7A5E8C3E1BF005E3001C194F /* ComplicationController.swift in Sources */,
 				809948221BF53AA50006522D /* FWNotification.swift in Sources */,

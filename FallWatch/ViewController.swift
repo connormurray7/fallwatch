@@ -49,7 +49,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         messageTextView.delegate = self
         
         // get permission to sound alarm
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil))
+//        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil))
         
         let swiftColor = UIColor(red: 116/255, green: 116/255, blue: 116/255, alpha: 1)
         self.view.backgroundColor = swiftColor
@@ -210,7 +210,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         textBody = messageText.text!
     }
     
-    //Request Twilio to send text message to each contacts
+    // request Twilio to send text message to each contact
     @IBAction func text() {
         // Use your own details here
         for contact in contacts {
@@ -228,7 +228,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
                 googleMaps = ""
             }
             
-            let message = "Hello " + contact.givenName + "! " + messageTextView.text + " Location:" + googleMaps
+            let message = "Hello " + contact.givenName + "! " + messageTextView.text + " Fall Location: " + googleMaps
             // Build the request
             let request = NSMutableURLRequest(URL: NSURL(string:"https://\(twilioSID):\(twilioSecret)@api.twilio.com/2010-04-01/Accounts/\(twilioSID)/SMS/Messages")!)
             request.HTTPMethod = "POST"
@@ -248,7 +248,7 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         
     }
     
-    //Functions for connecting watch/phone, sending timer info, triggering text messages.
+    // functions for connecting watch/phone, sending timer info, triggering text messages
     private let session: WCSession? = WCSession.isSupported() ? WCSession.defaultSession() : nil
     
     required init?(coder aDecoder: NSCoder) {
@@ -269,37 +269,52 @@ class ViewController: UIViewController, WCSessionDelegate, UITableViewDelegate, 
         session?.activateSession()
     }
     
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
-        print("session ViewController")
-        let localNotification = message["fireNotification"] as? String
-        if localNotification != nil {
-            print("local notification should fire soon")
-            let notification = UILocalNotification()
-            notification.category = "FIRST_CATEGORY"
-            notification.alertBody = "Sending SMS in 40s"
-            notification.alertTitle = "Fall Detected"
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-        }
-    }
+//    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+//        print("session ViewController")
+//        let localNotification = message["fireNotification"] as? String
+//        if localNotification != nil {
+//            print("local notification should fire soon")
+//            let notification = UILocalNotification()
+//            notification.category = "FIRST_CATEGORY"
+//            notification.alertBody = "Sending SMS in 40s"
+//            notification.alertTitle = "Fall Detected"
+//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+//        }
+//    }
     
-    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
-        print("session ViewController")
-        let helpNeeded = applicationContext["needsHelp"] as! Bool
+//    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
+//        print("session ViewController")
+//        let helpNeeded = applicationContext["needsHelp"] as! Bool
+//        if helpNeeded == true {
+            // send text msg to emergency contact
+//            text()
+    
+//            // sound the alarm
+//            let notification = UILocalNotification()
+//            notification.alertTitle = "Test Title"
+//            notification.alertBody = "Test Body"
+//            notification.soundName = "alarm.mp3"
+//            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+//        }
+//    }
+    
+    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+        let helpNeeded = message["needsHelp"] as! Bool
         if helpNeeded == true {
             // send text msg to emergency contact
             text()
             
-            // sound the alarm
-            let notification = UILocalNotification()
-            notification.alertTitle = "Test Title"
-            notification.alertBody = "Test Body"
-            notification.soundName = UILocalNotificationDefaultSoundName
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            //            // sound the alarm
+            //            let notification = UILocalNotification()
+            //            notification.alertTitle = "Test Title"
+            //            notification.alertBody = "Test Body"
+            //            notification.soundName = "alarm.mp3"
+            //            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
     }
     
     func DismissKeyboard(){
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        // causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     

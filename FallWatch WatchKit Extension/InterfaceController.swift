@@ -36,12 +36,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func toggleMonitoring() {
         
-        if defaults.integerForKey("contacts") == 0{
-            print("user hasn't added emergency contacts yet")
-            
-            presentControllerWithName("AlertRequirement", context: nil)
-            return
-        }
+//        if defaults.integerForKey("contacts") == 0 {
+//            print("user hasn't added emergency contacts yet")
+//            presentControllerWithName("AlertRequirement", context: nil)
+//            return
+//        }
         
         if monitoringOn == false {
             print("toggle monitoring on")
